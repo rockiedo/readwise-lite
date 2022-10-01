@@ -10,12 +10,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_secure_storage: 6.0.0
   get_it: 7.2.0
+  injectable: 1.5.3
+  flutter_secure_storage: 6.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  build_runner: 2.2.1
+  injectable_generator: 1.5.4
 
 flutter:

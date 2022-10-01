@@ -17,10 +17,13 @@ dependencies:
   core_model:
     path: ./../core_model
   get_it: 7.2.0
+  injectable: 1.5.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  build_runner: 2.2.1
+  injectable_generator: 1.5.4
 
 flutter:

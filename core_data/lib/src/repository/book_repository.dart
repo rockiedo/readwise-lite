@@ -2,6 +2,7 @@ import 'package:core_data/src/repository/access_token_repository.dart';
 import 'package:core_model/core_model.dart';
 import 'package:core_network/core_network.dart';
 import 'package:core_data/src/mapper/book_mapper.dart';
+import 'package:injectable/injectable.dart';
 
 abstract class BookRepository {
   Future<List<Book>> getAllBooksSingle();
@@ -9,6 +10,7 @@ abstract class BookRepository {
   Stream<List<Book>> getAllBooksObservable();
 }
 
+@LazySingleton(as: BookRepository)
 class BookRepositoryImpl extends BookRepository {
   final ReadwiseClient readwiseClient;
   final AccessTokenRepository accessTokenRepository;

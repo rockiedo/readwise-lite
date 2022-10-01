@@ -7,12 +7,10 @@ import 'package:dio/dio.dart';
 export 'src/readwise_client.dart';
 export 'src/model/network_book.dart';
 
-final sl = GetIt.I;
-
-void setupCoreNetworkDi() {
+void setupCoreNetworkDi(GetIt getIt) {
   final dio = Dio();
   dio.options.baseUrl = 'https://readwise.io/api/v2/';
   final readwiseClient = ReadwiseClient(dio);
 
-  sl.registerSingleton<ReadwiseClient>(readwiseClient);
+  getIt.registerSingleton<ReadwiseClient>(readwiseClient);
 }

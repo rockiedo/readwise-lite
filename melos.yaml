@@ -15,3 +15,13 @@ packages:
   - feature_book_list/**
   - feature_settings/**
   - '*'
+
+scripts:
+  build_runner:build:
+    run: |
+      melos exec fvm flutter pub run build_runner build --delete-conflicting-outputs
+    select-package:
+      depends-on:
+        - build_runner
+    description: |
+      Code generation.

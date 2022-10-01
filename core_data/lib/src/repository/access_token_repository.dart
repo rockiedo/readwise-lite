@@ -1,4 +1,5 @@
 import 'package:core_datastore/core_datastore.dart';
+import 'package:injectable/injectable.dart';
 
 abstract class AccessTokenRepository {
   Future<String?> getAccessToken();
@@ -6,6 +7,7 @@ abstract class AccessTokenRepository {
   Future<void> saveAccessToken(String token);
 }
 
+@LazySingleton(as: AccessTokenRepository)
 class AccessTokenRepositoryImpl extends AccessTokenRepository {
   final KeyValueStore keyValueStore;
 

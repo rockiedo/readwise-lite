@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 
-final sl = GetIt.instance;
+final getIt = GetIt.instance;
 
 void main() {
-  setupCoreDataDi();
-  setupLibUseCaseDi();
+  setupCoreDataDi(getIt);
+  setupLibUseCaseDi(getIt);
 
   runApp(const ReadwiseApp());
 }
