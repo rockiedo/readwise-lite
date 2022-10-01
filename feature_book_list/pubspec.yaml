@@ -1,0 +1,27 @@
+name: feature_book_list
+description: Book list feature.
+version: 0.0.1
+homepage:
+
+publish_to: 'none'
+
+environment:
+  sdk: '>=2.18.0 <3.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  core_model:
+    path: ./../core_model
+  lib_use_case:
+    path: ./../lib_use_case
+  get_it: 7.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true

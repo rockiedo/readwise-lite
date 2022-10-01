@@ -1,0 +1,38 @@
+name: app
+description: Host of all feature packages.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  core_data:
+    path: ./../core_data
+  core_ui:
+    path: ./../core_ui
+  lib_use_case:
+    path: ./../lib_use_case
+  feature_book_list:
+    path: ./../feature_book_list
+  feature_settings:
+    path: ./../feature_settings
+  get_it: 7.2.0
+  bloc: 8.1.0
+  flutter_bloc: 8.1.1
+  cupertino_icons: ^1.0.2
+  json_serializable: ^6.3.2
+  build_runner: ^2.2.1
+  json_annotation: ^4.6.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
