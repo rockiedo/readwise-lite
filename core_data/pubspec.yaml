@@ -17,6 +17,8 @@ dependencies:
     path: ./../core_network
   core_datastore:
     path: ./../core_datastore
+  core_database:
+    path: ./../core_database
   get_it: 7.2.0
   injectable: 1.5.3
   cupertino_icons: ^1.0.2
