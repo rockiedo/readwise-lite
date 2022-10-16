@@ -5,6 +5,7 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:core_database/core_database.dart' as _i7;
 import 'package:core_datastore/core_datastore.dart' as _i4;
 import 'package:core_network/core_network.dart' as _i6;
 import 'package:get_it/get_it.dart' as _i1;
@@ -31,6 +32,7 @@ _i1.GetIt $initGetIt(
   gh.lazySingleton<_i5.BookRepository>(() => _i5.BookRepositoryImpl(
         get<_i6.ReadwiseClient>(),
         get<_i3.AccessTokenRepository>(),
+        get<_i7.BookDao>(),
       ));
   return get;
 }

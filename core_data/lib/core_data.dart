@@ -9,10 +9,10 @@ import 'package:get_it/get_it.dart';
 export 'src/repository/access_token_repository.dart';
 export 'src/repository/book_repository.dart';
 
-void setupCoreDataDi(GetIt getIt) {
+Future<void> setupCoreDataDi(GetIt getIt) async {
   setupCoreNetworkDi(getIt);
   setupCoreDatastoreDi();
-  setupDatabase(getIt);
+  await setupDatabase(getIt);
 
   configureDependencies(getIt);
 }

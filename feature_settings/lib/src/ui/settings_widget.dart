@@ -17,17 +17,19 @@ class SettingsWidget extends StatelessWidget {
         featureSettingsSl.get<GetLatestAccessTokenUseCase>(),
         featureSettingsSl.get<SaveAccessTokenUseCase>(),
       ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Settings',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const ChangeAccessTokenWidget(),
-          ],
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Settings',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const ChangeAccessTokenWidget(),
+            ],
+          ),
         ),
       ),
     );

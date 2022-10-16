@@ -6,8 +6,8 @@ import 'package:lib_use_case/lib_use_case.dart';
 
 final getIt = GetIt.instance;
 
-void main() {
-  setupCoreDataDi(getIt);
+Future<void> main() async {
+  await setupCoreDataDi(getIt);
   setupLibUseCaseDi(getIt);
 
   runApp(const ReadwiseApp());

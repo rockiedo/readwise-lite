@@ -11,7 +11,9 @@ class BookListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<List<Book>>(
       future: featureBookListSl.get<GetAllBooksUseCase>().getAllBooksSingle(),
-      builder: (context, snapshot) => _renderBookList(context, snapshot),
+      builder: (context, snapshot) => SafeArea(
+        child: _renderBookList(context, snapshot),
+      ),
     );
   }
 
