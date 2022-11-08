@@ -3,7 +3,7 @@ name: readwise_client
 sdkPath: .fvm/flutter_sdk
 
 ide:
-  intellij: false
+  intellij: true
 
 packages:
   - app/**
