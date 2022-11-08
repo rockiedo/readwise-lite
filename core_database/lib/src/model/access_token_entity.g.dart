@@ -10,7 +10,7 @@ AccessTokenEntity _$AccessTokenEntityFromJson(Map<String, dynamic> json) =>
     AccessTokenEntity(
       token: json['token'] as String,
       alias: json['alias'] as String,
-      isActive: json['is_active'] as bool,
+      isActive: json['is_active'] as int,
     );
 
 Map<String, dynamic> _$AccessTokenEntityToJson(AccessTokenEntity instance) =>

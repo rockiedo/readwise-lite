@@ -25,7 +25,7 @@ class AccessTokenRepositoryImpl extends AccessTokenRepository {
     final entity = AccessTokenEntity(
       token: token,
       alias: alias,
-      isActive: true,
+      isActive: 1,
     );
     return accessTokenDao.insertToken(entity);
   }

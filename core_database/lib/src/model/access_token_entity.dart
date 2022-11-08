@@ -9,7 +9,7 @@ class AccessTokenEntity {
   @JsonKey(name: 'alias')
   final String alias;
   @JsonKey(name: 'is_active')
-  final bool isActive;
+  final int isActive;
 
   const AccessTokenEntity({
     required this.token,
