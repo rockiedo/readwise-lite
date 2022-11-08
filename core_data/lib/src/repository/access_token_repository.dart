@@ -1,27 +1,32 @@
-import 'package:core_datastore/core_datastore.dart';
+import 'package:core_database/core_database.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class AccessTokenRepository {
   Future<String?> getAccessToken();
 
-  Future<void> saveAccessToken(String token);
+  Future<void> saveAccessToken(String token, String alias);
 }
 
 @LazySingleton(as: AccessTokenRepository)
 class AccessTokenRepositoryImpl extends AccessTokenRepository {
-  final KeyValueStore keyValueStore;
+  final AccessTokenDao accessTokenDao;
 
-  AccessTokenRepositoryImpl(this.keyValueStore);
-  
+  AccessTokenRepositoryImpl(this.accessTokenDao);
+
   @override
   Future<String?> getAccessToken() {
-    return keyValueStore.read(_keyAccessToken);
+    return accessTokenDao
+        .getCurrentlyActiveToken()
+        .then((entity) => entity.token);
   }
 
-  static const _keyAccessToken = 'key_access_token';
-  
   @override
-  Future<void> saveAccessToken(String token) {
-    return keyValueStore.write(_keyAccessToken, token);
+  Future<void> saveAccessToken(String token, String alias) {
+    final entity = AccessTokenEntity(
+      token: token,
+      alias: alias,
+      isActive: 1,
+    );
+    return accessTokenDao.insertToken(entity);
   }
 }

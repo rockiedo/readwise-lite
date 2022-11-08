@@ -9,11 +9,13 @@ part of 'access_token_entity.dart';
 AccessTokenEntity _$AccessTokenEntityFromJson(Map<String, dynamic> json) =>
     AccessTokenEntity(
       token: json['token'] as String,
-      isActive: json['is_active'] as bool,
+      alias: json['alias'] as String,
+      isActive: json['is_active'] as int,
     );
 
 Map<String, dynamic> _$AccessTokenEntityToJson(AccessTokenEntity instance) =>
     <String, dynamic>{
       'token': instance.token,
+      'alias': instance.alias,
       'is_active': instance.isActive,
     };
