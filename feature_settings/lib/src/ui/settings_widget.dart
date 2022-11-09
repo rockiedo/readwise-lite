@@ -1,9 +1,10 @@
-import 'package:feature_settings/feature_settings.dart';
+import 'dart:developer' as dev;
+
 import 'package:feature_settings/src/ui/cubit/settings_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:lib_use_case/lib_use_case.dart';
-import 'dart:developer' as dev;
 
 class SettingsWidget extends StatelessWidget {
   const SettingsWidget({super.key});
@@ -14,8 +15,8 @@ class SettingsWidget extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => SettingsCubit(
-        featureSettingsSl.get<GetLatestAccessTokenUseCase>(),
-        featureSettingsSl.get<SaveAccessTokenUseCase>(),
+        GetIt.instance.get<GetLatestAccessTokenUseCase>(),
+        GetIt.instance.get<SaveAccessTokenUseCase>(),
       ),
       child: SafeArea(
         child: Padding(
