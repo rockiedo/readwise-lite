@@ -6,6 +6,8 @@ import '../model/highlight_entity.dart';
 
 abstract class HighlightDao {
   Future<void> insertHighlights(List<HighlightEntity> highlights);
+
+  Future<List<HighlightEntity>> getAllHighlightsFromBook(int bookId);
 }
 
 @Injectable(as: HighlightDao)
@@ -23,5 +25,17 @@ class HighlightDaoImpl extends HighlightDao {
     }
 
     await batch.commit();
+  }
+
+  @override
+  Future<List<HighlightEntity>> getAllHighlightsFromBook(int bookId) async {
+    List<Map<String, dynamic>> queryResult = await database.query(
+      DatabaseConstant.tableHighlightName,
+      where: 'book_id = $bookId',
+    );
+    return List.generate(
+      queryResult.length,
+      (index) => HighlightEntity.fromJson(queryResult[index]),
+    );
   }
 }
