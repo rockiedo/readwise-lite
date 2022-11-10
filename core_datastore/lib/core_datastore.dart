@@ -6,9 +6,7 @@ import 'package:get_it/get_it.dart';
 
 export 'src/key_value_store.dart';
 
-final sl = GetIt.instance;
-
-void setupCoreDatastoreDi() {
-  sl.registerLazySingleton<KeyValueStore>(
+void setupCoreDatastoreDi(GetIt getIt) {
+  getIt.registerLazySingleton<KeyValueStore>(
       () => KeyValueStoreImpl(const FlutterSecureStorage()));
 }

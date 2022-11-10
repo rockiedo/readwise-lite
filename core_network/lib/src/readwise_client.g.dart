@@ -42,6 +42,48 @@ class _ReadwiseClient implements ReadwiseClient {
     return value;
   }
 
+  @override
+  Future<GetHighlightsResponse> getHighlights(
+    accessToken, {
+    pageSize = 1000,
+    page,
+    bookId,
+    updatedLt,
+    updatedGt,
+    highlightedAtLt,
+    highlightedAtGt,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page_size': pageSize,
+      r'page': page,
+      r'book_id': bookId,
+      r'updated_lt': updatedLt,
+      r'updated_gt': updatedGt,
+      r'highlighted_at_lt': highlightedAtLt,
+      r'highlighted_at_gt': highlightedAtGt,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'Authorization': accessToken};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GetHighlightsResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/highlights',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GetHighlightsResponse.fromJson(_result.data!);
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

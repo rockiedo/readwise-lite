@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 
 export 'src/readwise_client.dart';
 export 'src/model/network_book.dart';
+export 'src/model/network_highlight.dart';
 
 void setupCoreNetworkDi(GetIt getIt) {
   final dio = Dio();

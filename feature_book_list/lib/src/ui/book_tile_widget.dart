@@ -18,6 +18,9 @@ class BookTileWidget extends StatelessWidget {
         ),
         title: Text(book.title),
         subtitle: book.author != null ? Text(book.author!) : null,
+        onTap: () {
+
+        },
       ),
     );
   }
