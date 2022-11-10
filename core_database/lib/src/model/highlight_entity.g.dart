@@ -17,7 +17,7 @@ HighlightEntity _$HighlightEntityFromJson(Map<String, dynamic> json) =>
       url: json['url'] as String?,
       color: json['color'] as String?,
       updated: json['updated'] as String?,
-      bookId: json['book_id'] as String,
+      bookId: json['book_id'] as int,
     );
 
 Map<String, dynamic> _$HighlightEntityToJson(HighlightEntity instance) =>

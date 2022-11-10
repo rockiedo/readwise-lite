@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 
 export 'src/repository/access_token_repository.dart';
 export 'src/repository/book_repository.dart';
+export 'src/repository/highlight_repository.dart';
 
 Future<void> setupCoreDataDi(GetIt getIt) async {
   setupCoreNetworkDi(getIt);

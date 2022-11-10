@@ -23,7 +23,7 @@ class NetworkHighlight {
   @JsonKey(name: 'updated')
   final String? updated;
   @JsonKey(name: 'book_id')
-  final String bookId;
+  final int bookId;
 
   const NetworkHighlight({
     required this.id,

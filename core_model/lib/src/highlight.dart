@@ -8,7 +8,7 @@ class Highlight {
   final String? url;
   final String? color;
   final String? updated;
-  final String bookId;
+  final int bookId;
 
   Highlight({
     required this.id,

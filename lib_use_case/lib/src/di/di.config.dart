@@ -10,9 +10,10 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
 import '../use_case/get_all_books_use_case.dart' as _i3;
-import '../use_case/get_latest_access_token_use_case.dart' as _i5;
+import '../use_case/get_all_highlights_from_book_use_case.dart' as _i5;
+import '../use_case/get_latest_access_token_use_case.dart' as _i6;
 import '../use_case/save_access_token_use_case.dart'
-    as _i6; // ignore_for_file: unnecessary_lambdas
+    as _i7; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -28,9 +29,11 @@ _i1.GetIt $initGetIt(
   );
   gh.factory<_i3.GetAllBooksUseCase>(
       () => _i3.GetAllBooksUseCaseImpl(get<_i4.BookRepository>()));
-  gh.factory<_i5.GetLatestAccessTokenUseCase>(() =>
-      _i5.GetLatestAccessTokenUseCaseImpl(get<_i4.AccessTokenRepository>()));
-  gh.factory<_i6.SaveAccessTokenUseCase>(
-      () => _i6.SaveAccessTokenUseCaseImpl(get<_i4.AccessTokenRepository>()));
+  gh.factory<_i5.GetAllHighlightsFromBookUseCase>(() =>
+      _i5.GetAllHighlightsFromBookUseCaseImpl(get<_i4.HighlightRepository>()));
+  gh.factory<_i6.GetLatestAccessTokenUseCase>(() =>
+      _i6.GetLatestAccessTokenUseCaseImpl(get<_i4.AccessTokenRepository>()));
+  gh.factory<_i7.SaveAccessTokenUseCase>(
+      () => _i7.SaveAccessTokenUseCaseImpl(get<_i4.AccessTokenRepository>()));
   return get;
 }

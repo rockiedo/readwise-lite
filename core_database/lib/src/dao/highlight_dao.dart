@@ -20,8 +20,22 @@ class HighlightDaoImpl extends HighlightDao {
   Future<void> insertHighlights(List<HighlightEntity> highlights) async {
     final batch = database.batch();
 
-    for (final highlight in highlights) {
-      batch.insert(DatabaseConstant.tableHighlightName, highlight.toJson());
+    for (final h in highlights) {
+      batch.rawInsert(
+        'INSERT INTO ${DatabaseConstant.tableHighlightName}(id, text, note, location, locationType, highlightedAt, url, color, updated, bookId) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [
+          h.id,
+          "'${h.text}'",
+          "'${h.note}'",
+          h.location,
+          "'${h.locationType}'",
+          "'${h.highlightedAt}'",
+          "'${h.url}'",
+          "'${h.color}'",
+          "'${h.updated}'",
+          h.bookId,
+        ],
+      );
     }
 
     await batch.commit();

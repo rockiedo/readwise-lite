@@ -23,7 +23,7 @@ class HighlightEntity {
   @JsonKey(name: 'updated')
   final String? updated;
   @JsonKey(name: 'book_id')
-  final String bookId;
+  final int bookId;
 
   const HighlightEntity({
     required this.id,
