@@ -11,10 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  core_data:
-    path: ./../core_data
   core_ui:
     path: ./../core_ui
+  lib_di:
+    path: ./../lib_di
   lib_use_case:
     path: ./../lib_use_case
   feature_book_list:
