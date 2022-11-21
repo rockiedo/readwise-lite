@@ -1,13 +1,13 @@
 import 'package:app/src/home/home_screen.dart';
-import 'package:core_data/core_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:lib_di/lib_di.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> main() async {
-  await setupCoreDataDi(getIt);
+  await setupDataDi(getIt);
   setupLibUseCaseDi(getIt);
 
   runApp(const ReadwiseApp());
