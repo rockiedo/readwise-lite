@@ -20,7 +20,7 @@ class SettingsWidget extends StatelessWidget {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -46,24 +46,40 @@ class ChangeAccessTokenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<SettingsCubit>(context);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(
-          flex: 1,
-          child: TextField(
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
+        border: Border.all(color: Theme.of(context).colorScheme.onBackground),
+      ),
+      child: Column(
+        children: [
+          TextField(
             onChanged: (value) {
               cubit.onUserInputChange(value);
             },
           ),
-        ),
-        OutlinedButton(
-          onPressed: () {
-            cubit.saveAccessToken();
-          },
-          child: const Text('Save'),
-        ),
-      ],
+        ],
+      ),
     );
+    // return Row(
+    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //   children: [
+    //     Flexible(
+    //       flex: 1,
+    //       child: TextField(
+    //         onChanged: (value) {
+    //           cubit.onUserInputChange(value);
+    //         },
+    //       ),
+    //     ),
+    //     OutlinedButton(
+    //       onPressed: () {
+    //         cubit.saveAccessToken();
+    //       },
+    //       child: const Text('Save'),
+    //     ),
+    //   ],
+    // );
   }
 }
