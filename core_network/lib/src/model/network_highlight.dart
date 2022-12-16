@@ -15,7 +15,7 @@ class NetworkHighlight {
   @JsonKey(name: 'location_type')
   final String locationType;
   @JsonKey(name: 'highlighted_at')
-  final String highlightedAt;
+  final String? highlightedAt;
   @JsonKey(name: 'url')
   final String? url;
   @JsonKey(name: 'color')
