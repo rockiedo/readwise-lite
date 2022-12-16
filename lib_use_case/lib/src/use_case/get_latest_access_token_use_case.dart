@@ -13,6 +13,6 @@ class GetLatestAccessTokenUseCaseImpl extends GetLatestAccessTokenUseCase {
   
   @override
   Future<String?> getLatestAccessToken() {
-    return accessTokenRepo.getAccessToken();
+    return accessTokenRepo.getRawAccessToken();
   }
 }

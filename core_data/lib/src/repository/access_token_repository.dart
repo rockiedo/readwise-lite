@@ -2,6 +2,8 @@ import 'package:core_database/core_database.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class AccessTokenRepository {
+  Future<String?> getRawAccessToken();
+
   Future<String?> getAccessToken();
 
   Future<void> saveAccessToken(String token, String alias);
@@ -14,10 +16,17 @@ class AccessTokenRepositoryImpl extends AccessTokenRepository {
   AccessTokenRepositoryImpl(this.accessTokenDao);
 
   @override
-  Future<String?> getAccessToken() {
+  Future<String?> getRawAccessToken() {
     return accessTokenDao
         .getCurrentlyActiveToken()
         .then((entity) => entity.token);
+  }
+
+  @override
+  Future<String?> getAccessToken() {
+    return accessTokenDao
+        .getCurrentlyActiveToken()
+        .then((entity) => 'Token ${entity.token}');
   }
 
   @override

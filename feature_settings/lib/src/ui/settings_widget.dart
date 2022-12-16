@@ -1,5 +1,3 @@
-import 'dart:developer' as dev;
-
 import 'package:feature_settings/src/ui/cubit/settings_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,24 +9,38 @@ class SettingsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    dev.log('SettingsWidget.build()');
-
     return BlocProvider(
-      create: (_) => SettingsCubit(
-        GetIt.instance.get<GetLatestAccessTokenUseCase>(),
-        GetIt.instance.get<SaveAccessTokenUseCase>(),
-      ),
+      create: (_) {
+        final cubit = SettingsCubit(
+          GetIt.instance.get<GetLatestAccessTokenUseCase>(),
+          GetIt.instance.get<SaveAccessTokenUseCase>(),
+        );
+
+        cubit.loadAccessToken();
+        return cubit;
+      },
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 'Settings',
-                style: Theme.of(context).textTheme.titleLarge,
+                style: Theme.of(context).textTheme.headline4,
               ),
-              const ChangeAccessTokenWidget(),
+              SizedBox.fromSize(size: const Size.fromHeight(32)),
+              const AccessTokenTextField(),
+              BlocBuilder<SettingsCubit, SettingsState>(
+                builder: (innerContext, state) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      innerContext.read<SettingsCubit>().saveAccessToken();
+                    },
+                    child: const Text('Save'),
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -37,53 +49,45 @@ class SettingsWidget extends StatelessWidget {
   }
 }
 
-class ChangeAccessTokenWidget extends StatelessWidget {
-  const ChangeAccessTokenWidget({
-    Key? key,
-  }) : super(key: key);
+class AccessTokenTextField extends StatefulWidget {
+  const AccessTokenTextField({super.key});
+
+  @override
+  State<AccessTokenTextField> createState() => _AccessTokenTextFieldState();
+}
+
+class _AccessTokenTextFieldState extends State<AccessTokenTextField> {
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (innerContext, state) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(16)),
-            border:
-                Border.all(color: Theme.of(context).colorScheme.onBackground),
+        if (state.userInput == null && state.initial != null) {
+          _controller.text = state.initial!;
+        }
+
+        return TextField(
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'Token XYZ',
+            label: Text('Access token'),
           ),
-          child: Column(
-            children: [
-              TextField(
-                onChanged: (value) {
-                  innerContext.read<SettingsCubit>().onUserInputChange(value);
-                },
-              ),
-            ],
-          ),
+          maxLines: null,
+          controller: _controller,
+          onChanged: (value) {
+            if (value != state.userInput) {
+              innerContext.read<SettingsCubit>().onUserInputChange(value);
+            }
+          },
         );
       },
     );
-
-    // return Row(
-    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //   children: [
-    //     Flexible(
-    //       flex: 1,
-    //       child: TextField(
-    //         onChanged: (value) {
-    //           cubit.onUserInputChange(value);
-    //         },
-    //       ),
-    //     ),
-    //     OutlinedButton(
-    //       onPressed: () {
-    //         cubit.saveAccessToken();
-    //       },
-    //       child: const Text('Save'),
-    //     ),
-    //   ],
-    // );
   }
 }
