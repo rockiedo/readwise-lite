@@ -5,16 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WideHomeScreen extends StatelessWidget {
-  final HomeScreenCubit cubit;
-
-  const WideHomeScreen({super.key, required this.cubit});
+  const WideHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<HomeScreenCubit, HomeScreenState>(
-        bloc: cubit,
-        builder: (context, state) {
+        builder: (innerContext, state) {
           final selectedIndex =
               state is HomeScreenStateImpl ? state.selectedIndex : 0;
 
@@ -22,7 +19,8 @@ class WideHomeScreen extends StatelessWidget {
             children: [
               NavigationRail(
                 selectedIndex: selectedIndex,
-                onDestinationSelected: (value) => cubit.selectIndex(value),
+                onDestinationSelected: (value) =>
+                    innerContext.read<HomeScreenCubit>().selectIndex(value),
                 destinations: const <NavigationRailDestination>[
                   NavigationRailDestination(
                       icon: Icon(Icons.home_outlined),

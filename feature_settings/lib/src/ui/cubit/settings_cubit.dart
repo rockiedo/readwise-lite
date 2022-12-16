@@ -25,6 +25,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   void saveAccessToken() {
-    saveAccessTokenUseCase.save(state.userInput, '');
+    if (state.userInput?.isNotEmpty ?? false) return;
+    saveAccessTokenUseCase.save(state.userInput!, '');
   }
 }

@@ -5,15 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NormalHomeScreen extends StatelessWidget {
-  final HomeScreenCubit cubit;
-
-  const NormalHomeScreen({super.key, required this.cubit});
+  const NormalHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeScreenCubit, HomeScreenState>(
-      bloc: cubit,
-      builder: (context, state) {
+      builder: (innerContext, state) {
         final selectedIndex =
             state is HomeScreenStateImpl ? state.selectedIndex : 0;
 
@@ -35,7 +32,8 @@ class NormalHomeScreen extends StatelessWidget {
               ),
             ],
             currentIndex: selectedIndex,
-            onTap: (value) => cubit.selectIndex(value),
+            onTap: (value) =>
+                innerContext.read<HomeScreenCubit>().selectIndex(value),
           ),
         );
       },

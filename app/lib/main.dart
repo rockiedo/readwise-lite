@@ -23,7 +23,7 @@ class ReadwiseApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }
