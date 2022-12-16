@@ -14,7 +14,7 @@ class SettingsWidget extends StatelessWidget {
     dev.log('SettingsWidget.build()');
 
     return BlocProvider(
-      create: (context) => SettingsCubit(
+      create: (_) => SettingsCubit(
         GetIt.instance.get<GetLatestAccessTokenUseCase>(),
         GetIt.instance.get<SaveAccessTokenUseCase>(),
       ),
@@ -44,24 +44,28 @@ class ChangeAccessTokenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = BlocProvider.of<SettingsCubit>(context);
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(16)),
-        border: Border.all(color: Theme.of(context).colorScheme.onBackground),
-      ),
-      child: Column(
-        children: [
-          TextField(
-            onChanged: (value) {
-              cubit.onUserInputChange(value);
-            },
+    return BlocBuilder<SettingsCubit, SettingsState>(
+      builder: (innerContext, state) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
+            border:
+                Border.all(color: Theme.of(context).colorScheme.onBackground),
           ),
-        ],
-      ),
+          child: Column(
+            children: [
+              TextField(
+                onChanged: (value) {
+                  innerContext.read<SettingsCubit>().onUserInputChange(value);
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
+
     // return Row(
     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
     //   children: [
