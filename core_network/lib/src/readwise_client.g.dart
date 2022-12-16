@@ -45,7 +45,7 @@ class _ReadwiseClient implements ReadwiseClient {
   @override
   Future<GetHighlightsResponse> getHighlights(
     accessToken, {
-    pageSize = 1000,
+    pageSize = 200,
     page,
     bookId,
     updatedLt,

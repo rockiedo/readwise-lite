@@ -36,6 +36,7 @@ class SettingsWidget extends StatelessWidget {
                   return ElevatedButton(
                     onPressed: () {
                       innerContext.read<SettingsCubit>().saveAccessToken();
+                      FocusManager.instance.primaryFocus?.unfocus();
                     },
                     child: const Text('Save'),
                   );
