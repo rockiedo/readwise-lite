@@ -22,7 +22,7 @@ class HighlightDaoImpl extends HighlightDao {
 
     for (final h in highlights) {
       batch.rawInsert(
-        'INSERT INTO ${DatabaseConstant.tableHighlightName}(id, text, note, location, locationType, highlightedAt, url, color, updated, bookId) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        'INSERT OR REPLACE INTO ${DatabaseConstant.tableHighlightName}(id, text, note, location, location_type, highlighted_at, url, color, updated, book_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [
           h.id,
           "'${h.text}'",

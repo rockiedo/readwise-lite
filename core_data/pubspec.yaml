@@ -11,8 +11,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  core_model:
-    path: ./../core_model
   core_network:
     path: ./../core_network
   core_datastore:
