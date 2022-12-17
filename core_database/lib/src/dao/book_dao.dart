@@ -20,7 +20,11 @@ class BookDaoImpl extends BookDao {
     final batch = database.batch();
 
     for (final book in books) {
-      batch.insert(DatabaseConstant.tableBookName, book.toJson());
+      batch.insert(
+        DatabaseConstant.tableBookName,
+        book.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
     }
 
     await batch.commit();

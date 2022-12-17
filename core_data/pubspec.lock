@@ -148,13 +148,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  core_model:
-    dependency: "direct main"
-    description:
-      path: "../core_model"
-      relative: true
-    source: path
-    version: "1.0.0+1"
   core_network:
     dependency: "direct main"
     description:

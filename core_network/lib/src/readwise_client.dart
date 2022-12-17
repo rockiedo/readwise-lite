@@ -17,7 +17,7 @@ abstract class ReadwiseClient {
   @GET('/highlights')
   Future<GetHighlightsResponse> getHighlights(
     @Header('Authorization') String accessToken, {
-    @Query('page_size') int? pageSize = 1000,
+    @Query('page_size') int? pageSize = 200,
     @Query('page') int? page,
     @Query('book_id') int? bookId,
     @Query('updated_lt') String? updatedLt,

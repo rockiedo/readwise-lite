@@ -13,7 +13,7 @@ HighlightEntity _$HighlightEntityFromJson(Map<String, dynamic> json) =>
       note: json['note'] as String?,
       location: json['location'] as int,
       locationType: json['location_type'] as String,
-      highlightedAt: json['highlighted_at'] as String,
+      highlightedAt: json['highlighted_at'] as String?,
       url: json['url'] as String?,
       color: json['color'] as String?,
       updated: json['updated'] as String?,

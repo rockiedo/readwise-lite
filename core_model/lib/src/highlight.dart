@@ -4,7 +4,7 @@ class Highlight {
   final String? note;
   final int location;
   final String locationType;
-  final String highlightedAt;
+  final String? highlightedAt;
   final String? url;
   final String? color;
   final String? updated;

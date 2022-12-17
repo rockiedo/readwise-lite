@@ -16,7 +16,7 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   void loadAccessToken() {
     getAccessTokenUseCase
-        .getLatestAccessToken()
+        .invoke()
         .then((value) => emit(SettingsState(initial: value)));
   }
 
@@ -25,7 +25,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   void saveAccessToken() {
-    if (state.userInput?.isNotEmpty ?? false) return;
-    saveAccessTokenUseCase.save(state.userInput!, '');
+    if (state.userInput?.isEmpty ?? true) return;
+    saveAccessTokenUseCase.invoke(state.userInput!, '');
   }
 }
