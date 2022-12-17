@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 
+import 'cubit/settings_state.dart';
+
 class SettingsWidget extends StatelessWidget {
   const SettingsWidget({super.key});
 
@@ -27,21 +29,14 @@ class SettingsWidget extends StatelessWidget {
             children: [
               Text(
                 'Settings',
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .headline4,
               ),
               SizedBox.fromSize(size: const Size.fromHeight(32)),
-              const AccessTokenTextField(),
-              BlocBuilder<SettingsCubit, SettingsState>(
-                builder: (innerContext, state) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      innerContext.read<SettingsCubit>().saveAccessToken();
-                      FocusManager.instance.primaryFocus?.unfocus();
-                    },
-                    child: const Text('Save'),
-                  );
-                },
-              ),
+              const _AccessTokenTextField(),
+              const _SaveAccessTokenButton(),
             ],
           ),
         ),
@@ -50,14 +45,14 @@ class SettingsWidget extends StatelessWidget {
   }
 }
 
-class AccessTokenTextField extends StatefulWidget {
-  const AccessTokenTextField({super.key});
+class _AccessTokenTextField extends StatefulWidget {
+  const _AccessTokenTextField();
 
   @override
-  State<AccessTokenTextField> createState() => _AccessTokenTextFieldState();
+  State<_AccessTokenTextField> createState() => _AccessTokenTextFieldState();
 }
 
-class _AccessTokenTextFieldState extends State<AccessTokenTextField> {
+class _AccessTokenTextFieldState extends State<_AccessTokenTextField> {
   final _controller = TextEditingController();
 
   @override
@@ -74,13 +69,33 @@ class _AccessTokenTextFieldState extends State<AccessTokenTextField> {
           _controller.text = state.initial!;
         }
 
+        final showTrailingIcon = (state.initial?.isNotEmpty ?? false) ||
+            (state.userInput?.isNotEmpty ?? false);
+
         return TextField(
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
             hintText: 'Token XYZ',
-            label: Text('Access token'),
+            label: const Text('Access token'),
+            suffixIcon: Visibility(
+              visible: showTrailingIcon,
+              child: IconButton(
+                icon: Icon(
+                  state.isEditing ? Icons.clear : Icons.visibility,
+                ),
+                onPressed: () {
+                  if (state.isEditing) {
+                    _controller.clear();
+                    innerContext.read<SettingsCubit>().onUserInputChange('');
+                  } else {
+                    innerContext.read<SettingsCubit>().startEditing();
+                  }
+                },
+              ),
+            ),
           ),
-          maxLines: null,
+          maxLines: state.isEditing ? null : 1,
+          obscureText: !state.isEditing,
           controller: _controller,
           onChanged: (value) {
             if (value != state.userInput) {
@@ -92,3 +107,25 @@ class _AccessTokenTextFieldState extends State<AccessTokenTextField> {
     );
   }
 }
+
+class _SaveAccessTokenButton extends StatelessWidget {
+  const _SaveAccessTokenButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SettingsCubit, SettingsState>(
+      builder: (innerContext, state) {
+        final enabled = (state.userInput?.isNotEmpty ?? false) &&
+            state.userInput != state.initial;
+
+        return ElevatedButton(
+          onPressed: !enabled ? null : () {
+            innerContext.read<SettingsCubit>().saveAccessToken();
+          },
+          child: const Text('Save'),
+        );
+      },
+    );
+  }
+}
+
