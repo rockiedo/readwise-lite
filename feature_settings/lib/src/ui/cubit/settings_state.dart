@@ -1,9 +1,12 @@
-part of 'settings_cubit.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-class SettingsState {
-  final String? initial;
-  final String? userInput;
+part 'settings_state.freezed.dart';
 
-  const SettingsState({this.initial, this.userInput});
+@freezed
+class SettingsState with _$SettingsState {
+  const factory SettingsState({
+    String? initial,
+    String? userInput,
+    @Default(false) bool isEditing,
+  }) = _SettingsState;
 }

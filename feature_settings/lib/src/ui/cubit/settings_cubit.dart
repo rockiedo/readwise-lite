@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:feature_settings/src/ui/cubit/settings_state.dart';
 import 'package:lib_use_case/lib_use_case.dart';
-import 'package:meta/meta.dart';
-
-part 'settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
   final GetLatestAccessTokenUseCase getAccessTokenUseCase;
@@ -21,11 +19,15 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   void onUserInputChange(String newInput) {
-    emit(SettingsState(userInput: newInput));
+    emit(state.copyWith(userInput: newInput, isEditing: true));
   }
 
   void saveAccessToken() {
     if (state.userInput?.isEmpty ?? true) return;
     saveAccessTokenUseCase.invoke(state.userInput!, '');
+  }
+
+  void startEditing() {
+    emit(state.copyWith(isEditing: true));
   }
 }
