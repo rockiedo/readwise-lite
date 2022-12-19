@@ -19,9 +19,13 @@ class _ReadwiseClient implements ReadwiseClient {
   String? baseUrl;
 
   @override
-  Future<GetBooksResponse> getBooks(accessToken) async {
+  Future<GetBooksResponse> getBooks(
+    accessToken, {
+    updatedGt,
+  }) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'updated__gt': updatedGt};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{r'Authorization': accessToken};
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};

@@ -12,7 +12,10 @@ class BookListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => BookListCubit(GetIt.instance.get<GetLocalBooksUseCase>()),
+      create: (_) => BookListCubit(
+          GetIt.instance.get<GetLatestAccessTokenUseCase>(),
+          GetIt.instance.get<GetLocalBooksUseCase>(),
+      ),
       child: _BookListBuilder(),
     );
   }

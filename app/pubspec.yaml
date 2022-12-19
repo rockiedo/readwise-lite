@@ -21,6 +21,8 @@ dependencies:
     path: ./../feature_book_list
   feature_settings:
     path: ./../feature_settings
+  feature_feed:
+    path: ./../feature_feed
   get_it: 7.2.0
   bloc: 8.1.0
   flutter_bloc: 8.1.1
