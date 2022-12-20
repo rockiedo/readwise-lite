@@ -23,7 +23,7 @@ class ReadwiseApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: const FeedWidget(),
+      home: const Scaffold(body: SafeArea(child: FeedWidget())),
     );
   }
 }
