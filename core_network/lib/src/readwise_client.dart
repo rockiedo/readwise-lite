@@ -1,7 +1,7 @@
 import 'package:core_network/src/response/get_books_response.dart';
 import 'package:core_network/src/response/get_highlights_response.dart';
-import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart' hide Headers;
+import 'package:retrofit/retrofit.dart';
 
 part 'readwise_client.g.dart';
 
@@ -11,8 +11,9 @@ abstract class ReadwiseClient {
 
   @GET('/books')
   Future<GetBooksResponse> getBooks(
-    @Header('Authorization') String accessToken,
-  );
+    @Header('Authorization') String accessToken, {
+    @Query('updated__gt') String? updatedGt,
+  });
 
   @GET('/highlights')
   Future<GetHighlightsResponse> getHighlights(

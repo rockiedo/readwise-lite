@@ -1,4 +1,4 @@
-import 'package:app/src/home/home_screen.dart';
+import 'package:feature_feed/feature_feed.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lib_di/lib_di.dart';
@@ -23,7 +23,7 @@ class ReadwiseApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: const HomeScreen(),
+      home: const Scaffold(body: SafeArea(child: FeedWidget())),
     );
   }
 }

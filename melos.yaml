@@ -15,6 +15,7 @@ packages:
   - lib_use_case/**
   - feature_book_list/**
   - feature_settings/**
+  - feature_feed/**
   - '*'
 
 scripts:

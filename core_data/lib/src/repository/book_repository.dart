@@ -1,32 +1,30 @@
-import 'package:core_data/src/repository/access_token_repository.dart';
 import 'package:core_data/src/repository/mapper/book_mapper.dart';
 import 'package:core_database/core_database.dart';
 import 'package:core_network/core_network.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class BookRepository {
-  Future fetchRemoteBooks();
-  Future<List<BookEntity>> getLocalBooks();
+  Future fetchRemoteBooks(String accessToken, {String? lastSync});
+
+  Future<List<BookEntity>> getLocalBooks(String accessToken);
 }
 
 @LazySingleton(as: BookRepository)
 class BookRepositoryImpl extends BookRepository {
   final ReadwiseClient readwiseClient;
-  final AccessTokenRepository accessTokenRepository;
   final BookDao bookDao;
 
   BookRepositoryImpl(
     this.readwiseClient,
-    this.accessTokenRepository,
     this.bookDao,
   );
 
   @override
-  Future fetchRemoteBooks() async {
-    final accessToken = await accessTokenRepository.getAccessToken();
-    if (accessToken == null) throw Exception('no accessToken');
-
-    final response = await readwiseClient.getBooks(accessToken);
+  Future fetchRemoteBooks(String accessToken, {String? lastSync}) async {
+    final response = await readwiseClient.getBooks(
+      accessToken,
+      updatedGt: lastSync,
+    );
     final entities = response.results
         .where((element) => element.author?.isNotEmpty ?? false)
         .map((networkBook) => networkBook.toEntity(accessToken))
@@ -34,12 +32,9 @@ class BookRepositoryImpl extends BookRepository {
 
     await bookDao.insertBooks(entities);
   }
-  
+
   @override
-  Future<List<BookEntity>> getLocalBooks() async {
-    final accessToken = await accessTokenRepository.getAccessToken();
-    if (accessToken == null) throw Exception('no accessToken');
-    
+  Future<List<BookEntity>> getLocalBooks(String accessToken) async {
     return bookDao.getBooks(accessToken);
   }
 }
