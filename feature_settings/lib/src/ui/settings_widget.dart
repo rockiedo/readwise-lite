@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lib_use_case/lib_use_case.dart';
+import 'package:go_router/go_router.dart';
 
 import 'cubit/settings_state.dart';
 
@@ -11,33 +12,38 @@ class SettingsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) {
-        final cubit = SettingsCubit(
-          GetIt.instance.get<GetLatestAccessTokenUseCase>(),
-          GetIt.instance.get<SaveAccessTokenUseCase>(),
-        );
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            context.pop();
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
+        title: const Text(
+          'Settings',
+        ),
+      ),
+      body: SafeArea(
+        child: BlocProvider(
+          create: (_) {
+            final cubit = SettingsCubit(
+              GetIt.instance.get<GetLatestAccessTokenUseCase>(),
+              GetIt.instance.get<SaveAccessTokenUseCase>(),
+            );
 
-        cubit.loadAccessToken();
-        return cubit;
-      },
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Settings',
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .headline4,
-              ),
-              SizedBox.fromSize(size: const Size.fromHeight(32)),
-              const _AccessTokenTextField(),
-              const _SaveAccessTokenButton(),
-            ],
+            cubit.loadAccessToken();
+            return cubit;
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: const [
+                _AccessTokenTextField(),
+                _SaveAccessTokenButton(),
+              ],
+            ),
           ),
         ),
       ),
@@ -119,13 +125,14 @@ class _SaveAccessTokenButton extends StatelessWidget {
             state.userInput != state.initial;
 
         return ElevatedButton(
-          onPressed: !enabled ? null : () {
-            innerContext.read<SettingsCubit>().saveAccessToken();
-          },
+          onPressed: !enabled
+              ? null
+              : () {
+                  innerContext.read<SettingsCubit>().saveAccessToken();
+                },
           child: const Text('Save'),
         );
       },
     );
   }
 }
-

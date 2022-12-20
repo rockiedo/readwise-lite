@@ -19,7 +19,7 @@ class AccessTokenRepositoryImpl extends AccessTokenRepository {
   Future<String?> getRawAccessToken() {
     return accessTokenDao
         .getCurrentlyActiveToken()
-        .then((entity) => entity.token);
+        .then((entity) => entity.token, onError: (_) => null);
   }
 
   @override

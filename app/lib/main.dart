@@ -1,4 +1,4 @@
-import 'package:feature_feed/feature_feed.dart';
+import 'package:app/src/navigation/app_nagivation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lib_di/lib_di.dart';
@@ -18,12 +18,12 @@ class ReadwiseApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: appRouter,
       title: 'Readwise',
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: const Scaffold(body: SafeArea(child: FeedWidget())),
     );
   }
 }
