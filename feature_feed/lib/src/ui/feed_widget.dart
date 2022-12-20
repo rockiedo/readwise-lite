@@ -3,8 +3,10 @@ import 'package:feature_feed/src/ui/cubit/feed_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:core_navigation/core_navigation.dart';
 
 import 'cubit/feed_state.dart';
 
@@ -19,32 +21,54 @@ class FeedWidget extends StatelessWidget {
           GetIt.instance.get<GetLatestAccessTokenUseCase>(),
           GetIt.instance.get<SyncLoggerUseCase>(),
           GetIt.instance.get<GetLocalBooksUseCase>(),
+          GetIt.instance.get<FetchRemoteBooksUseCase>(),
         );
 
         cubit.loadFeed();
 
         return cubit;
       },
-      child: BlocBuilder<FeedCubit, FeedState>(
-        builder: (innerContext, state) {
-          if (state.status == FeedStatus.loading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+      child: Scaffold(
+        body: SafeArea(
+          child: BlocBuilder<FeedCubit, FeedState>(
+            builder: (innerContext, state) {
+              if (state.status == FeedStatus.loading) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-          if (state.status == FeedStatus.content) {
-            return ListView.builder(
-              itemBuilder: (listContext, index) {
-                return _BookTileWidget(book: state.books![index]);
-              },
-              itemCount: state.books!.length,
-            );
-          }
+              if (state.status == FeedStatus.content) {
+                return _BookListWidget(state.books!);
+              }
 
-          return Container();
-        },
+              if (state.status == FeedStatus.noAccessToken) {
+                return const _NoAccessTokenWidget();
+              }
+
+              if (state.status == FeedStatus.outdatedCache) {
+                return _OutdatedContentWidget(state.lastSync);
+              }
+
+              return const Placeholder();
+            },
+          ),
+        ),
       ),
+    );
+  }
+}
+
+class _BookListWidget extends StatelessWidget {
+  final List<Book> books;
+
+  const _BookListWidget(this.books);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemBuilder: (listContext, index) {
+        return _BookTileWidget(books[index]);
+      },
+      itemCount: books.length,
     );
   }
 }
@@ -52,7 +76,7 @@ class FeedWidget extends StatelessWidget {
 class _BookTileWidget extends StatelessWidget {
   final Book book;
 
-  const _BookTileWidget({required this.book});
+  const _BookTileWidget(this.book);
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +89,65 @@ class _BookTileWidget extends StatelessWidget {
         ),
         title: Text(book.title),
         subtitle: book.author != null ? Text(book.author!) : null,
-        onTap: () {
+        onTap: () {},
+      ),
+    );
+  }
+}
 
-        },
+class _NoAccessTokenWidget extends StatelessWidget {
+  const _NoAccessTokenWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'There is no access token. Set one to get started!',
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          SizedBox.fromSize(size: const Size.fromHeight(16)),
+          OutlinedButton(
+            onPressed: () {
+              context.go(AppRoute.settings.path);
+            },
+            child: const Text('Settings'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _OutdatedContentWidget extends StatelessWidget {
+  final String? lastSync;
+
+  const _OutdatedContentWidget(this.lastSync, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Your content is outdated. Sync now!',
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          SizedBox.fromSize(size: const Size.fromHeight(16)),
+          OutlinedButton(
+            onPressed: () {
+              context.read<FeedCubit>().fetchFeed(lastSync);
+            },
+            child: const Text('Sync'),
+          ),
+        ],
       ),
     );
   }

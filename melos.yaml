@@ -11,6 +11,7 @@ packages:
   - core_data/**
   - core_database/**
   - core_network/**
+  - core_navigation/**
   - lib_di/**
   - lib_use_case/**
   - feature_book_list/**
