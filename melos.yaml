@@ -28,3 +28,8 @@ scripts:
         - build_runner
     description: |
       Code generation.
+  apply_preset_versions:
+    run: |
+      python3 script/versions.py && melos exec fvm flutter pub get
+    description:
+      Make dependency versions identical across packages.
