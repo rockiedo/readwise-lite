@@ -1,4 +1,4 @@
-import 'package:feature/feed/bloc/feed_state.dart';
+import 'package:feature/src/feed/bloc/feed_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 

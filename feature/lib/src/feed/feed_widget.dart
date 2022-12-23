@@ -1,6 +1,6 @@
 import 'package:core_model/core_model.dart';
-import 'package:feature/feed/bloc/feed_cubit.dart';
-import 'package:feature/feed/bloc/feed_state.dart';
+import 'package:feature/src/feed/bloc/feed_cubit.dart';
+import 'package:feature/src/feed/bloc/feed_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';

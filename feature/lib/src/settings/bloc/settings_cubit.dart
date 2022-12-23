@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:feature/settings/bloc/settings_state.dart';
+import 'package:feature/src/settings/bloc/settings_state.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {

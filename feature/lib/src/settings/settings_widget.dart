@@ -1,5 +1,5 @@
-import 'package:feature/settings/bloc/settings_cubit.dart';
-import 'package:feature/settings/bloc/settings_state.dart';
+import 'package:feature/src/settings/bloc/settings_cubit.dart';
+import 'package:feature/src/settings/bloc/settings_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';

@@ -1,4 +1,4 @@
 library feature;
 
-export 'feed/feed_widget.dart';
-export 'settings/settings_widget.dart';
+export 'src/feed/feed_widget.dart';
+export 'src/settings/settings_widget.dart';
