@@ -11,13 +11,9 @@ packages:
   - core_data/**
   - core_database/**
   - core_network/**
-  - core_navigation/**
   - lib_di/**
   - lib_use_case/**
   - feature/**
-  - feature_book_list/**
-  - feature_settings/**
-  - feature_feed/**
   - '*'
 
 scripts:
