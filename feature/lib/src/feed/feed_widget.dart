@@ -1,14 +1,11 @@
 import 'package:core_model/core_model.dart';
-import 'package:feature_feed/src/ui/cubit/feed_cubit.dart';
+import 'package:feature/src/feed/bloc/feed_cubit.dart';
+import 'package:feature/src/feed/bloc/feed_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:core_navigation/core_navigation.dart';
-
-import 'cubit/feed_state.dart';
 
 class FeedWidget extends StatelessWidget {
   const FeedWidget({Key? key}) : super(key: key);
@@ -113,7 +110,6 @@ class _NoAccessTokenWidget extends StatelessWidget {
           SizedBox.fromSize(size: const Size.fromHeight(16)),
           OutlinedButton(
             onPressed: () {
-              context.go(AppRoute.settings.path);
             },
             child: const Text('Settings'),
           ),

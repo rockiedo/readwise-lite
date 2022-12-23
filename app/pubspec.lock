@@ -190,13 +190,6 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
-  core_navigation:
-    dependency: "direct main"
-    description:
-      path: "../core_navigation"
-      relative: true
-    source: path
-    version: "0.0.1"
   core_network:
     dependency: transitive
     description:
@@ -246,24 +239,10 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.1"
-  feature_book_list:
+  feature:
     dependency: "direct main"
     description:
-      path: "../feature_book_list"
-      relative: true
-    source: path
-    version: "0.0.1"
-  feature_feed:
-    dependency: "direct main"
-    description:
-      path: "../feature_feed"
-      relative: true
-    source: path
-    version: "0.0.1"
-  feature_settings:
-    dependency: "direct main"
-    description:
-      path: "../feature_settings"
+      path: "../feature"
       relative: true
     source: path
     version: "0.0.1"
@@ -575,7 +554,7 @@ packages:
       name: path_provider_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.20"
+    version: "2.0.22"
   path_provider_ios:
     dependency: transitive
     description:
@@ -680,7 +659,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.27.5"
+    version: "0.27.7"
   shelf:
     dependency: transitive
     description:
@@ -804,7 +783,7 @@ packages:
       name: uuid
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.6"
+    version: "3.0.7"
   vector_math:
     dependency: transitive
     description:
@@ -832,7 +811,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.1.3"
   xdg_directories:
     dependency: transitive
     description:

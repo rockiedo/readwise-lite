@@ -1,4 +1,4 @@
-import 'package:app/src/navigation/app_nagivation.dart';
+import 'package:app/navigation/app_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lib_di/lib_di.dart';

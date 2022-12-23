@@ -1,11 +1,10 @@
-import 'package:feature_settings/src/ui/cubit/settings_cubit.dart';
+import 'package:feature/src/settings/bloc/settings_cubit.dart';
+import 'package:feature/src/settings/bloc/settings_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 import 'package:go_router/go_router.dart';
-
-import 'cubit/settings_state.dart';
 
 class SettingsWidget extends StatelessWidget {
   const SettingsWidget({super.key});
