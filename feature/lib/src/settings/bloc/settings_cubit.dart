@@ -3,7 +3,7 @@ import 'package:feature/src/settings/bloc/settings_state.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
-  final GetLatestAccessTokenUseCase getAccessTokenUseCase;
+  final GetAccessTokenUseCase getAccessTokenUseCase;
 
   final SaveAccessTokenUseCase saveAccessTokenUseCase;
 

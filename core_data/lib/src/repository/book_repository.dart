@@ -1,3 +1,4 @@
+import 'package:core_data/src/repository/access_token_helper.dart';
 import 'package:core_data/src/repository/mapper/book_mapper.dart';
 import 'package:core_database/core_database.dart';
 import 'package:core_network/core_network.dart';
@@ -22,7 +23,7 @@ class BookRepositoryImpl extends BookRepository {
   @override
   Future fetchRemoteBooks(String accessToken, {String? lastSync}) async {
     final response = await readwiseClient.getBooks(
-      accessToken,
+      withPrefix(accessToken),
       updatedGt: lastSync,
     );
     final entities = response.results

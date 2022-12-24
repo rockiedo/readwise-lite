@@ -1,4 +1,5 @@
 import 'package:core_data/core_data.dart';
+import 'package:core_data/src/repository/access_token_helper.dart';
 import 'package:core_data/src/repository/mapper/highlight_mapper.dart';
 import 'package:core_database/core_database.dart';
 import 'package:core_network/core_network.dart';
@@ -6,6 +7,7 @@ import 'package:injectable/injectable.dart';
 
 abstract class HighlightRepository {
   Future<List<HighlightEntity>> getHighlightsFromBook(int bookId);
+
   Future<Set<int>> fetchRemoteHighlights(String? lastSync);
 }
 
@@ -33,7 +35,8 @@ class HighlightRepositoryImpl extends HighlightRepository {
     final accessToken = await accessTokenRepository.getAccessToken();
     if (accessToken == null) throw Exception('no accessToken');
 
-    final response = await readwiseClient.getHighlights(accessToken);
+    final response =
+        await readwiseClient.getHighlights(withPrefix(accessToken));
     if (response.results.isEmpty) {
       return List.empty();
     }

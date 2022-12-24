@@ -14,12 +14,13 @@ class DataSyncWidget extends StatelessWidget {
     return BlocProvider(
       create: (_) {
         return DataSyncCubit(
-          GetIt.instance.get<GetLatestAccessTokenUseCase>(),
+          GetIt.instance.get<GetAccessTokenUseCase>(),
           GetIt.instance.get<FetchRemoteBooksUseCase>(),
+          GetIt.instance.get<GetLocalBooksUseCase>(),
         );
       },
       child: Scaffold(
-        body: SafeArea(child: Container()),
+        body: const SafeArea(child: _SyncDataContent()),
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.close),
@@ -45,10 +46,15 @@ class _SyncAllBooksWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DataSyncCubit, DataSyncState>(
       builder: (innerContext, state) {
-        return TextButton(
-          onPressed: () {
+        VoidCallback? onClick;
+        if (!state.isDownloadingBooks) {
+          onClick = () {
             innerContext.read<DataSyncCubit>().fetchFeed(null);
-          },
+          };
+        }
+
+        return TextButton(
+          onPressed: onClick,
           child: Text(
             'SYNC ALL',
             style: Theme.of(context)
@@ -56,6 +62,28 @@ class _SyncAllBooksWidget extends StatelessWidget {
                 .subtitle1!
                 .copyWith(color: Colors.black),
           ),
+        );
+      },
+    );
+  }
+}
+
+class _SyncDataContent extends StatelessWidget {
+  const _SyncDataContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DataSyncCubit, DataSyncState>(
+      builder: (innerContext, state) {
+        if (state.isDownloadingBooks) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return ListView.builder(
+          itemCount: state.bookStates.length,
+          itemBuilder: (listContext, index) {
+            return ListTile(title: Text(state.bookStates[index].bookName));
+          },
         );
       },
     );

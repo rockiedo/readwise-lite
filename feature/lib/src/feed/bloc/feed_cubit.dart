@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 
 class FeedCubit extends Cubit<FeedState> {
-  final GetLatestAccessTokenUseCase getLatestAccessTokenUseCase;
+  final GetAccessTokenUseCase getLatestAccessTokenUseCase;
   final SyncLoggerUseCase logSyncUseCase;
   final GetLocalBooksUseCase getLocalBooksUseCase;
 

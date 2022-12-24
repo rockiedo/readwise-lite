@@ -27,7 +27,7 @@ class SettingsWidget extends StatelessWidget {
         child: BlocProvider(
           create: (_) {
             final cubit = SettingsCubit(
-              GetIt.instance.get<GetLatestAccessTokenUseCase>(),
+              GetIt.instance.get<GetAccessTokenUseCase>(),
               GetIt.instance.get<SaveAccessTokenUseCase>(),
             );
 

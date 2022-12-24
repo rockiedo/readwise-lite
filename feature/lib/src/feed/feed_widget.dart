@@ -17,7 +17,7 @@ class FeedWidget extends StatelessWidget {
     return BlocProvider(
       create: (_) {
         final cubit = FeedCubit(
-          GetIt.instance.get<GetLatestAccessTokenUseCase>(),
+          GetIt.instance.get<GetAccessTokenUseCase>(),
           GetIt.instance.get<SyncLoggerUseCase>(),
           GetIt.instance.get<GetLocalBooksUseCase>(),
         );

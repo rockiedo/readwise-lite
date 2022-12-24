@@ -30,7 +30,7 @@ _i1.GetIt $initGetIt(
   );
   gh.factory<_i3.FetchRemoteBooksUseCase>(
       () => _i3.FetchAllBooksUseCaseImpl(get<_i4.BookRepository>()));
-  gh.factory<_i5.GetLatestAccessTokenUseCase>(() =>
+  gh.factory<_i5.GetAccessTokenUseCase>(() =>
       _i5.GetLatestAccessTokenUseCaseImpl(get<_i4.AccessTokenRepository>()));
   gh.factory<_i6.GetLocalBooksUseCase>(
       () => _i6.GetLocalBooksUseCaseImpl(get<_i4.BookRepository>()));
