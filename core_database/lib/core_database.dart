@@ -8,9 +8,11 @@ import 'package:path/path.dart';
 export 'src/dao/access_token_dao.dart';
 export 'src/dao/book_dao.dart';
 export 'src/dao/highlight_dao.dart';
+export 'src/dao/sync_log_dao.dart';
 export 'src/model/access_token_entity.dart';
 export 'src/model/book_entity.dart';
 export 'src/model/highlight_entity.dart';
+export 'src/model/sync_log_entity.dart';
 
 Future<void> setupDatabase(GetIt getIt) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +24,7 @@ Future<void> setupDatabase(GetIt getIt) async {
       db.execute(DatabaseV1.tableAccessToken);
       db.execute(DatabaseV1.tableBook);
       db.execute(DatabaseV1.tableHighlight);
+      db.execute(DatabaseV1.tableSyncLog);
     },
   );
 
