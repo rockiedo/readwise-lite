@@ -13,11 +13,14 @@ class DataSyncWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        return DataSyncCubit(
+        final cubit = DataSyncCubit(
           GetIt.instance.get<GetAccessTokenUseCase>(),
           GetIt.instance.get<FetchRemoteBooksUseCase>(),
           GetIt.instance.get<GetLocalBooksUseCase>(),
         );
+
+        cubit.loadLocalBooks();
+        return cubit;
       },
       child: Scaffold(
         body: const SafeArea(child: _SyncDataContent()),
@@ -25,7 +28,6 @@ class DataSyncWidget extends StatelessWidget {
           leading: IconButton(
             icon: const Icon(Icons.close),
             onPressed: () {
-              // context.push(AppRoute.home.path);
               context.pop();
             },
           ),
