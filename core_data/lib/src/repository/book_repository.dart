@@ -5,9 +5,9 @@ import 'package:core_network/core_network.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class BookRepository {
-  Future fetchRemoteBooks(String accessToken, {String? lastSync});
+  Future fetchBooks(String accessToken, {String? lastSync});
 
-  Future<List<BookEntity>> getLocalBooks(String accessToken);
+  Future<List<BookEntity>> loadBooks(String accessToken);
 }
 
 @LazySingleton(as: BookRepository)
@@ -21,7 +21,7 @@ class BookRepositoryImpl extends BookRepository {
   );
 
   @override
-  Future fetchRemoteBooks(String accessToken, {String? lastSync}) async {
+  Future fetchBooks(String accessToken, {String? lastSync}) async {
     final response = await readwiseClient.getBooks(
       withPrefix(accessToken),
       updatedGt: lastSync,
@@ -35,7 +35,7 @@ class BookRepositoryImpl extends BookRepository {
   }
 
   @override
-  Future<List<BookEntity>> getLocalBooks(String accessToken) async {
+  Future<List<BookEntity>> loadBooks(String accessToken) async {
     return bookDao.getBooks(accessToken);
   }
 }

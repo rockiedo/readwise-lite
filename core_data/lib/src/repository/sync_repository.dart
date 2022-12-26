@@ -2,7 +2,7 @@ import 'package:core_datastore/core_datastore.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class SyncRepository {
-  Future<String?> getLastSync();
+  Future<String?> loadLastSync();
 }
 
 const _keyLastSync = 'last_sync';
@@ -14,7 +14,7 @@ class SyncRepositoryImpl extends SyncRepository {
   SyncRepositoryImpl(this.keyValueStore);
 
   @override
-  Future<String?> getLastSync() {
+  Future<String?> loadLastSync() {
     return keyValueStore.read(_keyLastSync);
   }
 }

@@ -13,6 +13,6 @@ class SyncLoggerUseCaseImpl extends SyncLoggerUseCase {
 
   @override
   Future<String?> getLastSync() {
-    return syncRepository.getLastSync();
+    return syncRepository.loadLastSync();
   }
 }

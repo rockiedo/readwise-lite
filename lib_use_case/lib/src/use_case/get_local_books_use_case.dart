@@ -14,7 +14,7 @@ class GetLocalBooksUseCaseImpl extends GetLocalBooksUseCase {
   
   @override
   Future<List<Book>> invoke(String accessToken) async {
-    final entities = await bookRepository.getLocalBooks(accessToken);
+    final entities = await bookRepository.loadBooks(accessToken);
     return entities.map((e) => e.toExternalModel()).toList();
   }
 }

@@ -19,7 +19,7 @@ class FetchAllBooksUseCaseImpl extends FetchRemoteBooksUseCase {
     String accessToken, {
     String? lastSync,
   }) {
-    return bookRepository.fetchRemoteBooks(
+    return bookRepository.fetchBooks(
       accessToken,
       lastSync: lastSync,
     );

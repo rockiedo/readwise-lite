@@ -13,6 +13,6 @@ class SaveAccessTokenUseCaseImpl extends SaveAccessTokenUseCase {
 
   @override
   Future<void> invoke(String accessToken, String alias) async {
-    await accessTokenRepo.saveAccessToken(accessToken, alias);
+    await accessTokenRepo.storeAccessToken(accessToken, alias);
   }
 }

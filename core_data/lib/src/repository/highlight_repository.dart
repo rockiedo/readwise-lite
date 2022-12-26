@@ -6,9 +6,9 @@ import 'package:core_network/core_network.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class HighlightRepository {
-  Future<List<HighlightEntity>> getHighlightsFromBook(int bookId);
+  Future<List<HighlightEntity>> loadHighlightsFromBook(int bookId);
 
-  Future<Set<int>> fetchRemoteHighlights(String? lastSync);
+  Future<Set<int>> fetchHighlightsFromBook(String? lastSync);
 }
 
 @Injectable(as: HighlightRepository)
@@ -24,7 +24,7 @@ class HighlightRepositoryImpl extends HighlightRepository {
   );
 
   @override
-  Future<List<HighlightEntity>> getHighlightsFromBook(int bookId) async {
+  Future<List<HighlightEntity>> loadHighlightsFromBook(int bookId) async {
     final cachedHighlights =
         await highlightDao.getAllHighlightsFromBook(bookId);
 
@@ -32,7 +32,7 @@ class HighlightRepositoryImpl extends HighlightRepository {
       return cachedHighlights;
     }
 
-    final accessToken = await accessTokenRepository.getAccessToken();
+    final accessToken = await accessTokenRepository.loadAccessToken();
     if (accessToken == null) throw Exception('no accessToken');
 
     final response =
@@ -47,8 +47,8 @@ class HighlightRepositoryImpl extends HighlightRepository {
   }
 
   @override
-  Future<Set<int>> fetchRemoteHighlights(String? lastSync) async {
-    final accessToken = await accessTokenRepository.getAccessToken();
+  Future<Set<int>> fetchHighlightsFromBook(String? lastSync) async {
+    final accessToken = await accessTokenRepository.loadAccessToken();
     if (accessToken == null) throw Exception('no accessToken');
 
     String? nextUrl;

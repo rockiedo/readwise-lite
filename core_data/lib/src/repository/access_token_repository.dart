@@ -2,9 +2,9 @@ import 'package:core_database/core_database.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class AccessTokenRepository {
-  Future<String?> getAccessToken();
+  Future<String?> loadAccessToken();
 
-  Future<void> saveAccessToken(String token, String alias);
+  Future<void> storeAccessToken(String token, String alias);
 }
 
 @LazySingleton(as: AccessTokenRepository)
@@ -14,14 +14,14 @@ class AccessTokenRepositoryImpl extends AccessTokenRepository {
   AccessTokenRepositoryImpl(this.accessTokenDao);
 
   @override
-  Future<String?> getAccessToken() {
+  Future<String?> loadAccessToken() {
     return accessTokenDao
         .getCurrentlyActiveToken()
         .then((entity) => entity.token, onError: (_) => null);
   }
 
   @override
-  Future<void> saveAccessToken(String token, String alias) {
+  Future<void> storeAccessToken(String token, String alias) {
     final entity = AccessTokenEntity(
       token: token,
       alias: alias,
