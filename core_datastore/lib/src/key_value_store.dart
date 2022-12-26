@@ -1,4 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:injectable/injectable.dart';
 
 abstract class KeyValueStore {
   Future<void> write(String key, String value);
@@ -6,6 +7,7 @@ abstract class KeyValueStore {
   Future<String?> read(String key);
 }
 
+@Injectable(as: KeyValueStore)
 class KeyValueStoreImpl extends KeyValueStore {
   final FlutterSecureStorage secureStorage;
 
