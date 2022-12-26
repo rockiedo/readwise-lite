@@ -28,9 +28,12 @@ class DataSyncCubit extends Cubit<DataSyncState> {
     emit(state.copyWith(isDownloadingBooks: true));
 
     try {
-      final accessToken = await getLatestAccessTokenUseCase.invoke();
-      await fetchRemoteBooksUseCase.invoke(accessToken!, lastSync: lastSync);
-      await _loadLocalBooksInternally();
+      await fetchRemoteBooksUseCase.invoke(lastSync);
+
+      final books = await getLocalBooksUseCase.invoke();
+      for (var book in books) {
+        await _fetchHighLightsFromBook(book.id);
+      }
     } catch (e) {
       // Do nothing
     }
@@ -38,8 +41,7 @@ class DataSyncCubit extends Cubit<DataSyncState> {
 
   Future _loadLocalBooksInternally() async {
     try {
-      final accessToken = await getLatestAccessTokenUseCase.invoke();
-      final books = await getLocalBooksUseCase.invoke(accessToken!);
+      final books = await getLocalBooksUseCase.invoke();
 
       final bookStats = books
           .map(
@@ -55,5 +57,9 @@ class DataSyncCubit extends Cubit<DataSyncState> {
     } catch (e) {
       // Do nothing
     }
+  }
+
+  Future _fetchHighLightsFromBook(int bookId) async {
+
   }
 }

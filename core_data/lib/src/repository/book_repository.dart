@@ -1,3 +1,4 @@
+import 'package:core_data/core_data.dart';
 import 'package:core_data/src/repository/access_token_helper.dart';
 import 'package:core_data/src/repository/mapper/book_mapper.dart';
 import 'package:core_database/core_database.dart';
@@ -5,25 +6,30 @@ import 'package:core_network/core_network.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class BookRepository {
-  Future fetchBooks(String accessToken, {String? lastSync});
+  Future fetchBooks(String? lastSync);
 
-  Future<List<BookEntity>> loadBooks(String accessToken);
+  Future<List<BookEntity>> loadBooks();
 }
 
 @LazySingleton(as: BookRepository)
 class BookRepositoryImpl extends BookRepository {
+  final AccessTokenRepository accessTokenRepository;
   final ReadwiseClient readwiseClient;
   final BookDao bookDao;
 
   BookRepositoryImpl(
+    this.accessTokenRepository,
     this.readwiseClient,
     this.bookDao,
   );
 
   @override
-  Future fetchBooks(String accessToken, {String? lastSync}) async {
+  Future fetchBooks(String? lastSync) async {
+    final accessToken = await accessTokenRepository.loadAccessToken();
+    assert(accessToken != null);
+
     final response = await readwiseClient.getBooks(
-      withPrefix(accessToken),
+      withPrefix(accessToken!),
       updatedGt: lastSync,
     );
     final entities = response.results
@@ -35,7 +41,10 @@ class BookRepositoryImpl extends BookRepository {
   }
 
   @override
-  Future<List<BookEntity>> loadBooks(String accessToken) async {
-    return bookDao.getBooks(accessToken);
+  Future<List<BookEntity>> loadBooks() async {
+    final accessToken = await accessTokenRepository.loadAccessToken();
+    assert(accessToken != null);
+
+    return bookDao.getBooks(accessToken!);
   }
 }

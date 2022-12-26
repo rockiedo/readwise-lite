@@ -21,7 +21,7 @@ class FeedCubit extends Cubit<FeedState> {
         return;
       }
 
-      final cachedBooks = await getLocalBooksUseCase.invoke(accessToken);
+      final cachedBooks = await getLocalBooksUseCase.invoke();
       if (cachedBooks.isNotEmpty) {
         emit(FeedState(FeedStatus.content, books: cachedBooks));
         return;
