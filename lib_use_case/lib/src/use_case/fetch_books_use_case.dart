@@ -1,15 +1,15 @@
 import 'package:core_data/core_data.dart';
 import 'package:injectable/injectable.dart';
 
-abstract class FetchRemoteBooksUseCase {
+abstract class FetchBooksUseCase {
   Future invoke(String? lastSync);
 }
 
-@Injectable(as: FetchRemoteBooksUseCase)
-class FetchAllBooksUseCaseImpl extends FetchRemoteBooksUseCase {
+@Injectable(as: FetchBooksUseCase)
+class FetchBooksUseCaseImpl extends FetchBooksUseCase {
   final BookRepository bookRepository;
 
-  FetchAllBooksUseCaseImpl(this.bookRepository);
+  FetchBooksUseCaseImpl(this.bookRepository);
 
   @override
   Future invoke(String? lastSync) {

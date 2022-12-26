@@ -15,7 +15,7 @@ class DataSyncWidget extends StatelessWidget {
       create: (_) {
         final cubit = DataSyncCubit(
           GetIt.instance.get<GetAccessTokenUseCase>(),
-          GetIt.instance.get<FetchRemoteBooksUseCase>(),
+          GetIt.instance.get<FetchBooksUseCase>(),
           GetIt.instance.get<GetLocalBooksUseCase>(),
         );
 
