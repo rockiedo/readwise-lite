@@ -9,5 +9,6 @@ class DataSyncState with _$DataSyncState {
   const factory DataSyncState({
     required List<BookSyncState> bookStates,
     required bool isDownloadingBooks,
+    required Set<int> booksInSync,
   }) = _DataSyncState;
 }

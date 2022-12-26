@@ -15,7 +15,7 @@ import '../../core_data.dart' as _i6;
 import '../repository/access_token_repository.dart' as _i3;
 import '../repository/book_repository.dart' as _i5;
 import '../repository/highlight_repository.dart' as _i8;
-import '../repository/sync_repository.dart'
+import '../repository/sync_log_repository.dart'
     as _i9; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
@@ -42,7 +42,9 @@ _i1.GetIt $initGetIt(
         get<_i6.AccessTokenRepository>(),
         get<_i4.HighlightDao>(),
       ));
-  gh.factory<_i9.SyncRepository>(
-      () => _i9.SyncRepositoryImpl(get<_i10.KeyValueStore>()));
+  gh.factory<_i9.SyncLogRepository>(() => _i9.SyncLogRepositoryImpl(
+        get<_i10.KeyValueStore>(),
+        get<_i4.SyncLogDao>(),
+      ));
   return get;
 }

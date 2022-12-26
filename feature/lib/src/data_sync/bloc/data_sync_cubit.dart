@@ -5,7 +5,7 @@ import 'package:lib_use_case/lib_use_case.dart';
 
 class DataSyncCubit extends Cubit<DataSyncState> {
   final GetAccessTokenUseCase getLatestAccessTokenUseCase;
-  final FetchRemoteBooksUseCase fetchRemoteBooksUseCase;
+  final FetchBooksUseCase fetchRemoteBooksUseCase;
   final GetLocalBooksUseCase getLocalBooksUseCase;
 
   DataSyncCubit(
@@ -16,6 +16,7 @@ class DataSyncCubit extends Cubit<DataSyncState> {
           DataSyncState(
             bookStates: List.empty(),
             isDownloadingBooks: false,
+            booksInSync: {},
           ),
         );
 
@@ -28,15 +29,26 @@ class DataSyncCubit extends Cubit<DataSyncState> {
     emit(state.copyWith(isDownloadingBooks: true));
 
     try {
-      await fetchRemoteBooksUseCase.invoke(lastSync);
+      await fetchRemoteBooksUseCase.invoke();
 
       final books = await getLocalBooksUseCase.invoke();
-      for (var book in books) {
-        await _fetchHighLightsFromBook(book.id);
-      }
+      final bookStates = books.map(
+        (e) => BookSyncState(
+          bookId: e.id,
+          bookName: e.title,
+        ),
+      ).toList();
+
+      emit(state.copyWith(bookStates: bookStates, isDownloadingBooks: false));
     } catch (e) {
       // Do nothing
     }
+  }
+
+  Future fetchHighlightsFromBook(int bookId) async {
+    final booksInSync = {...state.booksInSync};
+    booksInSync.add(bookId);
+    emit(state.copyWith(booksInSync: booksInSync));
   }
 
   Future _loadLocalBooksInternally() async {
@@ -48,7 +60,6 @@ class DataSyncCubit extends Cubit<DataSyncState> {
             (e) => BookSyncState(
               bookId: e.id,
               bookName: e.title,
-              isDownloading: false,
             ),
           )
           .toList();
@@ -59,7 +70,5 @@ class DataSyncCubit extends Cubit<DataSyncState> {
     }
   }
 
-  Future _fetchHighLightsFromBook(int bookId) async {
-
-  }
+  Future _fetchHighLightsFromBook(int bookId) async {}
 }

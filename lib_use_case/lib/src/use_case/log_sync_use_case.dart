@@ -7,12 +7,12 @@ abstract class SyncLoggerUseCase {
 
 @Injectable(as: SyncLoggerUseCase)
 class SyncLoggerUseCaseImpl extends SyncLoggerUseCase {
-  final SyncRepository syncRepository;
+  final SyncLogRepository syncRepository;
 
   SyncLoggerUseCaseImpl(this.syncRepository);
 
   @override
   Future<String?> getLastSync() {
-    return syncRepository.loadLastSync();
+    return syncRepository.loadLastAllBooksSync();
   }
 }

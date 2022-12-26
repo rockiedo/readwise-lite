@@ -20,7 +20,6 @@ mixin _$BookSyncState {
   String get bookName => throw _privateConstructorUsedError;
   String? get coverUrl => throw _privateConstructorUsedError;
   String? get lastSync => throw _privateConstructorUsedError;
-  bool get isDownloading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BookSyncStateCopyWith<BookSyncState> get copyWith =>
@@ -33,12 +32,7 @@ abstract class $BookSyncStateCopyWith<$Res> {
           BookSyncState value, $Res Function(BookSyncState) then) =
       _$BookSyncStateCopyWithImpl<$Res, BookSyncState>;
   @useResult
-  $Res call(
-      {int bookId,
-      String bookName,
-      String? coverUrl,
-      String? lastSync,
-      bool isDownloading});
+  $Res call({int bookId, String bookName, String? coverUrl, String? lastSync});
 }
 
 /// @nodoc
@@ -58,7 +52,6 @@ class _$BookSyncStateCopyWithImpl<$Res, $Val extends BookSyncState>
     Object? bookName = null,
     Object? coverUrl = freezed,
     Object? lastSync = freezed,
-    Object? isDownloading = null,
   }) {
     return _then(_value.copyWith(
       bookId: null == bookId
@@ -77,10 +70,6 @@ class _$BookSyncStateCopyWithImpl<$Res, $Val extends BookSyncState>
           ? _value.lastSync
           : lastSync // ignore: cast_nullable_to_non_nullable
               as String?,
-      isDownloading: null == isDownloading
-          ? _value.isDownloading
-          : isDownloading // ignore: cast_nullable_to_non_nullable
-              as bool,
     ) as $Val);
   }
 }
@@ -93,12 +82,7 @@ abstract class _$$_BookSyncStateCopyWith<$Res>
       __$$_BookSyncStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int bookId,
-      String bookName,
-      String? coverUrl,
-      String? lastSync,
-      bool isDownloading});
+  $Res call({int bookId, String bookName, String? coverUrl, String? lastSync});
 }
 
 /// @nodoc
@@ -116,7 +100,6 @@ class __$$_BookSyncStateCopyWithImpl<$Res>
     Object? bookName = null,
     Object? coverUrl = freezed,
     Object? lastSync = freezed,
-    Object? isDownloading = null,
   }) {
     return _then(_$_BookSyncState(
       bookId: null == bookId
@@ -135,10 +118,6 @@ class __$$_BookSyncStateCopyWithImpl<$Res>
           ? _value.lastSync
           : lastSync // ignore: cast_nullable_to_non_nullable
               as String?,
-      isDownloading: null == isDownloading
-          ? _value.isDownloading
-          : isDownloading // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -150,8 +129,7 @@ class _$_BookSyncState implements _BookSyncState {
       {required this.bookId,
       required this.bookName,
       this.coverUrl,
-      this.lastSync,
-      required this.isDownloading});
+      this.lastSync});
 
   @override
   final int bookId;
@@ -161,12 +139,10 @@ class _$_BookSyncState implements _BookSyncState {
   final String? coverUrl;
   @override
   final String? lastSync;
-  @override
-  final bool isDownloading;
 
   @override
   String toString() {
-    return 'BookSyncState(bookId: $bookId, bookName: $bookName, coverUrl: $coverUrl, lastSync: $lastSync, isDownloading: $isDownloading)';
+    return 'BookSyncState(bookId: $bookId, bookName: $bookName, coverUrl: $coverUrl, lastSync: $lastSync)';
   }
 
   @override
@@ -180,14 +156,12 @@ class _$_BookSyncState implements _BookSyncState {
             (identical(other.coverUrl, coverUrl) ||
                 other.coverUrl == coverUrl) &&
             (identical(other.lastSync, lastSync) ||
-                other.lastSync == lastSync) &&
-            (identical(other.isDownloading, isDownloading) ||
-                other.isDownloading == isDownloading));
+                other.lastSync == lastSync));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, bookId, bookName, coverUrl, lastSync, isDownloading);
+  int get hashCode =>
+      Object.hash(runtimeType, bookId, bookName, coverUrl, lastSync);
 
   @JsonKey(ignore: true)
   @override
@@ -201,8 +175,7 @@ abstract class _BookSyncState implements BookSyncState {
       {required final int bookId,
       required final String bookName,
       final String? coverUrl,
-      final String? lastSync,
-      required final bool isDownloading}) = _$_BookSyncState;
+      final String? lastSync}) = _$_BookSyncState;
 
   @override
   int get bookId;
@@ -212,8 +185,6 @@ abstract class _BookSyncState implements BookSyncState {
   String? get coverUrl;
   @override
   String? get lastSync;
-  @override
-  bool get isDownloading;
   @override
   @JsonKey(ignore: true)
   _$$_BookSyncStateCopyWith<_$_BookSyncState> get copyWith =>

@@ -9,6 +9,5 @@ class BookSyncState with _$BookSyncState {
     required String bookName,
     String? coverUrl,
     String? lastSync,
-    required bool isDownloading,
   }) = _BookSyncState;
 }
