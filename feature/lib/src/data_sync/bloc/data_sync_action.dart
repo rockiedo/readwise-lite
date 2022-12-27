@@ -1,0 +1,3 @@
+enum DataSyncAction {
+  idle, fetch
+}
