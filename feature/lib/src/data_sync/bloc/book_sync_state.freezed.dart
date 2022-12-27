@@ -17,9 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$BookSyncState {
   int get bookId => throw _privateConstructorUsedError;
-  String get bookName => throw _privateConstructorUsedError;
+  String get bookTitle => throw _privateConstructorUsedError;
   String? get coverUrl => throw _privateConstructorUsedError;
-  String? get lastSync => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BookSyncStateCopyWith<BookSyncState> get copyWith =>
@@ -32,7 +31,7 @@ abstract class $BookSyncStateCopyWith<$Res> {
           BookSyncState value, $Res Function(BookSyncState) then) =
       _$BookSyncStateCopyWithImpl<$Res, BookSyncState>;
   @useResult
-  $Res call({int bookId, String bookName, String? coverUrl, String? lastSync});
+  $Res call({int bookId, String bookTitle, String? coverUrl});
 }
 
 /// @nodoc
@@ -49,26 +48,21 @@ class _$BookSyncStateCopyWithImpl<$Res, $Val extends BookSyncState>
   @override
   $Res call({
     Object? bookId = null,
-    Object? bookName = null,
+    Object? bookTitle = null,
     Object? coverUrl = freezed,
-    Object? lastSync = freezed,
   }) {
     return _then(_value.copyWith(
       bookId: null == bookId
           ? _value.bookId
           : bookId // ignore: cast_nullable_to_non_nullable
               as int,
-      bookName: null == bookName
-          ? _value.bookName
-          : bookName // ignore: cast_nullable_to_non_nullable
+      bookTitle: null == bookTitle
+          ? _value.bookTitle
+          : bookTitle // ignore: cast_nullable_to_non_nullable
               as String,
       coverUrl: freezed == coverUrl
           ? _value.coverUrl
           : coverUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      lastSync: freezed == lastSync
-          ? _value.lastSync
-          : lastSync // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -82,7 +76,7 @@ abstract class _$$_BookSyncStateCopyWith<$Res>
       __$$_BookSyncStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int bookId, String bookName, String? coverUrl, String? lastSync});
+  $Res call({int bookId, String bookTitle, String? coverUrl});
 }
 
 /// @nodoc
@@ -97,26 +91,21 @@ class __$$_BookSyncStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? bookId = null,
-    Object? bookName = null,
+    Object? bookTitle = null,
     Object? coverUrl = freezed,
-    Object? lastSync = freezed,
   }) {
     return _then(_$_BookSyncState(
       bookId: null == bookId
           ? _value.bookId
           : bookId // ignore: cast_nullable_to_non_nullable
               as int,
-      bookName: null == bookName
-          ? _value.bookName
-          : bookName // ignore: cast_nullable_to_non_nullable
+      bookTitle: null == bookTitle
+          ? _value.bookTitle
+          : bookTitle // ignore: cast_nullable_to_non_nullable
               as String,
       coverUrl: freezed == coverUrl
           ? _value.coverUrl
           : coverUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      lastSync: freezed == lastSync
-          ? _value.lastSync
-          : lastSync // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -126,23 +115,18 @@ class __$$_BookSyncStateCopyWithImpl<$Res>
 
 class _$_BookSyncState implements _BookSyncState {
   const _$_BookSyncState(
-      {required this.bookId,
-      required this.bookName,
-      this.coverUrl,
-      this.lastSync});
+      {required this.bookId, required this.bookTitle, this.coverUrl});
 
   @override
   final int bookId;
   @override
-  final String bookName;
+  final String bookTitle;
   @override
   final String? coverUrl;
-  @override
-  final String? lastSync;
 
   @override
   String toString() {
-    return 'BookSyncState(bookId: $bookId, bookName: $bookName, coverUrl: $coverUrl, lastSync: $lastSync)';
+    return 'BookSyncState(bookId: $bookId, bookTitle: $bookTitle, coverUrl: $coverUrl)';
   }
 
   @override
@@ -151,17 +135,14 @@ class _$_BookSyncState implements _BookSyncState {
         (other.runtimeType == runtimeType &&
             other is _$_BookSyncState &&
             (identical(other.bookId, bookId) || other.bookId == bookId) &&
-            (identical(other.bookName, bookName) ||
-                other.bookName == bookName) &&
+            (identical(other.bookTitle, bookTitle) ||
+                other.bookTitle == bookTitle) &&
             (identical(other.coverUrl, coverUrl) ||
-                other.coverUrl == coverUrl) &&
-            (identical(other.lastSync, lastSync) ||
-                other.lastSync == lastSync));
+                other.coverUrl == coverUrl));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, bookId, bookName, coverUrl, lastSync);
+  int get hashCode => Object.hash(runtimeType, bookId, bookTitle, coverUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -173,18 +154,15 @@ class _$_BookSyncState implements _BookSyncState {
 abstract class _BookSyncState implements BookSyncState {
   const factory _BookSyncState(
       {required final int bookId,
-      required final String bookName,
-      final String? coverUrl,
-      final String? lastSync}) = _$_BookSyncState;
+      required final String bookTitle,
+      final String? coverUrl}) = _$_BookSyncState;
 
   @override
   int get bookId;
   @override
-  String get bookName;
+  String get bookTitle;
   @override
   String? get coverUrl;
-  @override
-  String? get lastSync;
   @override
   @JsonKey(ignore: true)
   _$$_BookSyncStateCopyWith<_$_BookSyncState> get copyWith =>

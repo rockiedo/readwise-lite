@@ -7,16 +7,17 @@ class DataSyncCubit extends Cubit<DataSyncState> {
   final GetAccessTokenUseCase getLatestAccessTokenUseCase;
   final FetchBooksUseCase fetchRemoteBooksUseCase;
   final GetLocalBooksUseCase getLocalBooksUseCase;
+  final FetchHighlightsFromBookUseCase fetchHighlightsFromBookUseCase;
 
   DataSyncCubit(
     this.getLatestAccessTokenUseCase,
     this.fetchRemoteBooksUseCase,
     this.getLocalBooksUseCase,
+    this.fetchHighlightsFromBookUseCase,
   ) : super(
           DataSyncState(
             bookStates: List.empty(),
             isDownloadingBooks: false,
-            booksInSync: {},
           ),
         );
 
@@ -25,19 +26,22 @@ class DataSyncCubit extends Cubit<DataSyncState> {
     await _loadLocalBooksInternally();
   }
 
-  Future fetchFeed(String? lastSync) async {
+  Future fetchAll(String? lastSync) async {
     emit(state.copyWith(isDownloadingBooks: true));
 
     try {
       await fetchRemoteBooksUseCase.invoke();
 
       final books = await getLocalBooksUseCase.invoke();
-      final bookStates = books.map(
-        (e) => BookSyncState(
-          bookId: e.id,
-          bookName: e.title,
-        ),
-      ).toList();
+      final bookStates = books
+          .map(
+            (e) => BookSyncState(
+              bookId: e.id,
+              bookTitle: e.title,
+              coverUrl: e.coverImageUrl,
+            ),
+          )
+          .toList();
 
       emit(state.copyWith(bookStates: bookStates, isDownloadingBooks: false));
     } catch (e) {
@@ -45,10 +49,9 @@ class DataSyncCubit extends Cubit<DataSyncState> {
     }
   }
 
-  Future fetchHighlightsFromBook(int bookId) async {
-    final booksInSync = {...state.booksInSync};
-    booksInSync.add(bookId);
-    emit(state.copyWith(booksInSync: booksInSync));
+  Future fetchHighLightsFromBook(int bookId) {
+    return Future.delayed(const Duration(seconds: 5));
+    return fetchHighlightsFromBookUseCase.invoke(bookId);
   }
 
   Future _loadLocalBooksInternally() async {
@@ -59,7 +62,8 @@ class DataSyncCubit extends Cubit<DataSyncState> {
           .map(
             (e) => BookSyncState(
               bookId: e.id,
-              bookName: e.title,
+              bookTitle: e.title,
+              coverUrl: e.coverImageUrl,
             ),
           )
           .toList();
@@ -69,6 +73,4 @@ class DataSyncCubit extends Cubit<DataSyncState> {
       // Do nothing
     }
   }
-
-  Future _fetchHighLightsFromBook(int bookId) async {}
 }

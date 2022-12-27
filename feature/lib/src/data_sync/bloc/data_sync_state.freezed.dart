@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DataSyncState {
   List<BookSyncState> get bookStates => throw _privateConstructorUsedError;
   bool get isDownloadingBooks => throw _privateConstructorUsedError;
-  Set<int> get booksInSync => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DataSyncStateCopyWith<DataSyncState> get copyWith =>
@@ -31,10 +30,7 @@ abstract class $DataSyncStateCopyWith<$Res> {
           DataSyncState value, $Res Function(DataSyncState) then) =
       _$DataSyncStateCopyWithImpl<$Res, DataSyncState>;
   @useResult
-  $Res call(
-      {List<BookSyncState> bookStates,
-      bool isDownloadingBooks,
-      Set<int> booksInSync});
+  $Res call({List<BookSyncState> bookStates, bool isDownloadingBooks});
 }
 
 /// @nodoc
@@ -52,7 +48,6 @@ class _$DataSyncStateCopyWithImpl<$Res, $Val extends DataSyncState>
   $Res call({
     Object? bookStates = null,
     Object? isDownloadingBooks = null,
-    Object? booksInSync = null,
   }) {
     return _then(_value.copyWith(
       bookStates: null == bookStates
@@ -63,10 +58,6 @@ class _$DataSyncStateCopyWithImpl<$Res, $Val extends DataSyncState>
           ? _value.isDownloadingBooks
           : isDownloadingBooks // ignore: cast_nullable_to_non_nullable
               as bool,
-      booksInSync: null == booksInSync
-          ? _value.booksInSync
-          : booksInSync // ignore: cast_nullable_to_non_nullable
-              as Set<int>,
     ) as $Val);
   }
 }
@@ -79,10 +70,7 @@ abstract class _$$_DataSyncStateCopyWith<$Res>
       __$$_DataSyncStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {List<BookSyncState> bookStates,
-      bool isDownloadingBooks,
-      Set<int> booksInSync});
+  $Res call({List<BookSyncState> bookStates, bool isDownloadingBooks});
 }
 
 /// @nodoc
@@ -98,7 +86,6 @@ class __$$_DataSyncStateCopyWithImpl<$Res>
   $Res call({
     Object? bookStates = null,
     Object? isDownloadingBooks = null,
-    Object? booksInSync = null,
   }) {
     return _then(_$_DataSyncState(
       bookStates: null == bookStates
@@ -109,10 +96,6 @@ class __$$_DataSyncStateCopyWithImpl<$Res>
           ? _value.isDownloadingBooks
           : isDownloadingBooks // ignore: cast_nullable_to_non_nullable
               as bool,
-      booksInSync: null == booksInSync
-          ? _value._booksInSync
-          : booksInSync // ignore: cast_nullable_to_non_nullable
-              as Set<int>,
     ));
   }
 }
@@ -122,10 +105,8 @@ class __$$_DataSyncStateCopyWithImpl<$Res>
 class _$_DataSyncState implements _DataSyncState {
   const _$_DataSyncState(
       {required final List<BookSyncState> bookStates,
-      required this.isDownloadingBooks,
-      required final Set<int> booksInSync})
-      : _bookStates = bookStates,
-        _booksInSync = booksInSync;
+      required this.isDownloadingBooks})
+      : _bookStates = bookStates;
 
   final List<BookSyncState> _bookStates;
   @override
@@ -137,17 +118,10 @@ class _$_DataSyncState implements _DataSyncState {
 
   @override
   final bool isDownloadingBooks;
-  final Set<int> _booksInSync;
-  @override
-  Set<int> get booksInSync {
-    if (_booksInSync is EqualUnmodifiableSetView) return _booksInSync;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(_booksInSync);
-  }
 
   @override
   String toString() {
-    return 'DataSyncState(bookStates: $bookStates, isDownloadingBooks: $isDownloadingBooks, booksInSync: $booksInSync)';
+    return 'DataSyncState(bookStates: $bookStates, isDownloadingBooks: $isDownloadingBooks)';
   }
 
   @override
@@ -158,17 +132,12 @@ class _$_DataSyncState implements _DataSyncState {
             const DeepCollectionEquality()
                 .equals(other._bookStates, _bookStates) &&
             (identical(other.isDownloadingBooks, isDownloadingBooks) ||
-                other.isDownloadingBooks == isDownloadingBooks) &&
-            const DeepCollectionEquality()
-                .equals(other._booksInSync, _booksInSync));
+                other.isDownloadingBooks == isDownloadingBooks));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_bookStates),
-      isDownloadingBooks,
-      const DeepCollectionEquality().hash(_booksInSync));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_bookStates), isDownloadingBooks);
 
   @JsonKey(ignore: true)
   @override
@@ -180,15 +149,12 @@ class _$_DataSyncState implements _DataSyncState {
 abstract class _DataSyncState implements DataSyncState {
   const factory _DataSyncState(
       {required final List<BookSyncState> bookStates,
-      required final bool isDownloadingBooks,
-      required final Set<int> booksInSync}) = _$_DataSyncState;
+      required final bool isDownloadingBooks}) = _$_DataSyncState;
 
   @override
   List<BookSyncState> get bookStates;
   @override
   bool get isDownloadingBooks;
-  @override
-  Set<int> get booksInSync;
   @override
   @JsonKey(ignore: true)
   _$$_DataSyncStateCopyWith<_$_DataSyncState> get copyWith =>

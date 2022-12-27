@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feature/src/data_sync/bloc/book_sync_state.dart';
 import 'package:feature/src/data_sync/bloc/data_sync_cubit.dart';
 import 'package:feature/src/data_sync/bloc/data_sync_state.dart';
@@ -18,55 +21,26 @@ class DataSyncWidget extends StatelessWidget {
           GetIt.instance.get<GetAccessTokenUseCase>(),
           GetIt.instance.get<FetchBooksUseCase>(),
           GetIt.instance.get<GetLocalBooksUseCase>(),
+          GetIt.instance.get<FetchHighlightsFromBookUseCase>(),
         );
 
         cubit.loadLocalBooks();
         return cubit;
       },
       child: Scaffold(
-        body: const SafeArea(child: _DataSyncContent()),
+        body: const SafeArea(
+          child: _DataSyncContent(),
+        ),
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.close),
+            icon: const Icon(Icons.close_rounded),
             onPressed: () {
               context.pop();
             },
           ),
           title: const Text('Data sync'),
-          actions: const [
-            _SyncAllBooksWidget(),
-          ],
         ),
       ),
-    );
-  }
-}
-
-class _SyncAllBooksWidget extends StatelessWidget {
-  const _SyncAllBooksWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<DataSyncCubit, DataSyncState>(
-      builder: (innerContext, state) {
-        VoidCallback? onClick;
-        if (!state.isDownloadingBooks) {
-          onClick = () {
-            innerContext.read<DataSyncCubit>().fetchFeed(null);
-          };
-        }
-
-        return TextButton(
-          onPressed: onClick,
-          child: Text(
-            'SYNC ALL',
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1!
-                .copyWith(color: Colors.black),
-          ),
-        );
-      },
     );
   }
 }
@@ -82,45 +56,95 @@ class _DataSyncContent extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
-        return ListView.builder(
-          itemCount: state.bookStates.length,
-          itemBuilder: (listContext, index) {
+        return ListView.separated(
+          itemBuilder: (_, index) {
             final bookSyncState = state.bookStates[index];
-            return _BookSyncTile(
-              bookSyncState,
-              state.booksInSync.contains(bookSyncState.bookId),
-            );
+            return _BookSyncTile(bookSyncState);
           },
+          separatorBuilder: (_, index) {
+            return const Divider();
+          },
+          itemCount: state.bookStates.length,
         );
       },
     );
   }
 }
 
-class _BookSyncTile extends StatelessWidget {
+class _BookSyncTile extends StatefulWidget {
   final BookSyncState bookSyncState;
-  final bool isDownloading;
 
   const _BookSyncTile(
-    this.bookSyncState,
-    this.isDownloading, {
+    this.bookSyncState, {
     Key? key,
   }) : super(key: key);
 
   @override
+  State<_BookSyncTile> createState() => _BookSyncTileState();
+}
+
+class _BookSyncTileState extends State<_BookSyncTile> {
+  bool isFetching = false;
+  StreamSubscription<dynamic>? subscription;
+
+  @override
+  void dispose() {
+    subscription?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(bookSyncState.bookName),
-      trailing: isDownloading
-          ? const CircularProgressIndicator()
-          : IconButton(
-              onPressed: () {
-                context
-                    .read<DataSyncCubit>()
-                    .fetchHighlightsFromBook(bookSyncState.bookId);
-              },
-              icon: const Icon(Icons.sync),
+      leading: widget.bookSyncState.coverUrl == null
+          ? SizedBox.fromSize(
+              size: const Size(60, 80),
+              child: const Placeholder(),
+            )
+          : CachedNetworkImage(
+              height: 80,
+              width: 60,
+              imageUrl: widget.bookSyncState.coverUrl!,
             ),
+      trailing: isFetching
+          ? IconButton(
+              onPressed: _cancelFetch,
+              icon: const Icon(Icons.cancel_outlined),
+            )
+          : IconButton(
+              onPressed: _fetchHighlights,
+              icon: const Icon(Icons.download),
+            ),
+      title: Text(widget.bookSyncState.bookTitle),
+      subtitle: isFetching
+          ? const Padding(
+            padding: EdgeInsets.only(top: 8.0),
+            child: LinearProgressIndicator(),
+          )
+          : const Text('Sync just now'),
     );
+  }
+
+  void _fetchHighlights() {
+    subscription = context
+        .read<DataSyncCubit>()
+        .fetchHighLightsFromBook(widget.bookSyncState.bookId)
+        .asStream()
+        .listen((event) {
+      setState(() {
+        isFetching = false;
+      });
+    });
+
+    setState(() {
+      isFetching = true;
+    });
+  }
+
+  void _cancelFetch() {
+    subscription?.cancel();
+    setState(() {
+      isFetching = false;
+    });
   }
 }

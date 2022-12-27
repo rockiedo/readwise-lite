@@ -6,8 +6,7 @@ part 'book_sync_state.freezed.dart';
 class BookSyncState with _$BookSyncState {
   const factory BookSyncState({
     required int bookId,
-    required String bookName,
+    required String bookTitle,
     String? coverUrl,
-    String? lastSync,
   }) = _BookSyncState;
 }
