@@ -30,13 +30,11 @@ class SyncLogRepositoryImpl extends SyncLogRepository {
 
   @override
   Future<String?> loadLastHighlightsSync(int bookId) {
-    // TODO: implement loadLastHighlightsSync
-    throw UnimplementedError();
+    return syncLogDao.getLastSync(bookId);
   }
 
   @override
   Future storeLastHighlightsSync(int bookId, String timestamp) {
-    // TODO: implement storeLastHighlightsSync
-    throw UnimplementedError();
+    return syncLogDao.setLastSync(bookId, timestamp);
   }
 }

@@ -13,7 +13,6 @@ import '../use_case/fetch_books_use_case.dart' as _i3;
 import '../use_case/fetch_highlights_from_book_use_case.dart' as _i5;
 import '../use_case/get_latest_access_token_use_case.dart' as _i6;
 import '../use_case/get_local_books_use_case.dart' as _i7;
-import '../use_case/log_sync_use_case.dart' as _i9;
 import '../use_case/save_access_token_use_case.dart'
     as _i8; // ignore_for_file: unnecessary_lambdas
 
@@ -44,7 +43,5 @@ _i1.GetIt $initGetIt(
       () => _i7.GetLocalBooksUseCaseImpl(get<_i4.BookRepository>()));
   gh.factory<_i8.SaveAccessTokenUseCase>(
       () => _i8.SaveAccessTokenUseCaseImpl(get<_i4.AccessTokenRepository>()));
-  gh.factory<_i9.SyncLoggerUseCase>(
-      () => _i9.SyncLoggerUseCaseImpl(get<_i4.SyncLogRepository>()));
   return get;
 }

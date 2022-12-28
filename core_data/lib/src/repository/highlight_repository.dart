@@ -1,11 +1,12 @@
 import 'package:core_data/core_data.dart';
+import 'package:core_data/src/repository/access_token_helper.dart';
 import 'package:core_data/src/repository/mapper/highlight_mapper.dart';
 import 'package:core_database/core_database.dart';
 import 'package:core_network/core_network.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class HighlightRepository {
-  Future<List<HighlightEntity>> fetchHighlightsFromBook(
+  Future fetchHighlightsFromBook(
     int bookId,
     String? lastSync,
   );
@@ -24,7 +25,7 @@ class HighlightRepositoryImpl extends HighlightRepository {
   );
 
   @override
-  Future<List<HighlightEntity>> fetchHighlightsFromBook(
+  Future fetchHighlightsFromBook(
     int bookId,
     String? lastSync,
   ) async {
@@ -33,11 +34,10 @@ class HighlightRepositoryImpl extends HighlightRepository {
 
     String? nextUrl;
     var page = 1;
-    final result = <HighlightEntity>[];
 
     do {
       final response = await readwiseClient.getHighlights(
-        accessToken!,
+        withPrefix(accessToken!),
         bookId: bookId,
         page: page,
         updatedGt: lastSync,
@@ -47,12 +47,9 @@ class HighlightRepositoryImpl extends HighlightRepository {
 
       final entities = response.results.map((e) => e.toEntity()).toList();
       await highlightDao.insertHighlights(entities);
-      result.addAll(entities);
 
       nextUrl = response.next;
       page++;
     } while (nextUrl != null);
-
-    return result;
   }
 }

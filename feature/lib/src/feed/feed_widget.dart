@@ -18,7 +18,6 @@ class FeedWidget extends StatelessWidget {
       create: (_) {
         final cubit = FeedCubit(
           GetIt.instance.get<GetAccessTokenUseCase>(),
-          GetIt.instance.get<SyncLoggerUseCase>(),
           GetIt.instance.get<GetLocalBooksUseCase>(),
         );
 

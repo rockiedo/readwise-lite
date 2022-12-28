@@ -4,12 +4,10 @@ import 'package:lib_use_case/lib_use_case.dart';
 
 class FeedCubit extends Cubit<FeedState> {
   final GetAccessTokenUseCase getLatestAccessTokenUseCase;
-  final SyncLoggerUseCase logSyncUseCase;
   final GetLocalBooksUseCase getLocalBooksUseCase;
 
   FeedCubit(
     this.getLatestAccessTokenUseCase,
-    this.logSyncUseCase,
     this.getLocalBooksUseCase,
   ) : super(const FeedState(FeedStatus.loading));
 
@@ -27,8 +25,7 @@ class FeedCubit extends Cubit<FeedState> {
         return;
       }
 
-      final lastSync = await logSyncUseCase.getLastSync();
-      emit(FeedState(FeedStatus.outdatedCache, lastSync: lastSync));
+      emit(const FeedState(FeedStatus.outdatedCache, lastSync: null));
     } catch (e) {
       emit(const FeedState(FeedStatus.unknownError));
     }
