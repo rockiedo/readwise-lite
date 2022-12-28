@@ -10,6 +10,12 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
+      path: '/feed',
+      builder: (context, state) {
+        return const HighlightFeedWidget();
+      },
+    ),
+    GoRoute(
       path: '/data_sync',
       builder: (context, state) {
         return const DataSyncWidget();
