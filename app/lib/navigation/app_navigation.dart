@@ -9,5 +9,11 @@ final appRouter = GoRouter(
         return const FeedWidget();
       },
     ),
+    GoRoute(
+      path: '/data_sync',
+      builder: (context, state) {
+        return const DataSyncWidget();
+      },
+    ),
   ],
 );

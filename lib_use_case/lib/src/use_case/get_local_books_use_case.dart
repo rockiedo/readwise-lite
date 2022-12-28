@@ -3,7 +3,7 @@ import 'package:core_model/core_model.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class GetLocalBooksUseCase {
-  Future<List<Book>> invoke(String accessToken);
+  Future<List<Book>> invoke();
 }
 
 @Injectable(as: GetLocalBooksUseCase)
@@ -13,8 +13,8 @@ class GetLocalBooksUseCaseImpl extends GetLocalBooksUseCase {
   GetLocalBooksUseCaseImpl(this.bookRepository);
   
   @override
-  Future<List<Book>> invoke(String accessToken) async {
-    final entities = await bookRepository.getLocalBooks(accessToken);
+  Future<List<Book>> invoke() async {
+    final entities = await bookRepository.loadBooks();
     return entities.map((e) => e.toExternalModel()).toList();
   }
 }

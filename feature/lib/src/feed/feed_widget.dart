@@ -1,11 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core_model/core_model.dart';
+import 'package:feature/src/data_sync/data_sync_widget.dart';
 import 'package:feature/src/feed/bloc/feed_cubit.dart';
 import 'package:feature/src/feed/bloc/feed_state.dart';
+import 'package:feature/src/settings/settings_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lib_use_case/lib_use_case.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class FeedWidget extends StatelessWidget {
   const FeedWidget({Key? key}) : super(key: key);
@@ -15,41 +17,106 @@ class FeedWidget extends StatelessWidget {
     return BlocProvider(
       create: (_) {
         final cubit = FeedCubit(
-          GetIt.instance.get<GetLatestAccessTokenUseCase>(),
-          GetIt.instance.get<SyncLoggerUseCase>(),
+          GetIt.instance.get<GetAccessTokenUseCase>(),
           GetIt.instance.get<GetLocalBooksUseCase>(),
-          GetIt.instance.get<FetchRemoteBooksUseCase>(),
         );
 
         cubit.loadFeed();
-
         return cubit;
       },
-      child: Scaffold(
-        body: SafeArea(
-          child: BlocBuilder<FeedCubit, FeedState>(
-            builder: (innerContext, state) {
-              if (state.status == FeedStatus.loading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              if (state.status == FeedStatus.content) {
-                return _BookListWidget(state.books!);
-              }
-
-              if (state.status == FeedStatus.noAccessToken) {
-                return const _NoAccessTokenWidget();
-              }
-
-              if (state.status == FeedStatus.outdatedCache) {
-                return _OutdatedContentWidget(state.lastSync);
-              }
-
-              return const Placeholder();
-            },
-          ),
-        ),
+      child: const Scaffold(
+        body: SafeArea(child: _FeedContentWidget()),
+        floatingActionButton: _FeedFabWidget(),
       ),
+    );
+  }
+}
+
+class _FeedContentWidget extends StatelessWidget {
+  const _FeedContentWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FeedCubit, FeedState>(
+      builder: (innerContext, state) {
+        final cubit = innerContext.read<FeedCubit>();
+
+        if (state.status == FeedStatus.loading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state.status == FeedStatus.content) {
+          return _BookListWidget(state.books!);
+        }
+
+        if (state.status == FeedStatus.noAccessToken) {
+          return _PlaceHolderWidget(
+            desc: 'No access token, please set one in settings!',
+            ctaText: 'Settings',
+            clickToAction: () {
+              _goToSettings(innerContext);
+            },
+          );
+        }
+
+        if (state.status == FeedStatus.outdatedCache) {
+          return _PlaceHolderWidget(
+            desc: 'The content is outdated, please sync the latest content!',
+            ctaText: 'Sync',
+            clickToAction: () {
+              _goToDataSync(innerContext);
+            },
+          );
+        }
+
+        return _PlaceHolderWidget(
+          desc: 'An error has occurred, please retry!',
+          ctaText: 'Retry',
+          clickToAction: () {
+            cubit.loadFeed();
+          },
+        );
+      },
+    );
+  }
+
+  void _goToDataSync(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (newContext) => const DataSyncWidget()),
+    ).then((value) => context.read<FeedCubit>().loadFeed());
+  }
+
+  void _goToSettings(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (newContext) => const SettingsWidget()),
+    ).then((value) => context.read<FeedCubit>().loadFeed());
+  }
+}
+
+class _FeedFabWidget extends StatelessWidget {
+  const _FeedFabWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FeedCubit, FeedState>(
+      builder: (innerContext, state) {
+        return Visibility(
+          visible: state.status == FeedStatus.content,
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const DataSyncWidget()),
+              ).then(
+                (value) => innerContext.read<FeedCubit>().loadFeed(),
+              );
+            },
+            child: const Icon(Icons.sync),
+          ),
+        );
+      },
     );
   }
 }
@@ -92,8 +159,17 @@ class _BookTileWidget extends StatelessWidget {
   }
 }
 
-class _NoAccessTokenWidget extends StatelessWidget {
-  const _NoAccessTokenWidget({Key? key}) : super(key: key);
+class _PlaceHolderWidget extends StatelessWidget {
+  final String desc;
+  final String ctaText;
+  final VoidCallback clickToAction;
+
+  const _PlaceHolderWidget({
+    required this.desc,
+    required this.ctaText,
+    required this.clickToAction,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -104,44 +180,13 @@ class _NoAccessTokenWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'There is no access token. Set one to get started!',
+            desc,
             style: Theme.of(context).textTheme.subtitle1,
           ),
           SizedBox.fromSize(size: const Size.fromHeight(16)),
           OutlinedButton(
-            onPressed: () {
-            },
-            child: const Text('Settings'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _OutdatedContentWidget extends StatelessWidget {
-  final String? lastSync;
-
-  const _OutdatedContentWidget(this.lastSync, {Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Your content is outdated. Sync now!',
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          SizedBox.fromSize(size: const Size.fromHeight(16)),
-          OutlinedButton(
-            onPressed: () {
-              context.read<FeedCubit>().fetchFeed(lastSync);
-            },
-            child: const Text('Sync'),
+            onPressed: clickToAction,
+            child: Text(ctaText),
           ),
         ],
       ),
