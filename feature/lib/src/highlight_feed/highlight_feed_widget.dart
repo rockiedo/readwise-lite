@@ -1,6 +1,7 @@
 import 'package:feature/src/highlight_feed/bloc/highlight_feed_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 
@@ -11,7 +12,8 @@ class HighlightFeedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        final cubit = HighlightFeedCubit();
+        final cubit =
+            HighlightFeedCubit(GetIt.instance.get<LoadHighlightFeedsUseCase>());
         return cubit;
       },
       child: const Scaffold(body: SafeArea(child: _PagedFeedsWidget())),
@@ -60,9 +62,15 @@ class _PagedFeedsWidgetState extends State<_PagedFeedsWidget> {
 
   Future _fetchPage(int pageKey) async {
     try {
-      final feeds = await context
-          .read<HighlightFeedCubit>()
-          .loadFeeds(_pageSize, pageKey: pageKey);
+      final feeds = await context.read<HighlightFeedCubit>().loadFeeds(
+            _pageSize,
+            pageKey: pageKey,
+            // filter: HighlightFeedFilter(
+            //   bookIds: List.empty(),
+            //   authors: List.empty(),
+            //   searchTerm: 'sutra'
+            // ),
+          );
       final isLastPage = feeds.length < _pageSize;
 
       if (isLastPage) {

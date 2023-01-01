@@ -10,6 +10,14 @@ abstract class HighlightRepository {
     int bookId,
     String? lastSync,
   );
+
+  Future<List<HighlightEntity>> searchHighlights(
+    int offset,
+    int limit, {
+    List<int>? bookId,
+    List<String>? author,
+    String? searchTerm,
+  });
 }
 
 @Injectable(as: HighlightRepository)
@@ -51,5 +59,17 @@ class HighlightRepositoryImpl extends HighlightRepository {
       nextUrl = response.next;
       page++;
     } while (nextUrl != null);
+  }
+
+  @override
+  Future<List<HighlightEntity>> searchHighlights(int offset, int limit,
+      {List<int>? bookId, List<String>? author, String? searchTerm}) {
+    return highlightDao.searchHighlights(
+      offset,
+      limit,
+      bookIds: bookId,
+      authors: author,
+      searchTerm: searchTerm,
+    );
   }
 }

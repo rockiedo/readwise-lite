@@ -1,11 +1,11 @@
 class HighlightFeedFilter {
-  final int bookId;
-  final String author;
+  final List<int>? bookIds;
+  final List<String>? authors;
   final String? searchTerm;
 
   const HighlightFeedFilter({
-    required this.bookId,
-    required this.author,
+    this.bookIds,
+    this.authors,
     this.searchTerm,
   });
 }
