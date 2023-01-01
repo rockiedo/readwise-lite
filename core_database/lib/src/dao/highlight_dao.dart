@@ -1,3 +1,4 @@
+import 'package:core_database/src/dao/query_result/highlight_feed_query_result.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqlite_api.dart';
 
@@ -9,7 +10,7 @@ abstract class HighlightDao {
 
   Future<List<HighlightEntity>> getAllHighlightsFromBook(int bookId);
 
-  Future<List<HighlightEntity>> searchHighlights(
+  Future<List<HighlightFeedQueryResult>> searchHighlights(
     int offset,
     int limit, {
     List<int>? bookIds,
@@ -62,7 +63,7 @@ class HighlightDaoImpl extends HighlightDao {
   }
 
   @override
-  Future<List<HighlightEntity>> searchHighlights(int offset, int limit,
+  Future<List<HighlightFeedQueryResult>> searchHighlights(int offset, int limit,
       {List<int>? bookIds, List<String>? authors, String? searchTerm}) async {
     var where = '';
 
@@ -74,28 +75,31 @@ class HighlightDaoImpl extends HighlightDao {
       where = 'book_id in ($concatBookIds)';
     }
 
-    // if (authors?.isNotEmpty == true) {
-    //   final concatAuthors = authors!.fold(
-    //     '',
-    //     (previousValue, element) => '$previousValue, $element',
-    //   );
-    //   where = where.isEmpty ? '$where AND $concatAuthors';
-    // }
+    if (authors?.isNotEmpty == true) {
+      final concatAuthors = authors!.fold(
+        '',
+        (previousValue, element) => '$previousValue, $element',
+      );
+      final filter = 'author IN ($concatAuthors)';
+      where = where.isEmpty ? filter : '$where AND $filter';
+    }
 
     if (searchTerm?.isNotEmpty == true) {
       final filter = "text LIKE '%$searchTerm%'";
       where = where.isEmpty ? filter : '$where AND $filter';
     }
 
-    List<Map<String, dynamic>> queryResult = await database.query(
-      DatabaseConstant.tableHighlightName,
-      where: where.isEmpty ? null : where,
-      offset: offset,
-      limit: limit,
-    );
+    const selectFrom =
+        "SELECT h.id as id, h.book_id as book_id, h.text as text, b.author as author FROM ${DatabaseConstant.tableHighlightName} AS h LEFT JOIN ${DatabaseConstant.tableBookName} as b ON h.book_id=b.id";
+    final interimQuery = where.isEmpty ? selectFrom : '$selectFrom WHERE $where';
+    final finalQuery = '$interimQuery LIMIT $limit OFFSET $offset';
+
+    List<Map<String, dynamic>> queryResult =
+        await database.rawQuery(finalQuery);
+
     return List.generate(
       queryResult.length,
-      (index) => HighlightEntity.fromJson(queryResult[index]),
+      (index) => HighlightFeedQueryResult.fromJson(queryResult[index]),
     );
   }
 }

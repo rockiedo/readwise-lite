@@ -65,11 +65,10 @@ class _PagedFeedsWidgetState extends State<_PagedFeedsWidget> {
       final feeds = await context.read<HighlightFeedCubit>().loadFeeds(
             _pageSize,
             pageKey: pageKey,
-            // filter: HighlightFeedFilter(
-            //   bookIds: List.empty(),
-            //   authors: List.empty(),
-            //   searchTerm: 'sutra'
-            // ),
+            filter: HighlightFeedFilter(
+                bookIds: List.empty(),
+                authors: List.empty(),
+                searchTerm: 'sutra'),
           );
       final isLastPage = feeds.length < _pageSize;
 
@@ -98,14 +97,15 @@ class _FeedTileWidget extends StatelessWidget {
         children: [
           Text(feed.text),
           SizedBox.fromSize(size: const Size.fromHeight(16)),
-          Text(
-            feed.author,
-            textAlign: TextAlign.end,
-            style: Theme.of(context)
-                .textTheme
-                .caption
-                ?.copyWith(fontStyle: FontStyle.italic),
-          ),
+          if (feed.author != null)
+            Text(
+              feed.author!,
+              textAlign: TextAlign.end,
+              style: Theme.of(context)
+                  .textTheme
+                  .caption
+                  ?.copyWith(fontStyle: FontStyle.italic),
+            ),
         ],
       ),
     );

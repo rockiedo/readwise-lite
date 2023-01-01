@@ -9,7 +9,7 @@ class HighlightFeed {
   @JsonKey(name: 'book_id')
   final int bookId;
   @JsonKey(name: 'author')
-  final String author;
+  final String? author;
   @JsonKey(name: 'text')
   final String text;
 

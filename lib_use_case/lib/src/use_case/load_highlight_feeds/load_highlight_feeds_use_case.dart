@@ -28,12 +28,14 @@ class LoadHighlightFeedsUseCaseImpl extends LoadHighlightFeedsUseCase {
       searchTerm: filter?.searchTerm,
     );
     return entities
-        .map((e) => HighlightFeed(
-              id: e.id,
-              bookId: e.bookId,
-              author: '',
-              text: e.text,
-            ))
+        .map(
+          (e) => HighlightFeed(
+            id: e.id,
+            bookId: e.bookId,
+            author: e.author,
+            text: e.text,
+          ),
+        )
         .toList();
   }
 }

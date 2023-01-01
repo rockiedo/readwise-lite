@@ -11,7 +11,7 @@ abstract class HighlightRepository {
     String? lastSync,
   );
 
-  Future<List<HighlightEntity>> searchHighlights(
+  Future<List<HighlightFeedQueryResult>> searchHighlights(
     int offset,
     int limit, {
     List<int>? bookId,
@@ -62,7 +62,7 @@ class HighlightRepositoryImpl extends HighlightRepository {
   }
 
   @override
-  Future<List<HighlightEntity>> searchHighlights(int offset, int limit,
+  Future<List<HighlightFeedQueryResult>> searchHighlights(int offset, int limit,
       {List<int>? bookId, List<String>? author, String? searchTerm}) {
     return highlightDao.searchHighlights(
       offset,
