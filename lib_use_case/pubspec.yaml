@@ -20,6 +20,7 @@ dependencies:
     path: ./../core_model
   get_it: 7.2.0
   injectable: 1.5.3
+  json_annotation: ^4.6.0
 
 dev_dependencies:
   flutter_test:
@@ -27,5 +28,6 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   build_runner: ^2.2.1
   injectable_generator: 1.5.4
+  json_serializable: ^6.3.2
 
 flutter:
