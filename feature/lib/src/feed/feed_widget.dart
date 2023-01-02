@@ -77,9 +77,10 @@ class _PagedFeedsWidgetState extends State<_PagedFeedsWidget> {
             _pageSize,
             pageKey: pageKey,
             filter: HighlightFeedFilter(
-                bookIds: List.empty(),
-                authors: List.empty(),
-                searchTerm: 'sutra'),
+              bookIds: List.empty(),
+              authors: List.empty(),
+              searchTerm: null,
+            ),
           );
       final isLastPage = feeds.length < _pageSize;
 

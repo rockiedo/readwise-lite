@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:feature/src/feed_filter/bloc/feed_filter_chip.dart';
 import 'package:feature/src/feed_filter/bloc/feed_filter_cubit.dart';
 import 'package:feature/src/feed_filter/bloc/feed_filter_state.dart';
@@ -8,6 +6,8 @@ import 'package:feature/src/selection/bloc/selectable_option.dart';
 import 'package:feature/src/selection/multi_selection_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:lib_use_case/lib_use_case.dart';
 
 class FeedFilterWidget extends StatelessWidget {
   const FeedFilterWidget({Key? key}) : super(key: key);
@@ -16,7 +16,11 @@ class FeedFilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        final cubit = FeedFilterCubit();
+        final cubit = FeedFilterCubit(
+          GetIt.instance.get<GetLocalBooksUseCase>(),
+        );
+
+        cubit.loadSelectableOptions();
         return cubit;
       },
       child: const _ChipContainer(),
@@ -60,41 +64,81 @@ class _FilterChip extends StatelessWidget {
       backgroundColor = Colors.deepOrange;
     }
 
-    return Chip(
-      label: Text(_chipContent.content),
-      backgroundColor: backgroundColor,
-      onDeleted: () {
-        showModalBottomSheet(
-          isScrollControlled: true,
-          context: context,
-          builder: (_) => const MultiSelectionWidget(
-            'Books',
-            [
-              SelectableOption(0, 'option 0'),
-              SelectableOption(1, 'option 1'),
-              SelectableOption(2, 'option 2'),
-              SelectableOption(3, 'option 3'),
-              SelectableOption(4, 'option 4'),
-              SelectableOption(5, 'option 5'),
-              SelectableOption(6, 'option 6'),
-              SelectableOption(7, 'option 7'),
-              SelectableOption(8, 'option 8'),
-              SelectableOption(9, 'option 9'),
-              SelectableOption(10, 'option 10'),
-              SelectableOption(11, 'option 11'),
-              SelectableOption(12, 'option 12'),
-              SelectableOption(13, 'option 13'),
-              SelectableOption(14, 'option 14'),
-              SelectableOption(15, 'option 15'),
-              SelectableOption(16, 'option 16'),
-              SelectableOption(17, 'option 17'),
-              SelectableOption(18, 'option 18'),
-              SelectableOption(19, 'option 19'),
-            ],
-            <int>{1, 3, 5},
-          ),
+    return _isCategoryChip()
+        ? ActionChip(
+            label: Text(_chipContent.content),
+            onPressed: () {
+              _showMultiSelection(context);
+            },
+            pressElevation: 0,
+          )
+        : Chip(
+            label: Text(_chipContent.content),
+            backgroundColor: backgroundColor,
+            onDeleted: () {
+              context.read<FeedFilterCubit>().deleteBookChip(_chipContent.id!);
+            },
+          );
+  }
+
+  bool _isCategoryChip() {
+    return _chipContent.type == FeedFilterType.defaultBook ||
+        _chipContent.type == FeedFilterType.defaultAuthor;
+  }
+
+  void _onSelected(FeedFilterCubit cubit, Set<int> selected) {
+    if (_chipContent.type == FeedFilterType.defaultBook) {
+      cubit.onBookSelectionChanged(selected);
+      return;
+    }
+    cubit.onAuthorSelectionChanged(selected);
+  }
+
+  void _showMultiSelection(BuildContext context) {
+    final cubit = context.read<FeedFilterCubit>();
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (_) {
+        return MultiSelectionWidget(
+          _chipContent.type == FeedFilterType.defaultBook ? 'Books' : 'Authors',
+          _getSelectableOptions(cubit),
+          _getPreselected(cubit),
+          onSelected: (ids) {
+            _onSelected(cubit, ids);
+          },
         );
       },
     );
+  }
+
+  List<SelectableOption> _getSelectableOptions(FeedFilterCubit cubit) {
+    if (_chipContent.type == FeedFilterType.defaultBook) {
+      return cubit
+          .getSelectableBooks()
+          .map((e) => SelectableOption(e.key, e.value))
+          .toList();
+    }
+
+    return cubit
+        .getSelectableAuthors()
+        .map((e) => SelectableOption(e.key, e.value))
+        .toList();
+  }
+
+  Set<int> _getPreselected(FeedFilterCubit cubit) {
+    if (_chipContent.type == FeedFilterType.defaultBook) {
+      return cubit.state.filter.bookIds?.toSet() ?? <int>{};
+    }
+
+    final selectableAuthors = cubit.getSelectableAuthors();
+    return cubit.state.filter.authors
+            ?.map(
+              (author) => selectableAuthors
+                  .firstWhere((entry) => entry.value == author)
+                  .key,
+            )
+            .toSet() ??
+        <int>{};
   }
 }
