@@ -1,3 +1,4 @@
+import 'package:feature/src/feed_filter/feed_filter_widget.dart';
 import 'package:feature/src/highlight_feed/bloc/highlight_feed_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,17 @@ class HighlightFeedWidget extends StatelessWidget {
             HighlightFeedCubit(GetIt.instance.get<LoadHighlightFeedsUseCase>());
         return cubit;
       },
-      child: const Scaffold(body: SafeArea(child: _PagedFeedsWidget())),
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: const [
+              FeedFilterWidget(),
+              Divider(),
+              Expanded(child: _PagedFeedsWidget()),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
