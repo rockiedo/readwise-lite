@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core_model/core_model.dart';
 import 'package:feature/src/data_sync/data_sync_widget.dart';
-import 'package:feature/src/feed/bloc/feed_cubit.dart';
-import 'package:feature/src/feed/bloc/feed_state.dart';
+import 'package:feature/src/home/bloc/home_cubit.dart';
+import 'package:feature/src/home/bloc/home_state.dart';
 import 'package:feature/src/settings/settings_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,14 +10,14 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 
-class FeedWidget extends StatelessWidget {
-  const FeedWidget({Key? key}) : super(key: key);
+class HomeWidget extends StatelessWidget {
+  const HomeWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        final cubit = FeedCubit(
+        final cubit = HomeCubit(
           GetIt.instance.get<GetAccessTokenUseCase>(),
           GetIt.instance.get<GetLocalBooksUseCase>(),
         );
@@ -26,31 +26,31 @@ class FeedWidget extends StatelessWidget {
         return cubit;
       },
       child: const Scaffold(
-        body: SafeArea(child: _FeedContentWidget()),
-        floatingActionButton: _FeedFabWidget(),
+        body: SafeArea(child: _HomeContainerWidget()),
+        floatingActionButton: _HomeFabWidget(),
       ),
     );
   }
 }
 
-class _FeedContentWidget extends StatelessWidget {
-  const _FeedContentWidget({Key? key}) : super(key: key);
+class _HomeContainerWidget extends StatelessWidget {
+  const _HomeContainerWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FeedCubit, FeedState>(
+    return BlocBuilder<HomeCubit, HomeState>(
       builder: (innerContext, state) {
-        final cubit = innerContext.read<FeedCubit>();
+        final cubit = innerContext.read<HomeCubit>();
 
-        if (state.status == FeedStatus.loading) {
+        if (state.status == HomeStatus.loading) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (state.status == FeedStatus.content) {
+        if (state.status == HomeStatus.content) {
           return _BookListWidget(state.books!);
         }
 
-        if (state.status == FeedStatus.noAccessToken) {
+        if (state.status == HomeStatus.noAccessToken) {
           return _PlaceHolderWidget(
             desc: 'No access token, please set one in settings!',
             ctaText: 'Settings',
@@ -60,7 +60,7 @@ class _FeedContentWidget extends StatelessWidget {
           );
         }
 
-        if (state.status == FeedStatus.outdatedCache) {
+        if (state.status == HomeStatus.outdatedCache) {
           return _PlaceHolderWidget(
             desc: 'The content is outdated, please sync the latest content!',
             ctaText: 'Sync',
@@ -85,33 +85,33 @@ class _FeedContentWidget extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (newContext) => const DataSyncWidget()),
-    ).then((value) => context.read<FeedCubit>().loadFeed());
+    ).then((value) => context.read<HomeCubit>().loadFeed());
   }
 
   void _goToSettings(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (newContext) => const SettingsWidget()),
-    ).then((value) => context.read<FeedCubit>().loadFeed());
+    ).then((value) => context.read<HomeCubit>().loadFeed());
   }
 }
 
-class _FeedFabWidget extends StatelessWidget {
-  const _FeedFabWidget({Key? key}) : super(key: key);
+class _HomeFabWidget extends StatelessWidget {
+  const _HomeFabWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FeedCubit, FeedState>(
+    return BlocBuilder<HomeCubit, HomeState>(
       builder: (innerContext, state) {
         return Visibility(
-          visible: state.status == FeedStatus.content,
+          visible: state.status == HomeStatus.content,
           child: FloatingActionButton(
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const DataSyncWidget()),
               ).then(
-                (value) => innerContext.read<FeedCubit>().loadFeed(),
+                (value) => innerContext.read<HomeCubit>().loadFeed(),
               );
             },
             child: const Icon(Icons.sync),

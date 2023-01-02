@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'feed_state.dart';
+part of 'home_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,28 +15,28 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$FeedState {
-  FeedStatus get status => throw _privateConstructorUsedError;
+mixin _$HomeState {
+  HomeStatus get status => throw _privateConstructorUsedError;
   List<Book>? get books => throw _privateConstructorUsedError;
   String? get lastSync => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $FeedStateCopyWith<FeedState> get copyWith =>
+  $HomeStateCopyWith<HomeState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $FeedStateCopyWith<$Res> {
-  factory $FeedStateCopyWith(FeedState value, $Res Function(FeedState) then) =
-      _$FeedStateCopyWithImpl<$Res, FeedState>;
+abstract class $HomeStateCopyWith<$Res> {
+  factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
+      _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({FeedStatus status, List<Book>? books, String? lastSync});
+  $Res call({HomeStatus status, List<Book>? books, String? lastSync});
 }
 
 /// @nodoc
-class _$FeedStateCopyWithImpl<$Res, $Val extends FeedState>
-    implements $FeedStateCopyWith<$Res> {
-  _$FeedStateCopyWithImpl(this._value, this._then);
+class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
+    implements $HomeStateCopyWith<$Res> {
+  _$HomeStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -54,7 +54,7 @@ class _$FeedStateCopyWithImpl<$Res, $Val extends FeedState>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as FeedStatus,
+              as HomeStatus,
       books: freezed == books
           ? _value.books
           : books // ignore: cast_nullable_to_non_nullable
@@ -68,18 +68,18 @@ class _$FeedStateCopyWithImpl<$Res, $Val extends FeedState>
 }
 
 /// @nodoc
-abstract class _$$_FeedStateCopyWith<$Res> implements $FeedStateCopyWith<$Res> {
+abstract class _$$_FeedStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
   factory _$$_FeedStateCopyWith(
           _$_FeedState value, $Res Function(_$_FeedState) then) =
       __$$_FeedStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({FeedStatus status, List<Book>? books, String? lastSync});
+  $Res call({HomeStatus status, List<Book>? books, String? lastSync});
 }
 
 /// @nodoc
 class __$$_FeedStateCopyWithImpl<$Res>
-    extends _$FeedStateCopyWithImpl<$Res, _$_FeedState>
+    extends _$HomeStateCopyWithImpl<$Res, _$_FeedState>
     implements _$$_FeedStateCopyWith<$Res> {
   __$$_FeedStateCopyWithImpl(
       _$_FeedState _value, $Res Function(_$_FeedState) _then)
@@ -96,7 +96,7 @@ class __$$_FeedStateCopyWithImpl<$Res>
       null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as FeedStatus,
+              as HomeStatus,
       books: freezed == books
           ? _value._books
           : books // ignore: cast_nullable_to_non_nullable
@@ -116,7 +116,7 @@ class _$_FeedState implements _FeedState {
       : _books = books;
 
   @override
-  final FeedStatus status;
+  final HomeStatus status;
   final List<Book>? _books;
   @override
   List<Book>? get books {
@@ -132,7 +132,7 @@ class _$_FeedState implements _FeedState {
 
   @override
   String toString() {
-    return 'FeedState(status: $status, books: $books, lastSync: $lastSync)';
+    return 'HomeState(status: $status, books: $books, lastSync: $lastSync)';
   }
 
   @override
@@ -157,12 +157,12 @@ class _$_FeedState implements _FeedState {
       __$$_FeedStateCopyWithImpl<_$_FeedState>(this, _$identity);
 }
 
-abstract class _FeedState implements FeedState {
-  const factory _FeedState(final FeedStatus status,
+abstract class _FeedState implements HomeState {
+  const factory _FeedState(final HomeStatus status,
       {final List<Book>? books, final String? lastSync}) = _$_FeedState;
 
   @override
-  FeedStatus get status;
+  HomeStatus get status;
   @override
   List<Book>? get books;
   @override
