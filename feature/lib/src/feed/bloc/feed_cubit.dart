@@ -1,12 +1,12 @@
-import 'package:feature/src/highlight_feed/bloc/highlight_feed_state.dart';
+import 'package:feature/src/feed/bloc/feed_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 
-class HighlightFeedCubit extends Cubit<HighlightFeedState> {
+class FeedCubit extends Cubit<FeedState> {
   final LoadHighlightFeedsUseCase _loadHighlightFeedsUseCase;
 
-  HighlightFeedCubit(this._loadHighlightFeedsUseCase)
-      : super(const HighlightFeedState());
+  FeedCubit(this._loadHighlightFeedsUseCase)
+      : super(const FeedState());
 
   Future<List<HighlightFeed>> loadFeeds(
     int pageSize, {

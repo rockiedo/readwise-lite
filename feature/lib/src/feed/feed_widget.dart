@@ -1,5 +1,5 @@
 import 'package:feature/src/feed_filter/feed_filter_widget.dart';
-import 'package:feature/src/highlight_feed/bloc/highlight_feed_cubit.dart';
+import 'package:feature/src/feed/bloc/feed_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -14,7 +14,7 @@ class HighlightFeedWidget extends StatelessWidget {
     return BlocProvider(
       create: (_) {
         final cubit =
-            HighlightFeedCubit(GetIt.instance.get<LoadHighlightFeedsUseCase>());
+            FeedCubit(GetIt.instance.get<LoadHighlightFeedsUseCase>());
         return cubit;
       },
       child: Scaffold(
@@ -73,7 +73,7 @@ class _PagedFeedsWidgetState extends State<_PagedFeedsWidget> {
 
   Future _fetchPage(int pageKey) async {
     try {
-      final feeds = await context.read<HighlightFeedCubit>().loadFeeds(
+      final feeds = await context.read<FeedCubit>().loadFeeds(
             _pageSize,
             pageKey: pageKey,
             filter: HighlightFeedFilter(
