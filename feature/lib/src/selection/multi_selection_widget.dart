@@ -1,13 +1,13 @@
 import 'package:feature/src/selection/bloc/selectable_option.dart';
 import 'package:flutter/material.dart';
 
-typedef OnSelected = void Function(Set<int> selected);
-typedef _OnSelectionChanged = void Function(int id, bool isChecked);
+typedef OnSelected = void Function(Set<Object> selected);
+typedef _OnSelectionChanged = void Function(Object id, bool isChecked);
 
 class MultiSelectionWidget extends StatefulWidget {
   final String title;
   final List<SelectableOption> options;
-  final Set<int> preselected;
+  final Set<Object> preselected;
   final OnSelected? onSelected;
 
   const MultiSelectionWidget(
@@ -23,7 +23,7 @@ class MultiSelectionWidget extends StatefulWidget {
 }
 
 class _MultiSelectionWidgetState extends State<MultiSelectionWidget> {
-  final Set<int> selected = <int>{};
+  final Set<Object> selected = <Object>{};
 
   @override
   void initState() {
@@ -86,7 +86,7 @@ class _MultiSelectionWidgetState extends State<MultiSelectionWidget> {
     );
   }
 
-  void _onCheck(int id, bool isChecked) {
+  void _onCheck(Object id, bool isChecked) {
     if (!isChecked && selected.contains(id)) {
       selected.remove(id);
       return;

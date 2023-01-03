@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$FeedFilterChip {
   FeedFilterType get type => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  int? get id => throw _privateConstructorUsedError;
+  Object get id => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FeedFilterChipCopyWith<FeedFilterChip> get copyWith =>
@@ -31,7 +31,7 @@ abstract class $FeedFilterChipCopyWith<$Res> {
           FeedFilterChip value, $Res Function(FeedFilterChip) then) =
       _$FeedFilterChipCopyWithImpl<$Res, FeedFilterChip>;
   @useResult
-  $Res call({FeedFilterType type, String content, int? id});
+  $Res call({FeedFilterType type, String content, Object id});
 }
 
 /// @nodoc
@@ -49,7 +49,7 @@ class _$FeedFilterChipCopyWithImpl<$Res, $Val extends FeedFilterChip>
   $Res call({
     Object? type = null,
     Object? content = null,
-    Object? id = freezed,
+    Object? id = null,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -60,10 +60,7 @@ class _$FeedFilterChipCopyWithImpl<$Res, $Val extends FeedFilterChip>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int?,
+      id: null == id ? _value.id : id,
     ) as $Val);
   }
 }
@@ -76,7 +73,7 @@ abstract class _$$_FeedFilterChipCopyWith<$Res>
       __$$_FeedFilterChipCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({FeedFilterType type, String content, int? id});
+  $Res call({FeedFilterType type, String content, Object id});
 }
 
 /// @nodoc
@@ -92,7 +89,7 @@ class __$$_FeedFilterChipCopyWithImpl<$Res>
   $Res call({
     Object? type = null,
     Object? content = null,
-    Object? id = freezed,
+    Object? id = null,
   }) {
     return _then(_$_FeedFilterChip(
       null == type
@@ -103,10 +100,7 @@ class __$$_FeedFilterChipCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int?,
+      null == id ? _value.id : id,
     ));
   }
 }
@@ -114,14 +108,14 @@ class __$$_FeedFilterChipCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_FeedFilterChip implements _FeedFilterChip {
-  const _$_FeedFilterChip(this.type, this.content, {this.id});
+  const _$_FeedFilterChip(this.type, this.content, this.id);
 
   @override
   final FeedFilterType type;
   @override
   final String content;
   @override
-  final int? id;
+  final Object id;
 
   @override
   String toString() {
@@ -135,11 +129,12 @@ class _$_FeedFilterChip implements _FeedFilterChip {
             other is _$_FeedFilterChip &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.content, content) || other.content == content) &&
-            (identical(other.id, id) || other.id == id));
+            const DeepCollectionEquality().equals(other.id, id));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, type, content, id);
+  int get hashCode => Object.hash(
+      runtimeType, type, content, const DeepCollectionEquality().hash(id));
 
   @JsonKey(ignore: true)
   @override
@@ -149,15 +144,16 @@ class _$_FeedFilterChip implements _FeedFilterChip {
 }
 
 abstract class _FeedFilterChip implements FeedFilterChip {
-  const factory _FeedFilterChip(final FeedFilterType type, final String content,
-      {final int? id}) = _$_FeedFilterChip;
+  const factory _FeedFilterChip(
+          final FeedFilterType type, final String content, final Object id) =
+      _$_FeedFilterChip;
 
   @override
   FeedFilterType get type;
   @override
   String get content;
   @override
-  int? get id;
+  Object get id;
   @override
   @JsonKey(ignore: true)
   _$$_FeedFilterChipCopyWith<_$_FeedFilterChip> get copyWith =>

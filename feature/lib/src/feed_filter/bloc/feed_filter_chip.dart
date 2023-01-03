@@ -7,7 +7,7 @@ part 'feed_filter_chip.freezed.dart';
 class FeedFilterChip with _$FeedFilterChip {
   const factory FeedFilterChip(
     FeedFilterType type,
-    String content, {
-    int? id,
-  }) = _FeedFilterChip;
+    String content,
+    Object id,
+  ) = _FeedFilterChip;
 }

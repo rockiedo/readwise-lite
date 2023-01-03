@@ -6,14 +6,14 @@ import 'package:lib_use_case/lib_use_case.dart';
 
 class FeedFilterCubit extends Cubit<FeedFilterState> {
   static const _defaultChips = [
-    FeedFilterChip(FeedFilterType.defaultBook, 'Books'),
-    FeedFilterChip(FeedFilterType.defaultAuthor, 'Authors'),
+    FeedFilterChip(FeedFilterType.defaultBook, 'Books', 'Books'),
+    FeedFilterChip(FeedFilterType.defaultAuthor, 'Authors', 'Authors'),
   ];
 
   final GetLocalBooksUseCase getLocalBooksUseCase;
 
-  final List<MapEntry<int, String>> _selectableBooks = [];
-  final List<MapEntry<int, String>> _selectableAuthors = [];
+  final Map<int, String> _selectableBooks = {};
+  final Set<String> _selectableAuthors = {};
 
   FeedFilterCubit(this.getLocalBooksUseCase)
       : super(
@@ -26,7 +26,7 @@ class FeedFilterCubit extends Cubit<FeedFilterState> {
   Future loadSelectableOptions() async {
     final books = await getLocalBooksUseCase.invoke();
     _selectableBooks.clear();
-    _selectableBooks.addAll(
+    _selectableBooks.addEntries(
       books.map((book) => MapEntry(book.id, book.title)),
     );
 
@@ -35,32 +35,45 @@ class FeedFilterCubit extends Cubit<FeedFilterState> {
         .map((book) => book.author!)
         .toSet();
     _selectableAuthors.clear();
-    _selectableAuthors.addAll(
-      distinctAuthors.map((author) => MapEntry(author.hashCode, author)),
-    );
+    _selectableAuthors.addAll(distinctAuthors);
   }
 
-  List<MapEntry<int, String>> getSelectableBooks() {
+  Map<int, String> getSelectableBooks() {
     return _selectableBooks;
   }
 
-  List<MapEntry<int, String>> getSelectableAuthors() {
+  Set<String> getSelectableAuthors() {
     return _selectableAuthors;
   }
 
-  void onBookSelectionChanged(Set<int> bookIds) {
+  void onBookSelectionChanged(Set<Object> bookIds) {
     final newFilter = HighlightFeedFilter(
-      bookIds: bookIds.toList(),
+      bookIds: bookIds.map((e) => e as int).toList(),
       authors: state.filter.authors,
       searchTerm: state.filter.searchTerm,
     );
     _emitNewFilter(newFilter);
   }
 
-  void onAuthorSelectionChanged(Set<int> authorHashCode) {
+  void onAuthorSelectionChanged(Set<Object> authors) {
+    final newFilter = HighlightFeedFilter(
+      bookIds: state.filter.bookIds,
+      authors: authors.map((e) => e as String).toList(),
+      searchTerm: state.filter.searchTerm,
+    );
+    _emitNewFilter(newFilter);
   }
 
-  void deleteBookChip(int id) {
+  void deleteChip(Object id, FeedFilterType type) {
+    if (type == FeedFilterType.book) {
+      _deleteBookChip(id);
+      return;
+    }
+
+    _deleteAuthorChip(id);
+  }
+
+  void _deleteBookChip(Object id) {
     final newFilter = HighlightFeedFilter(
       bookIds: state.filter.bookIds?.where((element) => element != id).toList(),
       authors: state.filter.authors,
@@ -69,7 +82,13 @@ class FeedFilterCubit extends Cubit<FeedFilterState> {
     _emitNewFilter(newFilter);
   }
 
-  void deleteAuthorChip(int id) {
+  void _deleteAuthorChip(Object id) {
+    final newFilter = HighlightFeedFilter(
+      bookIds: state.filter.bookIds,
+      authors: state.filter.authors?.where((element) => element != id).toList(),
+      searchTerm: state.filter.searchTerm,
+    );
+    _emitNewFilter(newFilter);
   }
 
   void _emitNewFilter(HighlightFeedFilter filter) {
@@ -78,7 +97,7 @@ class FeedFilterCubit extends Cubit<FeedFilterState> {
     filter.bookIds?.forEach(
       (id) {
         chips.add(
-          FeedFilterChip(FeedFilterType.book, id.toString(), id: id),
+          FeedFilterChip(FeedFilterType.book, _selectableBooks[id]!, id),
         );
       },
     );
@@ -86,7 +105,11 @@ class FeedFilterCubit extends Cubit<FeedFilterState> {
     filter.authors?.forEach(
       (author) {
         chips.add(
-          FeedFilterChip(FeedFilterType.author, author),
+          FeedFilterChip(
+            FeedFilterType.author,
+            author,
+            author,
+          ),
         );
       },
     );

@@ -76,7 +76,9 @@ class _FilterChip extends StatelessWidget {
             label: Text(_chipContent.content),
             backgroundColor: backgroundColor,
             onDeleted: () {
-              context.read<FeedFilterCubit>().deleteBookChip(_chipContent.id!);
+              context
+                  .read<FeedFilterCubit>()
+                  .deleteChip(_chipContent.id, _chipContent.type);
             },
           );
   }
@@ -86,7 +88,7 @@ class _FilterChip extends StatelessWidget {
         _chipContent.type == FeedFilterType.defaultAuthor;
   }
 
-  void _onSelected(FeedFilterCubit cubit, Set<int> selected) {
+  void _onSelected(FeedFilterCubit cubit, Set<Object> selected) {
     if (_chipContent.type == FeedFilterType.defaultBook) {
       cubit.onBookSelectionChanged(selected);
       return;
@@ -116,29 +118,22 @@ class _FilterChip extends StatelessWidget {
     if (_chipContent.type == FeedFilterType.defaultBook) {
       return cubit
           .getSelectableBooks()
+          .entries
           .map((e) => SelectableOption(e.key, e.value))
           .toList();
     }
 
     return cubit
         .getSelectableAuthors()
-        .map((e) => SelectableOption(e.key, e.value))
+        .map((e) => SelectableOption(e, e))
         .toList();
   }
 
-  Set<int> _getPreselected(FeedFilterCubit cubit) {
+  Set<Object> _getPreselected(FeedFilterCubit cubit) {
     if (_chipContent.type == FeedFilterType.defaultBook) {
-      return cubit.state.filter.bookIds?.toSet() ?? <int>{};
+      return cubit.state.filter.bookIds?.toSet() ?? <Object>{};
     }
 
-    final selectableAuthors = cubit.getSelectableAuthors();
-    return cubit.state.filter.authors
-            ?.map(
-              (author) => selectableAuthors
-                  .firstWhere((entry) => entry.value == author)
-                  .key,
-            )
-            .toSet() ??
-        <int>{};
+    return cubit.state.filter.authors?.toSet() ?? <Object>{};
   }
 }
