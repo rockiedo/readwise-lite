@@ -6,23 +6,16 @@ import 'package:feature/src/selection/bloc/selectable_option.dart';
 import 'package:feature/src/selection/multi_selection_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:lib_use_case/lib_use_case.dart';
 
 class FeedFilterWidget extends StatelessWidget {
-  const FeedFilterWidget({Key? key}) : super(key: key);
+  final FeedFilterCubit cubit;
+
+  const FeedFilterWidget(this.cubit, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) {
-        final cubit = FeedFilterCubit(
-          GetIt.instance.get<GetLocalBooksUseCase>(),
-        );
-
-        cubit.loadSelectableOptions();
-        return cubit;
-      },
+    return BlocProvider.value(
+      value: cubit,
       child: const _ChipContainer(),
     );
   }

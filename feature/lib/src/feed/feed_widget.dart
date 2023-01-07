@@ -1,3 +1,5 @@
+import 'package:feature/src/feed_filter/bloc/feed_filter_cubit.dart';
+import 'package:feature/src/feed_filter/bloc/feed_filter_state.dart';
 import 'package:feature/src/feed_filter/feed_filter_widget.dart';
 import 'package:feature/src/feed/bloc/feed_cubit.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +16,34 @@ class HighlightFeedWidget extends StatelessWidget {
     return BlocProvider(
       create: (_) {
         final cubit =
-            FeedCubit(GetIt.instance.get<LoadHighlightFeedsUseCase>());
+            FeedFilterCubit(GetIt.instance.get<GetLocalBooksUseCase>());
+        cubit.loadSelectableOptions();
         return cubit;
       },
       child: Scaffold(
         body: SafeArea(
           child: Column(
-            children: const [
-              FeedFilterWidget(),
-              Divider(),
-              Expanded(child: _PagedFeedsWidget()),
+            children: [
+              BlocBuilder<FeedFilterCubit, FeedFilterState>(
+                builder: (innerContext, state) {
+                  return FeedFilterWidget(innerContext.read<FeedFilterCubit>());
+                },
+              ),
+              const Divider(),
+              Expanded(
+                child: BlocProvider(
+                  create: (_) {
+                    final cubit = FeedCubit(
+                        GetIt.instance.get<LoadHighlightFeedsUseCase>());
+                    return cubit;
+                  },
+                  child: BlocBuilder<FeedFilterCubit, FeedFilterState>(
+                    builder: (innerContext, state) {
+                      return _PagedFeedsWidget(state.filter);
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -33,7 +53,12 @@ class HighlightFeedWidget extends StatelessWidget {
 }
 
 class _PagedFeedsWidget extends StatefulWidget {
-  const _PagedFeedsWidget({Key? key}) : super(key: key);
+  final HighlightFeedFilter filter;
+
+  const _PagedFeedsWidget(
+    this.filter, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<_PagedFeedsWidget> createState() => _PagedFeedsWidgetState();
@@ -51,6 +76,14 @@ class _PagedFeedsWidgetState extends State<_PagedFeedsWidget> {
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
+  }
+
+  @override
+  void didUpdateWidget(_PagedFeedsWidget oldWidget) {
+    if (oldWidget.filter != widget.filter) {
+      _pagingController.refresh();
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -76,11 +109,7 @@ class _PagedFeedsWidgetState extends State<_PagedFeedsWidget> {
       final feeds = await context.read<FeedCubit>().loadFeeds(
             _pageSize,
             pageKey: pageKey,
-            filter: HighlightFeedFilter(
-              bookIds: List.empty(),
-              authors: List.empty(),
-              searchTerm: null,
-            ),
+            filter: widget.filter,
           );
       final isLastPage = feeds.length < _pageSize;
 

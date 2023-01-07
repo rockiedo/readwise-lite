@@ -70,7 +70,9 @@ class HighlightDaoImpl extends HighlightDao {
     if (bookIds?.isNotEmpty == true) {
       final concatBookIds = bookIds!.fold(
         '',
-        (previousValue, element) => '$previousValue, $element',
+        (previousValue, element) => previousValue.isEmpty
+            ? element.toString()
+            : '$previousValue, $element',
       );
       where = 'book_id in ($concatBookIds)';
     }
@@ -78,7 +80,8 @@ class HighlightDaoImpl extends HighlightDao {
     if (authors?.isNotEmpty == true) {
       final concatAuthors = authors!.fold(
         '',
-        (previousValue, element) => '$previousValue, $element',
+        (previousValue, element) =>
+            previousValue.isEmpty ? "'$element'" : "$previousValue, '$element'",
       );
       final filter = 'author IN ($concatAuthors)';
       where = where.isEmpty ? filter : '$where AND $filter';
@@ -91,7 +94,8 @@ class HighlightDaoImpl extends HighlightDao {
 
     const selectFrom =
         "SELECT h.id as id, h.book_id as book_id, h.text as text, b.author as author FROM ${DatabaseConstant.tableHighlightName} AS h LEFT JOIN ${DatabaseConstant.tableBookName} as b ON h.book_id=b.id";
-    final interimQuery = where.isEmpty ? selectFrom : '$selectFrom WHERE $where';
+    final interimQuery =
+        where.isEmpty ? selectFrom : '$selectFrom WHERE $where';
     final finalQuery = '$interimQuery LIMIT $limit OFFSET $offset';
 
     List<Map<String, dynamic>> queryResult =
