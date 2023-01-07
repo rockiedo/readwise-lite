@@ -109,12 +109,12 @@ class _HomeFabWidget extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const DataSyncWidget()),
+                MaterialPageRoute(builder: (_) => const SettingsWidget()),
               ).then(
                 (value) => innerContext.read<HomeCubit>().loadFeed(),
               );
             },
-            child: const Icon(Icons.sync),
+            child: const Icon(Icons.menu),
           ),
         );
       },

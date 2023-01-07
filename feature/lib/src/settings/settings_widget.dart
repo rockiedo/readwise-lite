@@ -1,3 +1,4 @@
+import 'package:feature/feature.dart';
 import 'package:feature/src/settings/bloc/settings_cubit.dart';
 import 'package:feature/src/settings/bloc/settings_state.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class SettingsWidget extends StatelessWidget {
           onPressed: () {
             context.pop();
           },
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.close),
         ),
         title: const Text(
           'Settings',
@@ -41,6 +42,8 @@ class SettingsWidget extends StatelessWidget {
               children: const [
                 _AccessTokenTextField(),
                 _SaveAccessTokenButton(),
+                SizedBox(height: 32),
+                _GoToDataSyncWidget(),
               ],
             ),
           ),
@@ -130,6 +133,28 @@ class _SaveAccessTokenButton extends StatelessWidget {
                   innerContext.read<SettingsCubit>().saveAccessToken();
                 },
           child: const Text('Save'),
+        );
+      },
+    );
+  }
+}
+
+class _GoToDataSyncWidget extends StatelessWidget {
+  const _GoToDataSyncWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        side: BorderSide(),
+      ),
+      title: const Text('Manage data synchronization'),
+      trailing: const Icon(Icons.navigate_next),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const DataSyncWidget()),
         );
       },
     );
