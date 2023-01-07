@@ -33,9 +33,12 @@ class _ChipContainer extends StatelessWidget {
               (content) => _FilterChip(content),
             )
             .toList();
-        return Wrap(
-          spacing: 8,
-          children: chips ?? List.empty(),
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(children: chips ?? List.empty()),
+          ),
         );
       },
     );
@@ -57,23 +60,26 @@ class _FilterChip extends StatelessWidget {
       backgroundColor = Colors.deepOrange;
     }
 
-    return _isCategoryChip()
-        ? ActionChip(
-            label: Text(_chipContent.content),
-            onPressed: () {
-              _showMultiSelection(context);
-            },
-            pressElevation: 0,
-          )
-        : Chip(
-            label: Text(_chipContent.content),
-            backgroundColor: backgroundColor,
-            onDeleted: () {
-              context
-                  .read<FeedFilterCubit>()
-                  .deleteChip(_chipContent.id, _chipContent.type);
-            },
-          );
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: _isCategoryChip()
+          ? ActionChip(
+        label: Text(_chipContent.content),
+        onPressed: () {
+          _showMultiSelection(context);
+        },
+        pressElevation: 0,
+      )
+          : Chip(
+        label: Text(_chipContent.content),
+        backgroundColor: backgroundColor,
+        onDeleted: () {
+          context
+              .read<FeedFilterCubit>()
+              .deleteChip(_chipContent.id, _chipContent.type);
+        },
+      ),
+    );
   }
 
   bool _isCategoryChip() {

@@ -92,7 +92,7 @@ class FeedFilterCubit extends Cubit<FeedFilterState> {
   }
 
   void _emitNewFilter(HighlightFeedFilter filter) {
-    final chips = <FeedFilterChip>[];
+    final chips = <FeedFilterChip>[..._defaultChips];
 
     filter.bookIds?.forEach(
       (id) {
@@ -113,8 +113,6 @@ class FeedFilterCubit extends Cubit<FeedFilterState> {
         );
       },
     );
-
-    chips.addAll(_defaultChips);
 
     emit(FeedFilterState(filter, chips: chips));
   }

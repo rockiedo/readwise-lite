@@ -29,7 +29,7 @@ class HighlightFeedWidget extends StatelessWidget {
                   return FeedFilterWidget(innerContext.read<FeedFilterCubit>());
                 },
               ),
-              const Divider(),
+              const Divider(height: 1),
               Expanded(
                 child: BlocProvider(
                   create: (_) {
