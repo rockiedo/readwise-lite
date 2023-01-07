@@ -64,6 +64,15 @@ class FeedFilterCubit extends Cubit<FeedFilterState> {
     _emitNewFilter(newFilter);
   }
 
+  void onSearchTermChanged(String term) {
+    final newFilter = HighlightFeedFilter(
+      bookIds: state.filter.bookIds,
+      authors: state.filter.authors,
+      searchTerm: term,
+    );
+    _emitNewFilter(newFilter);
+  }
+
   void deleteChip(Object id, FeedFilterType type) {
     if (type == FeedFilterType.book) {
       _deleteBookChip(id);

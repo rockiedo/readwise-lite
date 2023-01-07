@@ -111,7 +111,7 @@ class _SearchTextFieldState extends State<_SearchTextField> {
     _timer = Timer(
       const Duration(milliseconds: 300),
       () {
-        context.read<FeedFilterCubit>();
+        context.read<FeedFilterCubit>().onSearchTermChanged(term);
       },
     );
 
