@@ -13,6 +13,7 @@ HighlightFeedQueryResult _$HighlightFeedQueryResultFromJson(
       bookId: json['book_id'] as int,
       text: json['text'] as String,
       author: json['author'] as String?,
+      updated: json['updated'] as String,
     );
 
 Map<String, dynamic> _$HighlightFeedQueryResultToJson(
@@ -22,4 +23,5 @@ Map<String, dynamic> _$HighlightFeedQueryResultToJson(
       'book_id': instance.bookId,
       'text': instance.text,
       'author': instance.author,
+      'updated': instance.updated,
     };

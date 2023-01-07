@@ -12,12 +12,15 @@ class HighlightFeedQueryResult {
   final String text;
   @JsonKey(name: 'author')
   final String? author;
+  @JsonKey(name: 'updated')
+  final String updated;
 
   const HighlightFeedQueryResult({
     required this.id,
     required this.bookId,
     required this.text,
     required this.author,
+    required this.updated,
   });
 
   factory HighlightFeedQueryResult.fromJson(Map<String, dynamic> json) =>

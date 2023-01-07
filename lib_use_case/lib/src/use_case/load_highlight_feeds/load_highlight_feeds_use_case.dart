@@ -27,6 +27,15 @@ class LoadHighlightFeedsUseCaseImpl extends LoadHighlightFeedsUseCase {
       author: filter?.authors,
       searchTerm: filter?.searchTerm,
     );
+
+    entities.sort(
+      (a, b) {
+        final asc =
+            DateTime.parse(a.updated).compareTo(DateTime.parse(b.updated));
+        return -asc;
+      },
+    );
+
     return entities
         .map(
           (e) => HighlightFeed(

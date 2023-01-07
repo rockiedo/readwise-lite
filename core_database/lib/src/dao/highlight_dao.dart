@@ -34,14 +34,14 @@ class HighlightDaoImpl extends HighlightDao {
         'INSERT OR REPLACE INTO ${DatabaseConstant.tableHighlightName}(id, text, note, location, location_type, highlighted_at, url, color, updated, book_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [
           h.id,
-          "'${h.text}'",
-          "'${h.note}'",
+          h.text,
+          h.note,
           h.location,
-          "'${h.locationType}'",
-          "'${h.highlightedAt}'",
-          "'${h.url}'",
-          "'${h.color}'",
-          "'${h.updated}'",
+          h.locationType,
+          h.highlightedAt,
+          h.url,
+          h.color,
+          h.updated,
           h.bookId,
         ],
       );
@@ -93,7 +93,7 @@ class HighlightDaoImpl extends HighlightDao {
     }
 
     const selectFrom =
-        "SELECT h.id as id, h.book_id as book_id, h.text as text, b.author as author FROM ${DatabaseConstant.tableHighlightName} AS h LEFT JOIN ${DatabaseConstant.tableBookName} as b ON h.book_id=b.id";
+        "SELECT h.id as id, h.book_id as book_id, h.text as text, h.updated as updated, b.author as author FROM ${DatabaseConstant.tableHighlightName} AS h LEFT JOIN ${DatabaseConstant.tableBookName} as b ON h.book_id=b.id";
     final interimQuery =
         where.isEmpty ? selectFrom : '$selectFrom WHERE $where';
     final finalQuery = '$interimQuery LIMIT $limit OFFSET $offset';

@@ -11,10 +11,17 @@ class GetLocalBooksUseCaseImpl extends GetLocalBooksUseCase {
   final BookRepository bookRepository;
 
   GetLocalBooksUseCaseImpl(this.bookRepository);
-  
+
   @override
   Future<List<Book>> invoke() async {
     final entities = await bookRepository.loadBooks();
+    entities.sort(
+      (a, b) {
+        final asc =
+            DateTime.parse(a.updated).compareTo(DateTime.parse(b.updated));
+        return -asc;
+      },
+    );
     return entities.map((e) => e.toExternalModel()).toList();
   }
 }

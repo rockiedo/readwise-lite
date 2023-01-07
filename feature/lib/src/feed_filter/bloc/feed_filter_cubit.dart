@@ -25,6 +25,14 @@ class FeedFilterCubit extends Cubit<FeedFilterState> {
 
   Future loadSelectableOptions() async {
     final books = await getLocalBooksUseCase.invoke();
+    books.sort(
+      (a, b) {
+        final asc =
+            DateTime.parse(a.updated).compareTo(DateTime.parse(b.updated));
+        return -asc;
+      },
+    );
+
     _selectableBooks.clear();
     _selectableBooks.addEntries(
       books.map((book) => MapEntry(book.id, book.title)),
