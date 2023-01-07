@@ -3,31 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 
 class FeedCubit extends Cubit<FeedState> {
-  final GetAccessTokenUseCase getLatestAccessTokenUseCase;
-  final GetLocalBooksUseCase getLocalBooksUseCase;
+  final LoadHighlightFeedsUseCase _loadHighlightFeedsUseCase;
 
-  FeedCubit(
-    this.getLatestAccessTokenUseCase,
-    this.getLocalBooksUseCase,
-  ) : super(const FeedState(FeedStatus.loading));
+  FeedCubit(this._loadHighlightFeedsUseCase)
+      : super(const FeedState());
 
-  Future loadFeed() async {
-    try {
-      final accessToken = await getLatestAccessTokenUseCase.invoke();
-      if (accessToken == null) {
-        emit(const FeedState(FeedStatus.noAccessToken));
-        return;
-      }
-
-      final cachedBooks = await getLocalBooksUseCase.invoke();
-      if (cachedBooks.isNotEmpty) {
-        emit(FeedState(FeedStatus.content, books: cachedBooks));
-        return;
-      }
-
-      emit(const FeedState(FeedStatus.outdatedCache, lastSync: null));
-    } catch (e) {
-      emit(const FeedState(FeedStatus.unknownError));
-    }
+  Future<List<HighlightFeed>> loadFeeds(
+    int pageSize, {
+    HighlightFeedFilter? filter,
+    int pageKey = 0,
+  }) {
+    return _loadHighlightFeedsUseCase.invoke(pageKey, pageSize, filter: filter);
   }
 }

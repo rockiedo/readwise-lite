@@ -66,7 +66,7 @@ class _DataSyncFab extends StatelessWidget {
     return FloatingActionButton(
       child: const Icon(Icons.cloud_download_outlined),
       onPressed: () {
-        context.read<DataSyncActionCubit>().triggerFetchAll();
+        context.read<DataSyncCubit>().fetchAll(null);
       },
     );
   }

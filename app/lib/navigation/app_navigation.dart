@@ -6,7 +6,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) {
-        return const FeedWidget();
+        return const HomeWidget();
       },
     ),
     GoRoute(
