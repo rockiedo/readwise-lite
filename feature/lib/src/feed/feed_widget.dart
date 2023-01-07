@@ -21,30 +21,39 @@ class HighlightFeedWidget extends StatelessWidget {
         return cubit;
       },
       child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              BlocBuilder<FeedFilterCubit, FeedFilterState>(
-                builder: (innerContext, state) {
-                  return FeedFilterWidget(innerContext.read<FeedFilterCubit>());
-                },
-              ),
-              const Divider(height: 1),
-              Expanded(
-                child: BlocProvider(
-                  create: (_) {
-                    final cubit = FeedCubit(
-                        GetIt.instance.get<LoadHighlightFeedsUseCase>());
-                    return cubit;
+        body: GestureDetector(
+          onPanDown: (_) {
+            FocusScopeNode focusNode = FocusScope.of(context);
+            if (!focusNode.hasPrimaryFocus) {
+              focusNode.unfocus();
+            }
+          },
+          child: SafeArea(
+            child: Column(
+              children: [
+                BlocBuilder<FeedFilterCubit, FeedFilterState>(
+                  builder: (innerContext, state) {
+                    return FeedFilterWidget(
+                        innerContext.read<FeedFilterCubit>());
                   },
-                  child: BlocBuilder<FeedFilterCubit, FeedFilterState>(
-                    builder: (innerContext, state) {
-                      return _PagedFeedsWidget(state.filter);
+                ),
+                const Divider(height: 1, thickness: 1.5),
+                Expanded(
+                  child: BlocProvider(
+                    create: (_) {
+                      final cubit = FeedCubit(
+                          GetIt.instance.get<LoadHighlightFeedsUseCase>());
+                      return cubit;
                     },
+                    child: BlocBuilder<FeedFilterCubit, FeedFilterState>(
+                      builder: (innerContext, state) {
+                        return _PagedFeedsWidget(state.filter);
+                      },
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

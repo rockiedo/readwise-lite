@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:feature/src/feed_filter/bloc/feed_filter_chip.dart';
 import 'package:feature/src/feed_filter/bloc/feed_filter_cubit.dart';
 import 'package:feature/src/feed_filter/bloc/feed_filter_state.dart';
@@ -16,7 +18,15 @@ class FeedFilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: cubit,
-      child: const _ChipContainer(),
+      child: Column(
+        children: const [
+          Padding(
+            padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+            child: _SearchTextField(),
+          ),
+          _ChipContainer(),
+        ],
+      ),
     );
   }
 }
@@ -36,12 +46,76 @@ class _ChipContainer extends StatelessWidget {
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(children: chips ?? List.empty()),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              children: chips ?? List.empty(),
+            ),
           ),
         );
       },
     );
+  }
+}
+
+class _SearchTextField extends StatefulWidget {
+  const _SearchTextField({Key? key}) : super(key: key);
+
+  @override
+  State<_SearchTextField> createState() => _SearchTextFieldState();
+}
+
+class _SearchTextFieldState extends State<_SearchTextField> {
+  final _controller = TextEditingController();
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        contentPadding: const EdgeInsets.all(8),
+        hintText: 'Search by content',
+        suffixIcon: Visibility(
+          visible: _controller.value.text.trim().isNotEmpty,
+          child: IconButton(
+            icon: const Icon(Icons.clear),
+            onPressed: () {
+              _controller.clear();
+              _onSearchChanged('');
+            },
+          ),
+        ),
+      ),
+      maxLines: 1,
+      controller: _controller,
+      onChanged: (value) {
+        _onSearchChanged(value);
+      },
+    );
+  }
+
+  void _onSearchChanged(String term) {
+    _timer?.cancel();
+    _timer = Timer(
+      const Duration(milliseconds: 300),
+      () {
+        context.read<FeedFilterCubit>();
+      },
+    );
+
+    setState(() {});
   }
 }
 
@@ -64,21 +138,21 @@ class _FilterChip extends StatelessWidget {
       padding: const EdgeInsets.only(right: 8),
       child: _isCategoryChip()
           ? ActionChip(
-        label: Text(_chipContent.content),
-        onPressed: () {
-          _showMultiSelection(context);
-        },
-        pressElevation: 0,
-      )
+              label: Text(_chipContent.content),
+              onPressed: () {
+                _showMultiSelection(context);
+              },
+              pressElevation: 0,
+            )
           : Chip(
-        label: Text(_chipContent.content),
-        backgroundColor: backgroundColor,
-        onDeleted: () {
-          context
-              .read<FeedFilterCubit>()
-              .deleteChip(_chipContent.id, _chipContent.type);
-        },
-      ),
+              label: Text(_chipContent.content),
+              backgroundColor: backgroundColor,
+              onDeleted: () {
+                context
+                    .read<FeedFilterCubit>()
+                    .deleteChip(_chipContent.id, _chipContent.type);
+              },
+            ),
     );
   }
 
