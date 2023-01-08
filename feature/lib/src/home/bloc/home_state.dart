@@ -3,13 +3,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'home_state.freezed.dart';
 
-enum HomeStatus { loading, unknownError, noAccessToken, outdatedCache, content }
+enum HomeStatus { loading, noAccessToken, content }
 
 @freezed
 class HomeState with _$HomeState {
-  const factory HomeState(
-    HomeStatus status, {
-    List<Book>? books,
-        String? lastSync,
-  }) = _FeedState;
+  const factory HomeState(HomeStatus status) = _FeedState;
 }

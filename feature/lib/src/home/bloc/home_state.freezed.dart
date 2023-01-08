@@ -17,8 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeState {
   HomeStatus get status => throw _privateConstructorUsedError;
-  List<Book>? get books => throw _privateConstructorUsedError;
-  String? get lastSync => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -30,7 +28,7 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({HomeStatus status, List<Book>? books, String? lastSync});
+  $Res call({HomeStatus status});
 }
 
 /// @nodoc
@@ -47,22 +45,12 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @override
   $Res call({
     Object? status = null,
-    Object? books = freezed,
-    Object? lastSync = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as HomeStatus,
-      books: freezed == books
-          ? _value.books
-          : books // ignore: cast_nullable_to_non_nullable
-              as List<Book>?,
-      lastSync: freezed == lastSync
-          ? _value.lastSync
-          : lastSync // ignore: cast_nullable_to_non_nullable
-              as String?,
     ) as $Val);
   }
 }
@@ -74,7 +62,7 @@ abstract class _$$_FeedStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
       __$$_FeedStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({HomeStatus status, List<Book>? books, String? lastSync});
+  $Res call({HomeStatus status});
 }
 
 /// @nodoc
@@ -89,22 +77,12 @@ class __$$_FeedStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
-    Object? books = freezed,
-    Object? lastSync = freezed,
   }) {
     return _then(_$_FeedState(
       null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as HomeStatus,
-      books: freezed == books
-          ? _value._books
-          : books // ignore: cast_nullable_to_non_nullable
-              as List<Book>?,
-      lastSync: freezed == lastSync
-          ? _value.lastSync
-          : lastSync // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -112,27 +90,14 @@ class __$$_FeedStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_FeedState implements _FeedState {
-  const _$_FeedState(this.status, {final List<Book>? books, this.lastSync})
-      : _books = books;
+  const _$_FeedState(this.status);
 
   @override
   final HomeStatus status;
-  final List<Book>? _books;
-  @override
-  List<Book>? get books {
-    final value = _books;
-    if (value == null) return null;
-    if (_books is EqualUnmodifiableListView) return _books;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  @override
-  final String? lastSync;
 
   @override
   String toString() {
-    return 'HomeState(status: $status, books: $books, lastSync: $lastSync)';
+    return 'HomeState(status: $status)';
   }
 
   @override
@@ -140,15 +105,11 @@ class _$_FeedState implements _FeedState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_FeedState &&
-            (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality().equals(other._books, _books) &&
-            (identical(other.lastSync, lastSync) ||
-                other.lastSync == lastSync));
+            (identical(other.status, status) || other.status == status));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status,
-      const DeepCollectionEquality().hash(_books), lastSync);
+  int get hashCode => Object.hash(runtimeType, status);
 
   @JsonKey(ignore: true)
   @override
@@ -158,15 +119,10 @@ class _$_FeedState implements _FeedState {
 }
 
 abstract class _FeedState implements HomeState {
-  const factory _FeedState(final HomeStatus status,
-      {final List<Book>? books, final String? lastSync}) = _$_FeedState;
+  const factory _FeedState(final HomeStatus status) = _$_FeedState;
 
   @override
   HomeStatus get status;
-  @override
-  List<Book>? get books;
-  @override
-  String? get lastSync;
   @override
   @JsonKey(ignore: true)
   _$$_FeedStateCopyWith<_$_FeedState> get copyWith =>
