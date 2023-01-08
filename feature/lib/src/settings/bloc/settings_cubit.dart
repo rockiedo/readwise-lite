@@ -10,24 +10,22 @@ class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit(
     this.getAccessTokenUseCase,
     this.saveAccessTokenUseCase,
-  ) : super(const SettingsState());
+  ) : super(const SettingsState(token: null));
 
   void loadAccessToken() {
-    getAccessTokenUseCase
-        .invoke()
-        .then((value) => emit(SettingsState(initial: value)));
+    getAccessTokenUseCase.invoke().then(
+          (value) => emit(
+            SettingsState(token: value),
+          ),
+        );
   }
 
-  void onUserInputChange(String newInput) {
-    emit(state.copyWith(userInput: newInput, isEditing: true));
+  void saveAccessToken() async {
+    if (state.token?.isNotEmpty != true) return;
+
+    await saveAccessTokenUseCase.invoke(state.token!, '');
+    emit(SettingsState(token: state.token));
   }
 
-  void saveAccessToken() {
-    if (state.userInput?.isEmpty ?? true) return;
-    saveAccessTokenUseCase.invoke(state.userInput!, '');
-  }
-
-  void startEditing() {
-    emit(state.copyWith(isEditing: true));
-  }
+  void resetToken() {}
 }

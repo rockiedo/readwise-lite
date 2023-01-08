@@ -5,8 +5,6 @@ part 'settings_state.freezed.dart';
 @freezed
 class SettingsState with _$SettingsState {
   const factory SettingsState({
-    String? initial,
-    String? userInput,
-    @Default(false) bool isEditing,
+    String? token,
   }) = _SettingsState;
 }
