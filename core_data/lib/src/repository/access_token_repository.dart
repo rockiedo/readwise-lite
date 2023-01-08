@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 abstract class AccessTokenRepository {
   Future<String?> loadAccessToken();
-  Future<void> storeAccessToken(String token, String alias);
+  Future<void> storeAccessToken(String token);
   Future resetAccessToken(String token);
 }
 
@@ -21,10 +21,9 @@ class AccessTokenRepositoryImpl extends AccessTokenRepository {
   }
 
   @override
-  Future<void> storeAccessToken(String token, String alias) {
+  Future<void> storeAccessToken(String token) {
     final entity = AccessTokenEntity(
       token: token,
-      alias: alias,
       isActive: 1,
     );
     return accessTokenDao.insertToken(entity);

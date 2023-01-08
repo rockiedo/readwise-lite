@@ -24,7 +24,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   void saveAccessToken(String? token) async {
     if (token?.isNotEmpty != true) return;
 
-    await saveAccessTokenUseCase.invoke(token!, '');
+    await saveAccessTokenUseCase.invoke(token!);
     emit(SettingsState(token: token));
   }
 
