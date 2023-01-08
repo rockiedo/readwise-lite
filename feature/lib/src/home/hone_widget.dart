@@ -46,7 +46,7 @@ class _HomeContainerWidget extends StatelessWidget {
           );
         }
 
-        return const HighlightFeedWidget();
+        return const FeedWidget();
       },
     );
   }

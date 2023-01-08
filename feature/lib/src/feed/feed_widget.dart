@@ -8,8 +8,8 @@ import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 
-class HighlightFeedWidget extends StatelessWidget {
-  const HighlightFeedWidget({Key? key}) : super(key: key);
+class FeedWidget extends StatelessWidget {
+  const FeedWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
