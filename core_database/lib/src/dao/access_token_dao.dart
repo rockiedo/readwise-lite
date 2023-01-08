@@ -6,6 +6,7 @@ import 'package:sqflite/sqflite.dart';
 abstract class AccessTokenDao {
   Future<void> insertToken(AccessTokenEntity token);
   Future<AccessTokenEntity> getCurrentlyActiveToken();
+  Future resetToken(String token);
 }
 
 @Injectable(as: AccessTokenDao)
@@ -19,6 +20,7 @@ class AccessTokenDaoImpl extends AccessTokenDao {
     await database.insert(
       DatabaseConstant.tableAccessTokenName,
       token.toJson(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
@@ -30,5 +32,14 @@ class AccessTokenDaoImpl extends AccessTokenDao {
       limit: 1,
     );
     return AccessTokenEntity.fromJson(queryResult.first);
+  }
+
+  @override
+  Future resetToken(String token) async {
+    await database.update(
+      DatabaseConstant.tableAccessTokenName,
+      {'is_active': 0},
+      where: "token = '$token'"
+    );
   }
 }

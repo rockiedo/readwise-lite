@@ -7,9 +7,10 @@ export 'src/use_case/fetch_books_use_case.dart';
 export 'src/use_case/fetch_highlights_from_book_use_case.dart';
 export 'src/use_case/get_latest_access_token_use_case.dart';
 export 'src/use_case/get_local_books_use_case.dart';
-export 'src/use_case/load_highlight_feeds/load_highlight_feeds_use_case.dart';
 export 'src/use_case/load_highlight_feeds/highlight_feed.dart';
 export 'src/use_case/load_highlight_feeds/highlight_feed_filter.dart';
+export 'src/use_case/load_highlight_feeds/load_highlight_feeds_use_case.dart';
+export 'src/use_case/reset_access_token_use_case.dart';
 export 'src/use_case/save_access_token_use_case.dart';
 
 void setupLibUseCaseDi(GetIt getIt) {

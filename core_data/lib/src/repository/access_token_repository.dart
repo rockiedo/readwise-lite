@@ -3,8 +3,8 @@ import 'package:injectable/injectable.dart';
 
 abstract class AccessTokenRepository {
   Future<String?> loadAccessToken();
-
   Future<void> storeAccessToken(String token, String alias);
+  Future resetAccessToken(String token);
 }
 
 @LazySingleton(as: AccessTokenRepository)
@@ -28,5 +28,10 @@ class AccessTokenRepositoryImpl extends AccessTokenRepository {
       isActive: 1,
     );
     return accessTokenDao.insertToken(entity);
+  }
+
+  @override
+  Future resetAccessToken(String token) {
+    return accessTokenDao.resetToken(token);
   }
 }

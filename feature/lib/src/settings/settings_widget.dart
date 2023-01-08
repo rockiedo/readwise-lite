@@ -37,6 +37,7 @@ class SettingsWidget extends StatelessWidget {
               final cubit = SettingsCubit(
                 GetIt.instance.get<GetAccessTokenUseCase>(),
                 GetIt.instance.get<SaveAccessTokenUseCase>(),
+                GetIt.instance.get<ResetAccessTokenUseCase>(),
               );
 
               cubit.loadAccessToken();
@@ -100,7 +101,9 @@ class _SettingsWithoutAccessTokenWidgetState
           onPressed: _controller.text.isEmpty
               ? null
               : () {
-                  context.read<SettingsCubit>().resetToken();
+                  context
+                      .read<SettingsCubit>()
+                      .saveAccessToken(_controller.text);
                 },
           child: const Text('Save'),
         ),
@@ -168,7 +171,7 @@ class _SettingsWithAccessTokenWidgetState
           padding: const EdgeInsets.only(top: 8.0),
           child: ElevatedButton(
             onPressed: () {
-              context.read<SettingsCubit>().resetToken();
+              context.read<SettingsCubit>().resetToken(widget.token);
             },
             child: const Text('Reset access token'),
           ),

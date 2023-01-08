@@ -4,12 +4,13 @@ import 'package:lib_use_case/lib_use_case.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
   final GetAccessTokenUseCase getAccessTokenUseCase;
-
   final SaveAccessTokenUseCase saveAccessTokenUseCase;
+  final ResetAccessTokenUseCase resetAccessTokenUseCase;
 
   SettingsCubit(
     this.getAccessTokenUseCase,
     this.saveAccessTokenUseCase,
+    this.resetAccessTokenUseCase,
   ) : super(const SettingsState(token: null));
 
   void loadAccessToken() {
@@ -20,12 +21,16 @@ class SettingsCubit extends Cubit<SettingsState> {
         );
   }
 
-  void saveAccessToken() async {
-    if (state.token?.isNotEmpty != true) return;
+  void saveAccessToken(String? token) async {
+    if (token?.isNotEmpty != true) return;
 
-    await saveAccessTokenUseCase.invoke(state.token!, '');
-    emit(SettingsState(token: state.token));
+    await saveAccessTokenUseCase.invoke(token!, '');
+    emit(SettingsState(token: token));
   }
 
-  void resetToken() {}
+  void resetToken(String token) {
+    resetAccessTokenUseCase
+        .invoke(token)
+        .then((_) => emit(const SettingsState(token: null)));
+  }
 }
