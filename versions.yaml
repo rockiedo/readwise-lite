@@ -3,7 +3,7 @@ bloc: 8.1.0
 flutter_bloc: 8.1.1
 json_annotation: ^4.6.0
 go_router: 6.0.0
-injectable: 1.5.3
+injectable: 2.1.0
 cupertino_icons: ^1.0.2
 logger: 1.1.0
 sqflite: 2.1.0
@@ -12,7 +12,7 @@ retrofit: '>=3.0.0 <4.0.0'
 freezed_annotation: ^2.2.0
 cached_network_image: 3.2.2
 flutter_lints: ^2.0.0
-injectable_generator: 1.5.4
+injectable_generator: 2.1.3
 build_runner: ^2.2.1
 json_serializable: ^6.3.2
 sqflite_common_ffi: 2.1.1
