@@ -4,30 +4,33 @@ import 'package:lib_use_case/lib_use_case.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
   final GetAccessTokenUseCase getAccessTokenUseCase;
-
   final SaveAccessTokenUseCase saveAccessTokenUseCase;
+  final ResetAccessTokenUseCase resetAccessTokenUseCase;
 
   SettingsCubit(
     this.getAccessTokenUseCase,
     this.saveAccessTokenUseCase,
-  ) : super(const SettingsState());
+    this.resetAccessTokenUseCase,
+  ) : super(const SettingsState(token: null));
 
   void loadAccessToken() {
-    getAccessTokenUseCase
-        .invoke()
-        .then((value) => emit(SettingsState(initial: value)));
+    getAccessTokenUseCase.invoke().then(
+          (value) => emit(
+            SettingsState(token: value),
+          ),
+        );
   }
 
-  void onUserInputChange(String newInput) {
-    emit(state.copyWith(userInput: newInput, isEditing: true));
+  void saveAccessToken(String? token) async {
+    if (token?.isNotEmpty != true) return;
+
+    await saveAccessTokenUseCase.invoke(token!);
+    emit(SettingsState(token: token));
   }
 
-  void saveAccessToken() {
-    if (state.userInput?.isEmpty ?? true) return;
-    saveAccessTokenUseCase.invoke(state.userInput!, '');
-  }
-
-  void startEditing() {
-    emit(state.copyWith(isEditing: true));
+  void resetToken(String token) {
+    resetAccessTokenUseCase
+        .invoke(token)
+        .then((_) => emit(const SettingsState(token: null)));
   }
 }

@@ -16,9 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SettingsState {
-  String? get initial => throw _privateConstructorUsedError;
-  String? get userInput => throw _privateConstructorUsedError;
-  bool get isEditing => throw _privateConstructorUsedError;
+  String? get token => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SettingsStateCopyWith<SettingsState> get copyWith =>
@@ -31,7 +29,7 @@ abstract class $SettingsStateCopyWith<$Res> {
           SettingsState value, $Res Function(SettingsState) then) =
       _$SettingsStateCopyWithImpl<$Res, SettingsState>;
   @useResult
-  $Res call({String? initial, String? userInput, bool isEditing});
+  $Res call({String? token});
 }
 
 /// @nodoc
@@ -47,23 +45,13 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? initial = freezed,
-    Object? userInput = freezed,
-    Object? isEditing = null,
+    Object? token = freezed,
   }) {
     return _then(_value.copyWith(
-      initial: freezed == initial
-          ? _value.initial
-          : initial // ignore: cast_nullable_to_non_nullable
+      token: freezed == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
               as String?,
-      userInput: freezed == userInput
-          ? _value.userInput
-          : userInput // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isEditing: null == isEditing
-          ? _value.isEditing
-          : isEditing // ignore: cast_nullable_to_non_nullable
-              as bool,
     ) as $Val);
   }
 }
@@ -76,7 +64,7 @@ abstract class _$$_SettingsStateCopyWith<$Res>
       __$$_SettingsStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? initial, String? userInput, bool isEditing});
+  $Res call({String? token});
 }
 
 /// @nodoc
@@ -90,23 +78,13 @@ class __$$_SettingsStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? initial = freezed,
-    Object? userInput = freezed,
-    Object? isEditing = null,
+    Object? token = freezed,
   }) {
     return _then(_$_SettingsState(
-      initial: freezed == initial
-          ? _value.initial
-          : initial // ignore: cast_nullable_to_non_nullable
+      token: freezed == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
               as String?,
-      userInput: freezed == userInput
-          ? _value.userInput
-          : userInput // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isEditing: null == isEditing
-          ? _value.isEditing
-          : isEditing // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -114,20 +92,14 @@ class __$$_SettingsStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SettingsState implements _SettingsState {
-  const _$_SettingsState(
-      {this.initial, this.userInput, this.isEditing = false});
+  const _$_SettingsState({this.token});
 
   @override
-  final String? initial;
-  @override
-  final String? userInput;
-  @override
-  @JsonKey()
-  final bool isEditing;
+  final String? token;
 
   @override
   String toString() {
-    return 'SettingsState(initial: $initial, userInput: $userInput, isEditing: $isEditing)';
+    return 'SettingsState(token: $token)';
   }
 
   @override
@@ -135,15 +107,11 @@ class _$_SettingsState implements _SettingsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SettingsState &&
-            (identical(other.initial, initial) || other.initial == initial) &&
-            (identical(other.userInput, userInput) ||
-                other.userInput == userInput) &&
-            (identical(other.isEditing, isEditing) ||
-                other.isEditing == isEditing));
+            (identical(other.token, token) || other.token == token));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, initial, userInput, isEditing);
+  int get hashCode => Object.hash(runtimeType, token);
 
   @JsonKey(ignore: true)
   @override
@@ -153,17 +121,10 @@ class _$_SettingsState implements _SettingsState {
 }
 
 abstract class _SettingsState implements SettingsState {
-  const factory _SettingsState(
-      {final String? initial,
-      final String? userInput,
-      final bool isEditing}) = _$_SettingsState;
+  const factory _SettingsState({final String? token}) = _$_SettingsState;
 
   @override
-  String? get initial;
-  @override
-  String? get userInput;
-  @override
-  bool get isEditing;
+  String? get token;
   @override
   @JsonKey(ignore: true)
   _$$_SettingsStateCopyWith<_$_SettingsState> get copyWith =>
