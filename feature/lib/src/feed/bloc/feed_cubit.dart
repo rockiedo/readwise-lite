@@ -5,8 +5,7 @@ import 'package:lib_use_case/lib_use_case.dart';
 class FeedCubit extends Cubit<FeedState> {
   final LoadHighlightFeedsUseCase _loadHighlightFeedsUseCase;
 
-  FeedCubit(this._loadHighlightFeedsUseCase)
-      : super(const FeedState());
+  FeedCubit(this._loadHighlightFeedsUseCase) : super(const FeedState());
 
   Future<List<HighlightFeed>> loadFeeds(
     int pageSize, {

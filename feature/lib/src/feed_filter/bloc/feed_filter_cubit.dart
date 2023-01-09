@@ -10,12 +10,12 @@ class FeedFilterCubit extends Cubit<FeedFilterState> {
     FeedFilterChip(FeedFilterType.defaultAuthor, 'Authors', 'Authors'),
   ];
 
-  final GetLocalBooksUseCase getLocalBooksUseCase;
+  final GetLocalBooksUseCase _getLocalBooksUseCase;
 
   final Map<int, String> _selectableBooks = {};
   final Set<String> _selectableAuthors = {};
 
-  FeedFilterCubit(this.getLocalBooksUseCase)
+  FeedFilterCubit(this._getLocalBooksUseCase)
       : super(
           const FeedFilterState(
             HighlightFeedFilter(),
@@ -24,7 +24,7 @@ class FeedFilterCubit extends Cubit<FeedFilterState> {
         );
 
   Future loadSelectableOptions() async {
-    final books = await getLocalBooksUseCase.invoke();
+    final books = await _getLocalBooksUseCase.invoke();
     books.sort(
       (a, b) {
         final asc =

@@ -8,13 +8,13 @@ abstract class GetLocalBooksUseCase {
 
 @Injectable(as: GetLocalBooksUseCase)
 class GetLocalBooksUseCaseImpl extends GetLocalBooksUseCase {
-  final BookRepository bookRepository;
+  final BookRepository _bookRepository;
 
-  GetLocalBooksUseCaseImpl(this.bookRepository);
+  GetLocalBooksUseCaseImpl(this._bookRepository);
 
   @override
   Future<List<Book>> invoke() async {
-    final entities = await bookRepository.loadBooks();
+    final entities = await _bookRepository.loadBooks();
     entities.sort(
       (a, b) {
         final asc =

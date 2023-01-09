@@ -23,12 +23,12 @@ class MultiSelectionWidget extends StatefulWidget {
 }
 
 class _MultiSelectionWidgetState extends State<MultiSelectionWidget> {
-  final Set<Object> selected = <Object>{};
+  final Set<Object> _selected = <Object>{};
 
   @override
   void initState() {
     super.initState();
-    selected.addAll(widget.preselected);
+    _selected.addAll(widget.preselected);
   }
 
   @override
@@ -66,7 +66,7 @@ class _MultiSelectionWidgetState extends State<MultiSelectionWidget> {
                 return _OptionTile(
                   option,
                   _onCheck,
-                  initiallyChecked: selected.contains(option.id),
+                  initiallyChecked: _selected.contains(option.id),
                 );
               },
             ),
@@ -75,7 +75,7 @@ class _MultiSelectionWidgetState extends State<MultiSelectionWidget> {
             padding: const EdgeInsets.all(16),
             child: ElevatedButton(
               onPressed: () {
-                widget.onSelected?.call(selected);
+                widget.onSelected?.call(_selected);
                 Navigator.pop(context);
               },
               child: const Text('Apply'),
@@ -87,13 +87,13 @@ class _MultiSelectionWidgetState extends State<MultiSelectionWidget> {
   }
 
   void _onCheck(Object id, bool isChecked) {
-    if (!isChecked && selected.contains(id)) {
-      selected.remove(id);
+    if (!isChecked && _selected.contains(id)) {
+      _selected.remove(id);
       return;
     }
 
-    if (isChecked && !selected.contains(id)) {
-      selected.add(id);
+    if (isChecked && !_selected.contains(id)) {
+      _selected.add(id);
     }
   }
 }
@@ -115,12 +115,12 @@ class _OptionTile extends StatefulWidget {
 }
 
 class _OptionTileState extends State<_OptionTile> {
-  bool isChecked = false;
+  bool _isChecked = false;
 
   @override
   void initState() {
     super.initState();
-    isChecked = widget.initiallyChecked;
+    _isChecked = widget.initiallyChecked;
   }
 
   @override
@@ -128,11 +128,11 @@ class _OptionTileState extends State<_OptionTile> {
     return ListTile(
       title: Text(widget.option.content),
       trailing: Checkbox(
-        value: isChecked,
+        value: _isChecked,
         onChanged: (bool? value) {
           widget.onSelectionChanged(widget.option.id, value == true);
           setState(() {
-            isChecked = value == true;
+            _isChecked = value == true;
           });
         },
       ),

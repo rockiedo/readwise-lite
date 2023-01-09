@@ -109,13 +109,14 @@ class _NoContentWidget extends StatelessWidget {
 
 class _BookTile extends StatelessWidget {
   final BookSyncStatus _status;
-  final bool isFirstItem;
+  final bool _isFirstItem;
 
   const _BookTile(
     this._status, {
-    this.isFirstItem = false,
+    bool isFirstItem = false,
     Key? key,
-  }) : super(key: key);
+  })  : _isFirstItem = isFirstItem,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +145,7 @@ class _BookTile extends StatelessWidget {
           : null,
     );
 
-    if (isFirstItem) {
+    if (_isFirstItem) {
       return Padding(padding: const EdgeInsets.only(top: 8), child: tile);
     }
 

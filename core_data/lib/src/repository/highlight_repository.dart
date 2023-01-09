@@ -24,14 +24,14 @@ abstract class HighlightRepository {
 
 @Injectable(as: HighlightRepository)
 class HighlightRepositoryImpl extends HighlightRepository {
-  final ReadwiseClient readwiseClient;
-  final AccessTokenRepository accessTokenRepository;
-  final HighlightDao highlightDao;
+  final ReadwiseClient _readwiseClient;
+  final AccessTokenRepository _accessTokenRepository;
+  final HighlightDao _highlightDao;
 
   HighlightRepositoryImpl(
-    this.readwiseClient,
-    this.accessTokenRepository,
-    this.highlightDao,
+    this._readwiseClient,
+    this._accessTokenRepository,
+    this._highlightDao,
   );
 
   @override
@@ -39,14 +39,14 @@ class HighlightRepositoryImpl extends HighlightRepository {
     int bookId,
     String? lastSync,
   ) async {
-    final accessToken = await accessTokenRepository.loadAccessToken();
+    final accessToken = await _accessTokenRepository.loadAccessToken();
     assert(accessToken != null);
 
     String? nextUrl;
     var page = 1;
 
     do {
-      final response = await readwiseClient.getHighlights(
+      final response = await _readwiseClient.getHighlights(
         withPrefix(accessToken!),
         bookId: bookId,
         page: page,
@@ -56,7 +56,7 @@ class HighlightRepositoryImpl extends HighlightRepository {
       if (response.results.isEmpty) break;
 
       final entities = response.results.map((e) => e.toEntity()).toList();
-      await highlightDao.insertHighlights(entities);
+      await _highlightDao.insertHighlights(entities);
 
       nextUrl = response.next;
       page++;
@@ -66,7 +66,7 @@ class HighlightRepositoryImpl extends HighlightRepository {
   @override
   Future<List<HighlightFeedQueryResult>> searchHighlights(int offset, int limit,
       {List<int>? bookId, List<String>? author, String? searchTerm}) {
-    return highlightDao.searchHighlights(
+    return _highlightDao.searchHighlights(
       offset,
       limit,
       bookIds: bookId,
@@ -77,6 +77,6 @@ class HighlightRepositoryImpl extends HighlightRepository {
 
   @override
   Future<Map<int, int>> countHighlightPerBook() {
-    return highlightDao.countHighlightPerBook();
+    return _highlightDao.countHighlightPerBook();
   }
 }

@@ -13,14 +13,14 @@ abstract class LoadHighlightFeedsUseCase {
 
 @Injectable(as: LoadHighlightFeedsUseCase)
 class LoadHighlightFeedsUseCaseImpl extends LoadHighlightFeedsUseCase {
-  final HighlightRepository highlightRepository;
+  final HighlightRepository _highlightRepository;
 
-  LoadHighlightFeedsUseCaseImpl(this.highlightRepository);
+  LoadHighlightFeedsUseCaseImpl(this._highlightRepository);
 
   @override
   Future<List<HighlightFeed>> invoke(int pageKey, int pageSize,
       {HighlightFeedFilter? filter}) async {
-    final entities = await highlightRepository.searchHighlights(
+    final entities = await _highlightRepository.searchHighlights(
       pageKey,
       pageSize,
       bookId: filter?.bookIds,

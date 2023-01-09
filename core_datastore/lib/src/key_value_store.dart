@@ -9,17 +9,17 @@ abstract class KeyValueStore {
 
 @Injectable(as: KeyValueStore)
 class KeyValueStoreImpl extends KeyValueStore {
-  final FlutterSecureStorage secureStorage;
+  final FlutterSecureStorage _secureStorage;
 
-  KeyValueStoreImpl(this.secureStorage);
+  KeyValueStoreImpl(this._secureStorage);
   
   @override
   Future<String?> read(String key) {
-    return secureStorage.read(key: key);
+    return _secureStorage.read(key: key);
   }
   
   @override
   Future<void> write(String key, String value) async {
-    await secureStorage.write(key: key, value: value);
+    await _secureStorage.write(key: key, value: value);
   }
 }

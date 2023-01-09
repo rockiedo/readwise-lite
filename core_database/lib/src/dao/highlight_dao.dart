@@ -23,13 +23,13 @@ abstract class HighlightDao {
 
 @Injectable(as: HighlightDao)
 class HighlightDaoImpl extends HighlightDao {
-  final Database database;
+  final Database _database;
 
-  HighlightDaoImpl(this.database);
+  HighlightDaoImpl(this._database);
 
   @override
   Future<void> insertHighlights(List<HighlightEntity> highlights) async {
-    final batch = database.batch();
+    final batch = _database.batch();
 
     for (final h in highlights) {
       batch.rawInsert(
@@ -54,7 +54,7 @@ class HighlightDaoImpl extends HighlightDao {
 
   @override
   Future<List<HighlightEntity>> getAllHighlightsFromBook(int bookId) async {
-    List<Map<String, dynamic>> queryResult = await database.query(
+    List<Map<String, dynamic>> queryResult = await _database.query(
       DatabaseConstant.tableHighlightName,
       where: 'book_id = $bookId',
     );
@@ -101,7 +101,7 @@ class HighlightDaoImpl extends HighlightDao {
     final finalQuery = '$interimQuery LIMIT $limit OFFSET $offset';
 
     List<Map<String, dynamic>> queryResult =
-        await database.rawQuery(finalQuery);
+        await _database.rawQuery(finalQuery);
 
     return List.generate(
       queryResult.length,
@@ -114,7 +114,7 @@ class HighlightDaoImpl extends HighlightDao {
     const query =
         "SELECT book_id, COUNT(*) AS num_highlights FROM ${DatabaseConstant.tableHighlightName} GROUP BY book_id";
     final List<Map<String, dynamic>> queryResult =
-        await database.rawQuery(query);
+        await _database.rawQuery(query);
 
     return Map.fromEntries(
       queryResult.map(

@@ -13,22 +13,22 @@ abstract class BookRepository {
 
 @LazySingleton(as: BookRepository)
 class BookRepositoryImpl extends BookRepository {
-  final AccessTokenRepository accessTokenRepository;
-  final ReadwiseClient readwiseClient;
-  final BookDao bookDao;
+  final AccessTokenRepository _accessTokenRepository;
+  final ReadwiseClient _readwiseClient;
+  final BookDao _bookDao;
 
   BookRepositoryImpl(
-    this.accessTokenRepository,
-    this.readwiseClient,
-    this.bookDao,
+    this._accessTokenRepository,
+    this._readwiseClient,
+    this._bookDao,
   );
 
   @override
   Future<List<BookEntity>> fetchBooks(String? lastSync) async {
-    final accessToken = await accessTokenRepository.loadAccessToken();
+    final accessToken = await _accessTokenRepository.loadAccessToken();
     assert(accessToken != null);
 
-    final response = await readwiseClient.getBooks(
+    final response = await _readwiseClient.getBooks(
       withPrefix(accessToken!),
       updatedGt: lastSync,
     );
@@ -37,15 +37,15 @@ class BookRepositoryImpl extends BookRepository {
         .map((networkBook) => networkBook.toEntity(accessToken))
         .toList();
 
-    await bookDao.insertBooks(entities);
+    await _bookDao.insertBooks(entities);
     return entities;
   }
 
   @override
   Future<List<BookEntity>> loadBooks() async {
-    final accessToken = await accessTokenRepository.loadAccessToken();
+    final accessToken = await _accessTokenRepository.loadAccessToken();
     assert(accessToken != null);
 
-    return bookDao.getBooks(accessToken!);
+    return _bookDao.getBooks(accessToken!);
   }
 }

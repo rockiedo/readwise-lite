@@ -10,14 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FeedFilterWidget extends StatelessWidget {
-  final FeedFilterCubit cubit;
+  final FeedFilterCubit _cubit;
 
-  const FeedFilterWidget(this.cubit, {Key? key}) : super(key: key);
+  const FeedFilterWidget(this._cubit, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: cubit,
+      value: _cubit,
       child: Column(
         children: const [
           Padding(

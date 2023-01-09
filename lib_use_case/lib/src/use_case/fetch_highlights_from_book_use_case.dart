@@ -10,19 +10,19 @@ const _syncThresholdMinutes = 5;
 @Injectable(as: FetchHighlightsFromBookUseCase)
 class FetchHighlightsFromBookUseCaseImpl
     extends FetchHighlightsFromBookUseCase {
-  final HighlightRepository highlightRepository;
-  final SyncLogRepository syncRepository;
+  final HighlightRepository _highlightRepository;
+  final SyncLogRepository _syncRepository;
 
   FetchHighlightsFromBookUseCaseImpl(
-    this.highlightRepository,
-    this.syncRepository,
+    this._highlightRepository,
+    this._syncRepository,
   );
 
   @override
   Future invoke(int bookId) async {
-    final lastSync = await syncRepository.loadLastHighlightsSync(bookId);
+    final lastSync = await _syncRepository.loadLastHighlightsSync(bookId);
     if (!_shouldFetch(lastSync)) return;
-    await highlightRepository.fetchHighlightsFromBook(bookId, lastSync);
+    await _highlightRepository.fetchHighlightsFromBook(bookId, lastSync);
   }
 
   bool _shouldFetch(String? lastSync) {

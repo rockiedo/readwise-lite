@@ -8,17 +8,17 @@ abstract class FetchBooksUseCase {
 
 @Injectable(as: FetchBooksUseCase)
 class FetchBooksUseCaseImpl extends FetchBooksUseCase {
-  final BookRepository bookRepository;
-  final SyncLogRepository syncLogRepository;
+  final BookRepository _bookRepository;
+  final SyncLogRepository _syncLogRepository;
 
-  FetchBooksUseCaseImpl(this.bookRepository, this.syncLogRepository);
+  FetchBooksUseCaseImpl(this._bookRepository, this._syncLogRepository);
 
   @override
   Future<List<Book>> invoke() async {
-    final lastSync = await syncLogRepository.loadLastAllBooksSync();
-    final bookEntities = await bookRepository.fetchBooks(lastSync);
+    final lastSync = await _syncLogRepository.loadLastAllBooksSync();
+    final bookEntities = await _bookRepository.fetchBooks(lastSync);
 
-    await syncLogRepository.storeLastAllBooksSync(
+    await _syncLogRepository.storeLastAllBooksSync(
       DateTime.now().toIso8601String(),
     );
 
