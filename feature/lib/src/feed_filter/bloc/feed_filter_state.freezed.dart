@@ -31,6 +31,8 @@ abstract class $FeedFilterStateCopyWith<$Res> {
       _$FeedFilterStateCopyWithImpl<$Res, FeedFilterState>;
   @useResult
   $Res call({HighlightFeedFilter filter, List<FeedFilterChip>? chips});
+
+  $HighlightFeedFilterCopyWith<$Res> get filter;
 }
 
 /// @nodoc
@@ -60,6 +62,14 @@ class _$FeedFilterStateCopyWithImpl<$Res, $Val extends FeedFilterState>
               as List<FeedFilterChip>?,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $HighlightFeedFilterCopyWith<$Res> get filter {
+    return $HighlightFeedFilterCopyWith<$Res>(_value.filter, (value) {
+      return _then(_value.copyWith(filter: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -71,6 +81,9 @@ abstract class _$$_FeedFilterStateCopyWith<$Res>
   @override
   @useResult
   $Res call({HighlightFeedFilter filter, List<FeedFilterChip>? chips});
+
+  @override
+  $HighlightFeedFilterCopyWith<$Res> get filter;
 }
 
 /// @nodoc

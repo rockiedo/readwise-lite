@@ -1,11 +1,12 @@
-class HighlightFeedFilter {
-  final List<int>? bookIds;
-  final List<String>? authors;
-  final String? searchTerm;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const HighlightFeedFilter({
-    this.bookIds,
-    this.authors,
-    this.searchTerm,
-  });
+part 'highlight_feed_filter.freezed.dart';
+
+@freezed
+class HighlightFeedFilter with _$HighlightFeedFilter {
+  const factory HighlightFeedFilter({
+    List<int>? bookIds,
+    List<String>? authors,
+    String? searchTerm,
+  }) = _HighlightFeedFilter;
 }
