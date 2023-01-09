@@ -1,4 +1,4 @@
-import 'package:core_model/core_model.dart';
+import 'package:feature/src/data_sync_v2/bloc/book_sync_status.dart';
 
 abstract class DataSyncV2Status {}
 
@@ -11,7 +11,7 @@ class NoContent implements DataSyncV2Status {
 }
 
 class Content implements DataSyncV2Status {
-  final List<Book> books;
+  final List<BookSyncStatus> books;
 
   const Content(this.books);
 }

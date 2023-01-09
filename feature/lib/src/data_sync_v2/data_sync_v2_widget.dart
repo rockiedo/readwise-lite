@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:core_model/core_model.dart';
+import 'package:feature/src/data_sync_v2/bloc/book_sync_status.dart';
 import 'package:feature/src/data_sync_v2/bloc/data_sync_status.dart';
 import 'package:feature/src/data_sync_v2/bloc/data_sync_v2_cubit.dart';
 import 'package:feature/src/data_sync_v2/bloc/data_sync_v2_state.dart';
@@ -20,7 +20,7 @@ class DataSyncV2Widget extends StatelessWidget {
         final cubit = DataSyncV2Cubit(
           GetIt.instance.get<GetLocalBooksUseCase>(),
           GetIt.instance.get<FetchBooksUseCase>(),
-          GetIt.instance.get<FetchHighlightsFromBookUseCase>(),
+          GetIt.instance.get<CountHighlightPerBookUseCase>(),
         );
         cubit.loadLocalBooks();
         return cubit;
@@ -108,16 +108,16 @@ class _NoContentWidget extends StatelessWidget {
 }
 
 class _BookTile extends StatelessWidget {
-  final Book _book;
+  final BookSyncStatus _status;
 
-  const _BookTile(this._book, {Key? key}) : super(key: key);
+  const _BookTile(this._status, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String? displayableUpdate;
     try {
       final dateFormat = DateFormat('yy-MM-dd');
-      displayableUpdate = dateFormat.format(DateTime.parse(_book.updated));
+      displayableUpdate = dateFormat.format(DateTime.parse(_status.updatedAt));
     } on FormatException catch (_) {
       // Silent fail
     }
@@ -126,12 +126,12 @@ class _BookTile extends StatelessWidget {
       leading: CachedNetworkImage(
         height: 80,
         width: 60,
-        imageUrl: _book.coverImageUrl,
+        imageUrl: _status.coverImageUrl,
       ),
-      title: Text(_book.title),
-      subtitle: displayableUpdate != null
-          ? Text('Last update $displayableUpdate')
-          : null,
+      title: Text(_status.bookTitle),
+      subtitle: Text(
+        '${_status.fetchedHighlightCount} of ${_status.totalHighlightCount} downloaded',
+      ),
     );
   }
 }

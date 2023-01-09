@@ -17,9 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DataSyncV2State {
   DataSyncV2Status get status => throw _privateConstructorUsedError;
-  List<Book>? get books => throw _privateConstructorUsedError;
   String? get lastSync => throw _privateConstructorUsedError;
-  int? get fetchProgress => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DataSyncV2StateCopyWith<DataSyncV2State> get copyWith =>
@@ -32,11 +30,7 @@ abstract class $DataSyncV2StateCopyWith<$Res> {
           DataSyncV2State value, $Res Function(DataSyncV2State) then) =
       _$DataSyncV2StateCopyWithImpl<$Res, DataSyncV2State>;
   @useResult
-  $Res call(
-      {DataSyncV2Status status,
-      List<Book>? books,
-      String? lastSync,
-      int? fetchProgress});
+  $Res call({DataSyncV2Status status, String? lastSync});
 }
 
 /// @nodoc
@@ -53,27 +47,17 @@ class _$DataSyncV2StateCopyWithImpl<$Res, $Val extends DataSyncV2State>
   @override
   $Res call({
     Object? status = null,
-    Object? books = freezed,
     Object? lastSync = freezed,
-    Object? fetchProgress = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as DataSyncV2Status,
-      books: freezed == books
-          ? _value.books
-          : books // ignore: cast_nullable_to_non_nullable
-              as List<Book>?,
       lastSync: freezed == lastSync
           ? _value.lastSync
           : lastSync // ignore: cast_nullable_to_non_nullable
               as String?,
-      fetchProgress: freezed == fetchProgress
-          ? _value.fetchProgress
-          : fetchProgress // ignore: cast_nullable_to_non_nullable
-              as int?,
     ) as $Val);
   }
 }
@@ -86,11 +70,7 @@ abstract class _$$_DataSyncV2StateCopyWith<$Res>
       __$$_DataSyncV2StateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {DataSyncV2Status status,
-      List<Book>? books,
-      String? lastSync,
-      int? fetchProgress});
+  $Res call({DataSyncV2Status status, String? lastSync});
 }
 
 /// @nodoc
@@ -105,27 +85,17 @@ class __$$_DataSyncV2StateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
-    Object? books = freezed,
     Object? lastSync = freezed,
-    Object? fetchProgress = freezed,
   }) {
     return _then(_$_DataSyncV2State(
       null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as DataSyncV2Status,
-      books: freezed == books
-          ? _value._books
-          : books // ignore: cast_nullable_to_non_nullable
-              as List<Book>?,
       lastSync: freezed == lastSync
           ? _value.lastSync
           : lastSync // ignore: cast_nullable_to_non_nullable
               as String?,
-      fetchProgress: freezed == fetchProgress
-          ? _value.fetchProgress
-          : fetchProgress // ignore: cast_nullable_to_non_nullable
-              as int?,
     ));
   }
 }
@@ -133,30 +103,16 @@ class __$$_DataSyncV2StateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_DataSyncV2State implements _DataSyncV2State {
-  const _$_DataSyncV2State(this.status,
-      {final List<Book>? books, this.lastSync, this.fetchProgress})
-      : _books = books;
+  const _$_DataSyncV2State(this.status, {this.lastSync});
 
   @override
   final DataSyncV2Status status;
-  final List<Book>? _books;
-  @override
-  List<Book>? get books {
-    final value = _books;
-    if (value == null) return null;
-    if (_books is EqualUnmodifiableListView) return _books;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
   @override
   final String? lastSync;
-  @override
-  final int? fetchProgress;
 
   @override
   String toString() {
-    return 'DataSyncV2State(status: $status, books: $books, lastSync: $lastSync, fetchProgress: $fetchProgress)';
+    return 'DataSyncV2State(status: $status, lastSync: $lastSync)';
   }
 
   @override
@@ -165,16 +121,12 @@ class _$_DataSyncV2State implements _DataSyncV2State {
         (other.runtimeType == runtimeType &&
             other is _$_DataSyncV2State &&
             (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality().equals(other._books, _books) &&
             (identical(other.lastSync, lastSync) ||
-                other.lastSync == lastSync) &&
-            (identical(other.fetchProgress, fetchProgress) ||
-                other.fetchProgress == fetchProgress));
+                other.lastSync == lastSync));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status,
-      const DeepCollectionEquality().hash(_books), lastSync, fetchProgress);
+  int get hashCode => Object.hash(runtimeType, status, lastSync);
 
   @JsonKey(ignore: true)
   @override
@@ -185,18 +137,12 @@ class _$_DataSyncV2State implements _DataSyncV2State {
 
 abstract class _DataSyncV2State implements DataSyncV2State {
   const factory _DataSyncV2State(final DataSyncV2Status status,
-      {final List<Book>? books,
-      final String? lastSync,
-      final int? fetchProgress}) = _$_DataSyncV2State;
+      {final String? lastSync}) = _$_DataSyncV2State;
 
   @override
   DataSyncV2Status get status;
   @override
-  List<Book>? get books;
-  @override
   String? get lastSync;
-  @override
-  int? get fetchProgress;
   @override
   @JsonKey(ignore: true)
   _$$_DataSyncV2StateCopyWith<_$_DataSyncV2State> get copyWith =>
