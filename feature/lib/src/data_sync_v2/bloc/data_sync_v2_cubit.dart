@@ -24,20 +24,6 @@ class DataSyncV2Cubit extends Cubit<DataSyncV2State> {
     emit(const DataSyncV2State(Fetching('Fetching books')));
     List<Book> books = await _fetchBooksUseCase.invoke();
 
-    final total = books.length;
-    for (int i = 0; i < books.length; i++) {
-      final current = i + 1;
-      emit(
-        DataSyncV2State(
-          Fetching(
-            'Fetching highlights of $current/$total books',
-            progress: current / total,
-          ),
-        ),
-      );
-      await _fetchHighlightsFromBookUseCase.invoke(books[i].id);
-    }
-
     if (books.isEmpty) {
       _loadLocalBooksInternally();
       return;
