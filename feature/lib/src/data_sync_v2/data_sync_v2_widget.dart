@@ -19,6 +19,8 @@ class DataSyncV2Widget extends StatelessWidget {
       create: (_) {
         final cubit = DataSyncV2Cubit(
           GetIt.instance.get<GetLocalBooksUseCase>(),
+          GetIt.instance.get<FetchBooksUseCase>(),
+          GetIt.instance.get<FetchHighlightsFromBookUseCase>(),
         );
         cubit.loadLocalBooks();
         return cubit;
@@ -34,6 +36,7 @@ class DataSyncV2Widget extends StatelessWidget {
           title: const Text('Data sync'),
         ),
         body: const _DataSyncContent(),
+        floatingActionButton: const _DataSyncFab(),
       ),
     );
   }
@@ -46,25 +49,60 @@ class _DataSyncContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DataSyncV2Cubit, DataSyncV2State>(
       builder: (innerContext, state) {
-        if (state.status == DataSyncStatus.loadingCachedContent) {
+        if (state.status is LoadingCachedContent) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (state.status == DataSyncStatus.idle &&
-            state.books?.isNotEmpty == true) {
+        if (state.status is NoContent) {
+          return const _NoContentWidget();
+        }
+
+        if (state.status is Content) {
+          final content = state.status as Content;
+
           return ListView.separated(
             itemBuilder: (_, index) {
-              return _BookTile(state.books![index]);
+              return _BookTile(content.books[index]);
             },
             separatorBuilder: (_, index) {
               return const Divider();
             },
-            itemCount: state.books!.length,
+            itemCount: content.books.length,
           );
+        }
+
+        if (state.status is Fetching) {
+          return _FetchingContentWidget(state.status as Fetching);
         }
 
         return const Placeholder();
       },
+    );
+  }
+}
+
+class _NoContentWidget extends StatelessWidget {
+  const _NoContentWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 64),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'No content found locally',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          TextButton(
+              onPressed: () {
+                context.read<DataSyncV2Cubit>().fetch();
+              },
+              child: const Text('Download'))
+        ],
+      ),
     );
   }
 }
@@ -80,7 +118,7 @@ class _BookTile extends StatelessWidget {
     try {
       final dateFormat = DateFormat('yy-MM-dd');
       displayableUpdate = dateFormat.format(DateTime.parse(_book.updated));
-    } on FormatException catch (_, e) {
+    } on FormatException catch (_) {
       // Silent fail
     }
 
@@ -91,7 +129,57 @@ class _BookTile extends StatelessWidget {
         imageUrl: _book.coverImageUrl,
       ),
       title: Text(_book.title),
-      subtitle: displayableUpdate != null ? Text('Last update $displayableUpdate') : null,
+      subtitle: displayableUpdate != null
+          ? Text('Last update $displayableUpdate')
+          : null,
+    );
+  }
+}
+
+class _FetchingContentWidget extends StatelessWidget {
+  final Fetching _state;
+
+  const _FetchingContentWidget(this._state, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 64),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            _state.title,
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: LinearProgressIndicator(value: _state.progress),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DataSyncFab extends StatelessWidget {
+  const _DataSyncFab({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DataSyncV2Cubit, DataSyncV2State>(
+      builder: (innerContext, state) {
+        return Visibility(
+          visible: state.status is Content,
+          child: FloatingActionButton(
+            child: const Icon(Icons.cloud_download_outlined),
+            onPressed: () {
+              context.read<DataSyncV2Cubit>().fetch();
+            },
+          ),
+        );
+      },
     );
   }
 }

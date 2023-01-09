@@ -7,9 +7,7 @@ part 'data_sync_v2_state.freezed.dart';
 @freezed
 class DataSyncV2State with _$DataSyncV2State {
   const factory DataSyncV2State(
-    DataSyncStatus status, {
-    List<Book>? books,
+    DataSyncV2Status status, {
     String? lastSync,
-    int? fetchProgress,
   }) = _DataSyncV2State;
 }

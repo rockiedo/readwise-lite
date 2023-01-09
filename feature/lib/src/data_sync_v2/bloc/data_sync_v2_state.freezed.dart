@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DataSyncV2State {
-  DataSyncStatus get status => throw _privateConstructorUsedError;
+  DataSyncV2Status get status => throw _privateConstructorUsedError;
   List<Book>? get books => throw _privateConstructorUsedError;
   String? get lastSync => throw _privateConstructorUsedError;
   int? get fetchProgress => throw _privateConstructorUsedError;
@@ -33,7 +33,7 @@ abstract class $DataSyncV2StateCopyWith<$Res> {
       _$DataSyncV2StateCopyWithImpl<$Res, DataSyncV2State>;
   @useResult
   $Res call(
-      {DataSyncStatus status,
+      {DataSyncV2Status status,
       List<Book>? books,
       String? lastSync,
       int? fetchProgress});
@@ -61,7 +61,7 @@ class _$DataSyncV2StateCopyWithImpl<$Res, $Val extends DataSyncV2State>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as DataSyncStatus,
+              as DataSyncV2Status,
       books: freezed == books
           ? _value.books
           : books // ignore: cast_nullable_to_non_nullable
@@ -87,7 +87,7 @@ abstract class _$$_DataSyncV2StateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DataSyncStatus status,
+      {DataSyncV2Status status,
       List<Book>? books,
       String? lastSync,
       int? fetchProgress});
@@ -113,7 +113,7 @@ class __$$_DataSyncV2StateCopyWithImpl<$Res>
       null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as DataSyncStatus,
+              as DataSyncV2Status,
       books: freezed == books
           ? _value._books
           : books // ignore: cast_nullable_to_non_nullable
@@ -138,7 +138,7 @@ class _$_DataSyncV2State implements _DataSyncV2State {
       : _books = books;
 
   @override
-  final DataSyncStatus status;
+  final DataSyncV2Status status;
   final List<Book>? _books;
   @override
   List<Book>? get books {
@@ -184,13 +184,13 @@ class _$_DataSyncV2State implements _DataSyncV2State {
 }
 
 abstract class _DataSyncV2State implements DataSyncV2State {
-  const factory _DataSyncV2State(final DataSyncStatus status,
+  const factory _DataSyncV2State(final DataSyncV2Status status,
       {final List<Book>? books,
       final String? lastSync,
       final int? fetchProgress}) = _$_DataSyncV2State;
 
   @override
-  DataSyncStatus get status;
+  DataSyncV2Status get status;
   @override
   List<Book>? get books;
   @override
