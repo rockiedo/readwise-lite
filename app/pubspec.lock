@@ -163,35 +163,35 @@ packages:
     source: hosted
     version: "3.0.2"
   core_data:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       path: "../core_data"
       relative: true
     source: path
     version: "1.0.0+1"
   core_database:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       path: "../core_database"
       relative: true
     source: path
     version: "1.0.0+1"
   core_datastore:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       path: "../core_datastore"
       relative: true
     source: path
     version: "0.0.1"
   core_model:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       path: "../core_model"
       relative: true
     source: path
     version: "1.0.0+1"
   core_network:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       path: "../core_network"
       relative: true
@@ -428,7 +428,7 @@ packages:
       name: injectable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.5.3"
+    version: "2.1.0"
   io:
     dependency: transitive
     description:

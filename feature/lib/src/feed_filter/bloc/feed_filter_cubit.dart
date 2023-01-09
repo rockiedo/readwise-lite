@@ -55,29 +55,21 @@ class FeedFilterCubit extends Cubit<FeedFilterState> {
   }
 
   void onBookSelectionChanged(Set<Object> bookIds) {
-    final newFilter = HighlightFeedFilter(
+    final newFilter = state.filter.copyWith(
       bookIds: bookIds.map((e) => e as int).toList(),
-      authors: state.filter.authors,
-      searchTerm: state.filter.searchTerm,
     );
     _emitNewFilter(newFilter);
   }
 
   void onAuthorSelectionChanged(Set<Object> authors) {
-    final newFilter = HighlightFeedFilter(
-      bookIds: state.filter.bookIds,
+    final newFilter = state.filter.copyWith(
       authors: authors.map((e) => e as String).toList(),
-      searchTerm: state.filter.searchTerm,
     );
     _emitNewFilter(newFilter);
   }
 
   void onSearchTermChanged(String term) {
-    final newFilter = HighlightFeedFilter(
-      bookIds: state.filter.bookIds,
-      authors: state.filter.authors,
-      searchTerm: term,
-    );
+    final newFilter = state.filter.copyWith(searchTerm: term);
     _emitNewFilter(newFilter);
   }
 
@@ -91,19 +83,15 @@ class FeedFilterCubit extends Cubit<FeedFilterState> {
   }
 
   void _deleteBookChip(Object id) {
-    final newFilter = HighlightFeedFilter(
+    final newFilter = state.filter.copyWith(
       bookIds: state.filter.bookIds?.where((element) => element != id).toList(),
-      authors: state.filter.authors,
-      searchTerm: state.filter.searchTerm,
     );
     _emitNewFilter(newFilter);
   }
 
   void _deleteAuthorChip(Object id) {
-    final newFilter = HighlightFeedFilter(
-      bookIds: state.filter.bookIds,
+    final newFilter = state.filter.copyWith(
       authors: state.filter.authors?.where((element) => element != id).toList(),
-      searchTerm: state.filter.searchTerm,
     );
     _emitNewFilter(newFilter);
   }

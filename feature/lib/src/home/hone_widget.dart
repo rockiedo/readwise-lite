@@ -1,13 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:core_model/core_model.dart';
-import 'package:feature/src/data_sync/data_sync_widget.dart';
+import 'package:feature/feature.dart';
 import 'package:feature/src/home/bloc/home_cubit.dart';
 import 'package:feature/src/home/bloc/home_state.dart';
-import 'package:feature/src/settings/settings_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 
 class HomeWidget extends StatelessWidget {
@@ -17,12 +13,8 @@ class HomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        final cubit = HomeCubit(
-          GetIt.instance.get<GetAccessTokenUseCase>(),
-          GetIt.instance.get<GetLocalBooksUseCase>(),
-        );
-
-        cubit.loadFeed();
+        final cubit = HomeCubit(GetIt.instance.get<GetAccessTokenUseCase>());
+        cubit.load();
         return cubit;
       },
       child: const Scaffold(
@@ -40,14 +32,8 @@ class _HomeContainerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (innerContext, state) {
-        final cubit = innerContext.read<HomeCubit>();
-
         if (state.status == HomeStatus.loading) {
           return const Center(child: CircularProgressIndicator());
-        }
-
-        if (state.status == HomeStatus.content) {
-          return _BookListWidget(state.books!);
         }
 
         if (state.status == HomeStatus.noAccessToken) {
@@ -60,39 +46,16 @@ class _HomeContainerWidget extends StatelessWidget {
           );
         }
 
-        if (state.status == HomeStatus.outdatedCache) {
-          return _PlaceHolderWidget(
-            desc: 'The content is outdated, please sync the latest content!',
-            ctaText: 'Sync',
-            clickToAction: () {
-              _goToDataSync(innerContext);
-            },
-          );
-        }
-
-        return _PlaceHolderWidget(
-          desc: 'An error has occurred, please retry!',
-          ctaText: 'Retry',
-          clickToAction: () {
-            cubit.loadFeed();
-          },
-        );
+        return const FeedWidget();
       },
     );
-  }
-
-  void _goToDataSync(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (newContext) => const DataSyncWidget()),
-    ).then((value) => context.read<HomeCubit>().loadFeed());
   }
 
   void _goToSettings(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (newContext) => const SettingsWidget()),
-    ).then((value) => context.read<HomeCubit>().loadFeed());
+    ).then((value) => context.read<HomeCubit>().load());
   }
 }
 
@@ -111,53 +74,13 @@ class _HomeFabWidget extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (_) => const SettingsWidget()),
               ).then(
-                (value) => innerContext.read<HomeCubit>().loadFeed(),
+                (value) => innerContext.read<HomeCubit>().load(),
               );
             },
             child: const Icon(Icons.menu),
           ),
         );
       },
-    );
-  }
-}
-
-class _BookListWidget extends StatelessWidget {
-  final List<Book> books;
-
-  const _BookListWidget(this.books);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (listContext, index) {
-        return _BookTileWidget(books[index]);
-      },
-      itemCount: books.length,
-    );
-  }
-}
-
-class _BookTileWidget extends StatelessWidget {
-  final Book book;
-
-  const _BookTileWidget(this.book);
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: ListTile(
-        leading: CachedNetworkImage(
-          height: 80,
-          width: 60,
-          imageUrl: book.coverImageUrl,
-        ),
-        title: Text(book.title),
-        subtitle: book.author != null ? Text(book.author!) : null,
-        onTap: () {
-          context.push('/feed');
-        },
-      ),
     );
   }
 }
