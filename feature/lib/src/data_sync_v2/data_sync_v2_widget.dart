@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:lib_use_case/lib_use_case.dart';
 
 class DataSyncV2Widget extends StatelessWidget {
@@ -21,6 +20,7 @@ class DataSyncV2Widget extends StatelessWidget {
           GetIt.instance.get<GetLocalBooksUseCase>(),
           GetIt.instance.get<FetchBooksUseCase>(),
           GetIt.instance.get<CountHighlightPerBookUseCase>(),
+          GetIt.instance.get<FetchHighlightsFromBookUseCase>(),
         );
         cubit.loadLocalBooks();
         return cubit;
@@ -98,7 +98,7 @@ class _NoContentWidget extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                context.read<DataSyncV2Cubit>().fetch();
+                context.read<DataSyncV2Cubit>().fetchBookMetadata();
               },
               child: const Text('Download'))
         ],
@@ -114,13 +114,8 @@ class _BookTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? displayableUpdate;
-    try {
-      final dateFormat = DateFormat('yy-MM-dd');
-      displayableUpdate = dateFormat.format(DateTime.parse(_status.updatedAt));
-    } on FormatException catch (_) {
-      // Silent fail
-    }
+    final isComplete =
+        _status.fetchedHighlightCount < _status.totalHighlightCount;
 
     return ListTile(
       leading: CachedNetworkImage(
@@ -132,6 +127,16 @@ class _BookTile extends StatelessWidget {
       subtitle: Text(
         '${_status.fetchedHighlightCount} of ${_status.totalHighlightCount} downloaded',
       ),
+      trailing: isComplete
+          ? IconButton(
+              onPressed: () {
+                context
+                    .read<DataSyncV2Cubit>()
+                    .fetchHighlightsFromBook(_status.bookId, _status.bookTitle);
+              },
+              icon: const Icon(Icons.download_rounded),
+            )
+          : null,
     );
   }
 }
@@ -153,9 +158,9 @@ class _FetchingContentWidget extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
             textAlign: TextAlign.center,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: LinearProgressIndicator(value: _state.progress),
+          const Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: LinearProgressIndicator(),
           ),
         ],
       ),
@@ -175,7 +180,7 @@ class _DataSyncFab extends StatelessWidget {
           child: FloatingActionButton(
             child: const Icon(Icons.cloud_download_outlined),
             onPressed: () {
-              context.read<DataSyncV2Cubit>().fetch();
+              context.read<DataSyncV2Cubit>().fetchBookMetadata();
             },
           ),
         );

@@ -18,7 +18,6 @@ class Content implements DataSyncV2Status {
 
 class Fetching implements DataSyncV2Status {
   final String title;
-  final double? progress;
 
-  const Fetching(this.title, {this.progress});
+  const Fetching(this.title);
 }

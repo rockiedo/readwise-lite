@@ -9,11 +9,13 @@ class DataSyncV2Cubit extends Cubit<DataSyncV2State> {
   final GetLocalBooksUseCase _getLocalBooksUseCase;
   final FetchBooksUseCase _fetchBooksUseCase;
   final CountHighlightPerBookUseCase _countHighlightPerBookUseCase;
+  final FetchHighlightsFromBookUseCase _fetchHighlightsFromBookUseCase;
 
   DataSyncV2Cubit(
     this._getLocalBooksUseCase,
     this._fetchBooksUseCase,
     this._countHighlightPerBookUseCase,
+    this._fetchHighlightsFromBookUseCase,
   ) : super(const DataSyncV2State(LoadingCachedContent()));
 
   void loadLocalBooks() async {
@@ -21,7 +23,7 @@ class DataSyncV2Cubit extends Cubit<DataSyncV2State> {
     _loadLocalBooksInternally();
   }
 
-  void fetch() async {
+  void fetchBookMetadata() async {
     emit(const DataSyncV2State(Fetching('Fetching books')));
     List<Book> books = await _fetchBooksUseCase.invoke();
 
@@ -35,9 +37,21 @@ class DataSyncV2Cubit extends Cubit<DataSyncV2State> {
     emit(DataSyncV2State(Content(bookSyncStatuses)));
   }
 
+  void fetchHighlightsFromBook(int id, String title) async {
+    emit(DataSyncV2State(Fetching('Fetching highlights from $title')));
+    await _fetchHighlightsFromBookUseCase.invoke(id);
+    _loadLocalBooksInternally();
+  }
+
   void _loadLocalBooksInternally() async {
     final books = await _getLocalBooksUseCase.invoke();
     final bookSyncStatuses = await _mapToBookSyncStatuses(books);
+
+    if (bookSyncStatuses.isEmpty) {
+      emit(const DataSyncV2State(NoContent()));
+      return;
+    }
+
     emit(DataSyncV2State(Content(bookSyncStatuses)));
   }
 
