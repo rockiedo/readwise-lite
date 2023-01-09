@@ -62,7 +62,7 @@ class _DataSyncContent extends StatelessWidget {
 
           return ListView.separated(
             itemBuilder: (_, index) {
-              return _BookTile(content.books[index]);
+              return _BookTile(content.books[index], isFirstItem: index == 0);
             },
             separatorBuilder: (_, index) {
               return const Divider();
@@ -109,15 +109,20 @@ class _NoContentWidget extends StatelessWidget {
 
 class _BookTile extends StatelessWidget {
   final BookSyncStatus _status;
+  final bool isFirstItem;
 
-  const _BookTile(this._status, {Key? key}) : super(key: key);
+  const _BookTile(
+    this._status, {
+    this.isFirstItem = false,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final isComplete =
         _status.fetchedHighlightCount < _status.totalHighlightCount;
 
-    return ListTile(
+    final tile = ListTile(
       leading: CachedNetworkImage(
         height: 80,
         width: 60,
@@ -138,6 +143,12 @@ class _BookTile extends StatelessWidget {
             )
           : null,
     );
+
+    if (isFirstItem) {
+      return Padding(padding: const EdgeInsets.only(top: 8), child: tile);
+    }
+
+    return tile;
   }
 }
 

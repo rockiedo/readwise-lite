@@ -150,6 +150,7 @@ class _SettingsWithAccessTokenWidgetState
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextField(
+          readOnly: true,
           decoration: InputDecoration(
             border: const OutlineInputBorder(),
             suffixIcon: IconButton(

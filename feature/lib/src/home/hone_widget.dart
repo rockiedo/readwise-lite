@@ -38,7 +38,7 @@ class _HomeContainerWidget extends StatelessWidget {
 
         if (state.status == HomeStatus.noAccessToken) {
           return _PlaceHolderWidget(
-            desc: 'No access token, please set one in settings!',
+            desc: 'No access token, please set one',
             ctaText: 'Settings',
             clickToAction: () {
               _goToSettings(innerContext);
@@ -100,20 +100,21 @@ class _PlaceHolderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 64),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             desc,
-            style: Theme.of(context).textTheme.subtitle1,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
-          SizedBox.fromSize(size: const Size.fromHeight(16)),
-          OutlinedButton(
-            onPressed: clickToAction,
+          TextButton(
+            onPressed: () {
+              clickToAction();
+            },
             child: Text(ctaText),
-          ),
+          )
         ],
       ),
     );
