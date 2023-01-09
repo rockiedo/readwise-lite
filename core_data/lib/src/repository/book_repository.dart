@@ -6,7 +6,7 @@ import 'package:core_network/core_network.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class BookRepository {
-  Future fetchBooks(String? lastSync);
+  Future<List<BookEntity>> fetchBooks(String? lastSync);
 
   Future<List<BookEntity>> loadBooks();
 }
@@ -24,7 +24,7 @@ class BookRepositoryImpl extends BookRepository {
   );
 
   @override
-  Future fetchBooks(String? lastSync) async {
+  Future<List<BookEntity>> fetchBooks(String? lastSync) async {
     final accessToken = await accessTokenRepository.loadAccessToken();
     assert(accessToken != null);
 
@@ -38,6 +38,7 @@ class BookRepositoryImpl extends BookRepository {
         .toList();
 
     await bookDao.insertBooks(entities);
+    return entities;
   }
 
   @override

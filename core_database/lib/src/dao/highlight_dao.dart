@@ -17,6 +17,8 @@ abstract class HighlightDao {
     List<String>? authors,
     String? searchTerm,
   });
+
+  Future<Map<int, int>> countHighlightPerBook();
 }
 
 @Injectable(as: HighlightDao)
@@ -104,6 +106,20 @@ class HighlightDaoImpl extends HighlightDao {
     return List.generate(
       queryResult.length,
       (index) => HighlightFeedQueryResult.fromJson(queryResult[index]),
+    );
+  }
+
+  @override
+  Future<Map<int, int>> countHighlightPerBook() async {
+    const query =
+        "SELECT book_id, COUNT(*) AS num_highlights FROM ${DatabaseConstant.tableHighlightName} GROUP BY book_id";
+    final List<Map<String, dynamic>> queryResult =
+        await database.rawQuery(query);
+
+    return Map.fromEntries(
+      queryResult.map(
+        (e) => MapEntry(e['book_id'] as int, e['num_highlights'] as int),
+      ),
     );
   }
 }

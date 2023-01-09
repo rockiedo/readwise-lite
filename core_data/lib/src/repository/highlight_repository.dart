@@ -18,6 +18,8 @@ abstract class HighlightRepository {
     List<String>? author,
     String? searchTerm,
   });
+
+  Future<Map<int, int>> countHighlightPerBook();
 }
 
 @Injectable(as: HighlightRepository)
@@ -71,5 +73,10 @@ class HighlightRepositoryImpl extends HighlightRepository {
       authors: author,
       searchTerm: searchTerm,
     );
+  }
+
+  @override
+  Future<Map<int, int>> countHighlightPerBook() {
+    return highlightDao.countHighlightPerBook();
   }
 }

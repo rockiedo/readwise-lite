@@ -1,8 +1,9 @@
 import 'package:core_data/core_data.dart';
+import 'package:core_model/core_model.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class FetchBooksUseCase {
-  Future invoke();
+  Future<List<Book>> invoke();
 }
 
 @Injectable(as: FetchBooksUseCase)
@@ -13,11 +14,14 @@ class FetchBooksUseCaseImpl extends FetchBooksUseCase {
   FetchBooksUseCaseImpl(this.bookRepository, this.syncLogRepository);
 
   @override
-  Future invoke() async {
+  Future<List<Book>> invoke() async {
     final lastSync = await syncLogRepository.loadLastAllBooksSync();
-    await bookRepository.fetchBooks(lastSync);
-    return syncLogRepository.storeLastAllBooksSync(
+    final bookEntities = await bookRepository.fetchBooks(lastSync);
+
+    await syncLogRepository.storeLastAllBooksSync(
       DateTime.now().toIso8601String(),
     );
+
+    return bookEntities.map((e) => e.toExternalModel()).toList();
   }
 }

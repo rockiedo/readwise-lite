@@ -146,16 +146,22 @@ class _FeedTileWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(feed.text),
-          SizedBox.fromSize(size: const Size.fromHeight(16)),
           if (feed.author != null)
-            Text(
-              feed.author!,
-              textAlign: TextAlign.end,
-              style: Theme.of(context)
-                  .textTheme
-                  .caption
-                  ?.copyWith(fontStyle: FontStyle.italic),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                feed.author!,
+                textAlign: TextAlign.end,
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    ?.copyWith(fontStyle: FontStyle.italic),
+              ),
             ),
+          const Padding(
+            padding: EdgeInsets.only(top: 8.0),
+            child: Divider(height: 1),
+          ),
         ],
       ),
     );
