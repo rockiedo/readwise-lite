@@ -1,4 +1,5 @@
 import 'package:feature/feature.dart';
+import 'package:feature/src/data_sync_v2/data_sync_v2_widget.dart';
 import 'package:feature/src/settings/bloc/settings_cubit.dart';
 import 'package:feature/src/settings/bloc/settings_state.dart';
 import 'package:flutter/material.dart';
@@ -200,7 +201,7 @@ class _GoToDataSyncWidget extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => const DataSyncWidget()),
+          MaterialPageRoute(builder: (_) => const DataSyncV2Widget()),
         );
       },
     );
