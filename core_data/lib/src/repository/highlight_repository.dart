@@ -7,9 +7,9 @@ import 'package:injectable/injectable.dart';
 
 abstract class HighlightRepository {
   Future fetchHighlightsFromBook(
-    int bookId,
+    int bookId, {
     String? lastSync,
-  );
+  });
 
   Future<List<HighlightFeedQueryResult>> searchHighlights(
     int offset,
@@ -36,9 +36,9 @@ class HighlightRepositoryImpl extends HighlightRepository {
 
   @override
   Future fetchHighlightsFromBook(
-    int bookId,
+    int bookId, {
     String? lastSync,
-  ) async {
+  }) async {
     final accessToken = await _accessTokenRepository.loadAccessToken();
     assert(accessToken != null);
 

@@ -41,10 +41,8 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i6.AccessTokenRepository>(),
           gh<_i4.HighlightDao>(),
         ));
-    gh.factory<_i9.SyncLogRepository>(() => _i9.SyncLogRepositoryImpl(
-          gh<_i10.KeyValueStore>(),
-          gh<_i4.SyncLogDao>(),
-        ));
+    gh.factory<_i9.SyncLogRepository>(
+        () => _i9.SyncLogRepositoryImpl(gh<_i10.KeyValueStore>()));
     return this;
   }
 }
