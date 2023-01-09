@@ -1,5 +1,5 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class KeyValueStore {
   Future<void> write(String key, String value);
@@ -9,17 +9,17 @@ abstract class KeyValueStore {
 
 @Injectable(as: KeyValueStore)
 class KeyValueStoreImpl extends KeyValueStore {
-  final FlutterSecureStorage _secureStorage;
+  final SharedPreferences _sharedPref;
 
-  KeyValueStoreImpl(this._secureStorage);
-  
+  KeyValueStoreImpl(this._sharedPref);
+
   @override
-  Future<String?> read(String key) {
-    return _secureStorage.read(key: key);
+  Future<String?> read(String key) async {
+    return _sharedPref.getString(key);
   }
-  
+
   @override
   Future<void> write(String key, String value) async {
-    await _secureStorage.write(key: key, value: value);
+    await _sharedPref.setString(key, value);
   }
 }

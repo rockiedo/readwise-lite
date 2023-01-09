@@ -7,6 +7,7 @@ import 'package:lib_use_case/lib_use_case.dart';
 final getIt = GetIt.instance;
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await setupDataDi(getIt);
   setupLibUseCaseDi(getIt);
 
