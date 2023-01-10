@@ -21,7 +21,7 @@ class ReadwiseApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: appRouter,
-      title: 'Readwise',
+      title: 'Readwise lite',
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),

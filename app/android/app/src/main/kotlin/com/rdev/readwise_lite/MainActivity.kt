@@ -1,4 +1,4 @@
-package com.rdev.readwise_client
+package com.rdev.readwise_lite
 
 import io.flutter.embedding.android.FlutterActivity
 

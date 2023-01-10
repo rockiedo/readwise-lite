@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.rdev.readwise_client">
+    package="com.rdev.readwise_lite">
    <application
-        android:label="app"
+        android:label="Readwise Lite"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/app_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"
