@@ -6,7 +6,7 @@
 
 This is a minimal version of the Readwise app. It works offline and offers a convenient search function.
 
-<img src="https://user-images.githubusercontent.com/11256533/211848966-c4dd59a8-28fb-4283-8dcb-6f48207a0831.png" width="300"/> <img src="https://user-images.githubusercontent.com/11256533/211849894-e22bfd7c-36dc-48fa-b630-6f9c9d9b1137.png" width="300"/> <img src="https://user-images.githubusercontent.com/11256533/211849949-796c72e3-08a6-4804-81c6-4987975324fd.png" width="300"/>
+<img src="https://user-images.githubusercontent.com/11256533/211848966-c4dd59a8-28fb-4283-8dcb-6f48207a0831.png" width="260"/> <img src="https://user-images.githubusercontent.com/11256533/211849894-e22bfd7c-36dc-48fa-b630-6f9c9d9b1137.png" width="260"/> <img src="https://user-images.githubusercontent.com/11256533/211849949-796c72e3-08a6-4804-81c6-4987975324fd.png" width="260"/>
 
 
 ## Project setup
