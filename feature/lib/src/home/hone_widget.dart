@@ -86,16 +86,19 @@ class _HomeFabWidget extends StatelessWidget {
 }
 
 class _PlaceHolderWidget extends StatelessWidget {
-  final String desc;
-  final String ctaText;
-  final VoidCallback clickToAction;
+  final String _desc;
+  final String _ctaText;
+  final VoidCallback _clickToAction;
 
   const _PlaceHolderWidget({
-    required this.desc,
-    required this.ctaText,
-    required this.clickToAction,
+    required desc,
+    required ctaText,
+    required clickToAction,
     Key? key,
-  }) : super(key: key);
+  })  : _desc = desc,
+        _ctaText = ctaText,
+        _clickToAction = clickToAction,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -103,17 +106,18 @@ class _PlaceHolderWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 64),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            desc,
+            _desc,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           TextButton(
             onPressed: () {
-              clickToAction();
+              _clickToAction();
             },
-            child: Text(ctaText),
+            child: Text(_ctaText),
           )
         ],
       ),

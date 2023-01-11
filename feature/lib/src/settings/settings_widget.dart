@@ -1,4 +1,3 @@
-import 'package:feature/feature.dart';
 import 'package:feature/src/data_sync_v2/data_sync_v2_widget.dart';
 import 'package:feature/src/settings/bloc/settings_cubit.dart';
 import 'package:feature/src/settings/bloc/settings_state.dart';
@@ -129,7 +128,7 @@ class _SettingsWithAccessTokenWidget extends StatefulWidget {
 
 class _SettingsWithAccessTokenWidgetState
     extends State<_SettingsWithAccessTokenWidget> {
-  bool isTokenVisible = false;
+  bool _isTokenVisible = false;
   final _controller = TextEditingController();
 
   @override
@@ -155,18 +154,18 @@ class _SettingsWithAccessTokenWidgetState
             border: const OutlineInputBorder(),
             suffixIcon: IconButton(
               icon: Icon(
-                isTokenVisible ? Icons.visibility_off : Icons.visibility,
+                _isTokenVisible ? Icons.visibility_off : Icons.visibility,
               ),
               onPressed: () {
                 setState(
                   () {
-                    isTokenVisible = !isTokenVisible;
+                    _isTokenVisible = !_isTokenVisible;
                   },
                 );
               },
             ),
           ),
-          obscureText: !isTokenVisible,
+          obscureText: !_isTokenVisible,
           controller: _controller,
         ),
         Padding(

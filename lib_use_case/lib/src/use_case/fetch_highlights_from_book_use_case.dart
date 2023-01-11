@@ -5,34 +5,15 @@ abstract class FetchHighlightsFromBookUseCase {
   Future invoke(int bookId);
 }
 
-const _syncThresholdMinutes = 5;
-
 @Injectable(as: FetchHighlightsFromBookUseCase)
 class FetchHighlightsFromBookUseCaseImpl
     extends FetchHighlightsFromBookUseCase {
-  final HighlightRepository highlightRepository;
-  final SyncLogRepository syncRepository;
+  final HighlightRepository _highlightRepository;
 
-  FetchHighlightsFromBookUseCaseImpl(
-    this.highlightRepository,
-    this.syncRepository,
-  );
+  FetchHighlightsFromBookUseCaseImpl(this._highlightRepository);
 
   @override
   Future invoke(int bookId) async {
-    final lastSync = await syncRepository.loadLastHighlightsSync(bookId);
-    if (!_shouldFetch(lastSync)) return;
-    await highlightRepository.fetchHighlightsFromBook(bookId, lastSync);
-  }
-
-  bool _shouldFetch(String? lastSync) {
-    if (lastSync == null) return true;
-
-    final threshold = DateTime.now().subtract(
-      const Duration(minutes: _syncThresholdMinutes),
-    );
-    final lastSyncDateTime = DateTime.parse(lastSync);
-
-    return lastSyncDateTime.isBefore(threshold);
+    await _highlightRepository.fetchHighlightsFromBook(bookId);
   }
 }

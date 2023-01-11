@@ -6,18 +6,19 @@ import '../model/book_entity.dart';
 
 abstract class BookDao {
   Future<void> insertBooks(List<BookEntity> books);
+
   Future<List<BookEntity>> getBooks(String accessToken);
 }
 
 @Injectable(as: BookDao)
 class BookDaoImpl extends BookDao {
-  final Database database;
+  final Database _database;
 
-  BookDaoImpl(this.database);
+  BookDaoImpl(this._database);
 
   @override
   Future<void> insertBooks(List<BookEntity> books) async {
-    final batch = database.batch();
+    final batch = _database.batch();
 
     for (final book in books) {
       batch.insert(
@@ -33,7 +34,7 @@ class BookDaoImpl extends BookDao {
   @override
   Future<List<BookEntity>> getBooks(String accessToken) async {
     final List<Map<String, dynamic>> books =
-        await database.query(DatabaseConstant.tableBookName);
+        await _database.query(DatabaseConstant.tableBookName);
 
     return List.generate(
       books.length,

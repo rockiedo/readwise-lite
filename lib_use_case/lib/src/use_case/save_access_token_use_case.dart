@@ -7,12 +7,12 @@ abstract class SaveAccessTokenUseCase {
 
 @Injectable(as: SaveAccessTokenUseCase)
 class SaveAccessTokenUseCaseImpl extends SaveAccessTokenUseCase {
-  final AccessTokenRepository accessTokenRepo;
+  final AccessTokenRepository _accessTokenRepo;
 
-  SaveAccessTokenUseCaseImpl(this.accessTokenRepo);
+  SaveAccessTokenUseCaseImpl(this._accessTokenRepo);
 
   @override
   Future<void> invoke(String accessToken) async {
-    await accessTokenRepo.storeAccessToken(accessToken);
+    await _accessTokenRepo.storeAccessToken(accessToken);
   }
 }

@@ -1,4 +1,4 @@
-package com.example.app
+package com.rdev.readwise_lite
 
 import io.flutter.embedding.android.FlutterActivity
 

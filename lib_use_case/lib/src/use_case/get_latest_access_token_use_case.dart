@@ -7,12 +7,12 @@ abstract class GetAccessTokenUseCase {
 
 @Injectable(as: GetAccessTokenUseCase)
 class GetLatestAccessTokenUseCaseImpl extends GetAccessTokenUseCase {
-  final AccessTokenRepository accessTokenRepo;
+  final AccessTokenRepository _accessTokenRepo;
 
-  GetLatestAccessTokenUseCaseImpl(this.accessTokenRepo);
+  GetLatestAccessTokenUseCaseImpl(this._accessTokenRepo);
 
   @override
   Future<String?> invoke() {
-    return accessTokenRepo.loadAccessToken();
+    return _accessTokenRepo.loadAccessToken();
   }
 }

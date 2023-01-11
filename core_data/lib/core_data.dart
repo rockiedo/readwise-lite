@@ -13,7 +13,7 @@ export 'src/repository/sync_log_repository.dart';
 
 Future<void> setupCoreDataDi(GetIt getIt) async {
   setupCoreNetworkDi(getIt);
-  setupCoreDatastoreDi(getIt);
+  await setupCoreDatastoreDi(getIt);
   await setupDatabase(getIt);
 
   configureDependencies(getIt);

@@ -8,7 +8,6 @@
 import 'package:core_database/src/dao/access_token_dao.dart' as _i3;
 import 'package:core_database/src/dao/book_dao.dart' as _i5;
 import 'package:core_database/src/dao/highlight_dao.dart' as _i6;
-import 'package:core_database/src/dao/sync_log_dao.dart' as _i8;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:sqflite/sqflite.dart' as _i4;
@@ -32,7 +31,6 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i5.BookDao>(() => _i5.BookDaoImpl(gh<_i4.Database>()));
     gh.factory<_i6.HighlightDao>(
         () => _i6.HighlightDaoImpl(gh<_i7.Database>()));
-    gh.factory<_i8.SyncLogDao>(() => _i8.SyncLogDaoImpl(gh<_i4.Database>()));
     return this;
   }
 }

@@ -62,10 +62,10 @@ class FeedWidget extends StatelessWidget {
 }
 
 class _PagedFeedsWidget extends StatefulWidget {
-  final HighlightFeedFilter filter;
+  final HighlightFeedFilter _filter;
 
   const _PagedFeedsWidget(
-    this.filter, {
+    this._filter, {
     Key? key,
   }) : super(key: key);
 
@@ -89,7 +89,7 @@ class _PagedFeedsWidgetState extends State<_PagedFeedsWidget> {
 
   @override
   void didUpdateWidget(_PagedFeedsWidget oldWidget) {
-    if (oldWidget.filter != widget.filter) {
+    if (oldWidget._filter != widget._filter) {
       _pagingController.refresh();
     }
     super.didUpdateWidget(oldWidget);
@@ -118,7 +118,7 @@ class _PagedFeedsWidgetState extends State<_PagedFeedsWidget> {
       final feeds = await context.read<FeedCubit>().loadFeeds(
             _pageSize,
             pageKey: pageKey,
-            filter: widget.filter,
+            filter: widget._filter,
           );
       final isLastPage = feeds.length < _pageSize;
 
@@ -134,9 +134,9 @@ class _PagedFeedsWidgetState extends State<_PagedFeedsWidget> {
 }
 
 class _FeedTileWidget extends StatelessWidget {
-  final HighlightFeed feed;
+  final HighlightFeed _feed;
 
-  const _FeedTileWidget(this.feed, {Key? key}) : super(key: key);
+  const _FeedTileWidget(this._feed, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -145,12 +145,12 @@ class _FeedTileWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(feed.text),
-          if (feed.author != null)
+          Text(_feed.text),
+          if (_feed.author != null)
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                feed.author!,
+                _feed.author!,
                 textAlign: TextAlign.end,
                 style: Theme.of(context)
                     .textTheme

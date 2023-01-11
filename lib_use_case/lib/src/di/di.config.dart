@@ -42,11 +42,8 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i4.BookRepository>(),
           gh<_i4.SyncLogRepository>(),
         ));
-    gh.factory<_i6.FetchHighlightsFromBookUseCase>(
-        () => _i6.FetchHighlightsFromBookUseCaseImpl(
-              gh<_i4.HighlightRepository>(),
-              gh<_i4.SyncLogRepository>(),
-            ));
+    gh.factory<_i6.FetchHighlightsFromBookUseCase>(() =>
+        _i6.FetchHighlightsFromBookUseCaseImpl(gh<_i4.HighlightRepository>()));
     gh.factory<_i7.GetAccessTokenUseCase>(() =>
         _i7.GetLatestAccessTokenUseCaseImpl(gh<_i4.AccessTokenRepository>()));
     gh.factory<_i8.GetLocalBooksUseCase>(
