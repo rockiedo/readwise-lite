@@ -1,10 +1,10 @@
+import 'package:core_data/core_data.dart';
 import 'package:feature/feature.dart';
 import 'package:feature/src/home/bloc/home_cubit.dart';
 import 'package:feature/src/home/bloc/home_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:lib_use_case/lib_use_case.dart';
 
 class HomeWidget extends StatelessWidget {
   const HomeWidget({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class HomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        final cubit = HomeCubit(GetIt.instance.get<GetAccessTokenUseCase>());
+        final cubit = HomeCubit(GetIt.instance.get<AccessTokenRepository>());
         cubit.load();
         return cubit;
       },

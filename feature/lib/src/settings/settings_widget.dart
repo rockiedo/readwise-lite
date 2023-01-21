@@ -1,3 +1,4 @@
+import 'package:core_data/core_data.dart';
 import 'package:feature/src/data_sync_v2/data_sync_v2_widget.dart';
 import 'package:feature/src/settings/bloc/settings_cubit.dart';
 import 'package:feature/src/settings/bloc/settings_state.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lib_use_case/lib_use_case.dart';
 
 class SettingsWidget extends StatelessWidget {
   const SettingsWidget({super.key});
@@ -35,9 +35,7 @@ class SettingsWidget extends StatelessWidget {
           child: BlocProvider(
             create: (_) {
               final cubit = SettingsCubit(
-                GetIt.instance.get<GetAccessTokenUseCase>(),
-                GetIt.instance.get<SaveAccessTokenUseCase>(),
-                GetIt.instance.get<ResetAccessTokenUseCase>(),
+                GetIt.instance.get<AccessTokenRepository>(),
               );
 
               cubit.loadAccessToken();
