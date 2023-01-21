@@ -1,3 +1,4 @@
+import 'package:core_data/core_data.dart';
 import 'package:core_model/core_model.dart';
 import 'package:feature/src/data_sync_v2/bloc/book_sync_status.dart';
 import 'package:feature/src/data_sync_v2/bloc/data_sync_status.dart';
@@ -8,14 +9,12 @@ import 'package:lib_use_case/lib_use_case.dart';
 class DataSyncV2Cubit extends Cubit<DataSyncV2State> {
   final GetLocalBooksUseCase _getLocalBooksUseCase;
   final FetchBooksUseCase _fetchBooksUseCase;
-  final CountHighlightPerBookUseCase _countHighlightPerBookUseCase;
-  final FetchHighlightsFromBookUseCase _fetchHighlightsFromBookUseCase;
+  final HighlightRepository _highlightRepository;
 
   DataSyncV2Cubit(
     this._getLocalBooksUseCase,
     this._fetchBooksUseCase,
-    this._countHighlightPerBookUseCase,
-    this._fetchHighlightsFromBookUseCase,
+    this._highlightRepository,
   ) : super(const DataSyncV2State(LoadingCachedContent()));
 
   void loadLocalBooks() async {
@@ -39,7 +38,7 @@ class DataSyncV2Cubit extends Cubit<DataSyncV2State> {
 
   void fetchHighlightsFromBook(int id, String title) async {
     emit(DataSyncV2State(Fetching('Fetching highlights from $title')));
-    await _fetchHighlightsFromBookUseCase.invoke(id);
+    await _highlightRepository.fetchHighlightsFromBook(id);
     _loadLocalBooksInternally();
   }
 
@@ -56,7 +55,7 @@ class DataSyncV2Cubit extends Cubit<DataSyncV2State> {
   }
 
   Future<List<BookSyncStatus>> _mapToBookSyncStatuses(List<Book> books) async {
-    final highlightCount = await _countHighlightPerBookUseCase.invoke();
+    final highlightCount = await _highlightRepository.countHighlightPerBook();
     final bookSyncStatuses = books
         .map(
           (e) => BookSyncStatus(

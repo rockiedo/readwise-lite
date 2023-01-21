@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:core_data/core_data.dart';
 import 'package:feature/src/data_sync_v2/bloc/book_sync_status.dart';
 import 'package:feature/src/data_sync_v2/bloc/data_sync_status.dart';
 import 'package:feature/src/data_sync_v2/bloc/data_sync_v2_cubit.dart';
@@ -19,8 +20,7 @@ class DataSyncV2Widget extends StatelessWidget {
         final cubit = DataSyncV2Cubit(
           GetIt.instance.get<GetLocalBooksUseCase>(),
           GetIt.instance.get<FetchBooksUseCase>(),
-          GetIt.instance.get<CountHighlightPerBookUseCase>(),
-          GetIt.instance.get<FetchHighlightsFromBookUseCase>(),
+          GetIt.instance.get<HighlightRepository>(),
         );
         cubit.loadLocalBooks();
         return cubit;
