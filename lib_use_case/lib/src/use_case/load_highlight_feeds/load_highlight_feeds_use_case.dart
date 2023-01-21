@@ -3,21 +3,12 @@ import 'package:injectable/injectable.dart';
 import 'package:lib_use_case/src/use_case/load_highlight_feeds/highlight_feed.dart';
 import 'package:lib_use_case/src/use_case/load_highlight_feeds/highlight_feed_filter.dart';
 
-abstract class LoadHighlightFeedsUseCase {
-  Future<List<HighlightFeed>> invoke(
-    int pageKey,
-    int pageSize, {
-    HighlightFeedFilter? filter,
-  });
-}
-
-@Injectable(as: LoadHighlightFeedsUseCase)
-class LoadHighlightFeedsUseCaseImpl extends LoadHighlightFeedsUseCase {
+@Injectable()
+class LoadHighlightFeedsUseCase {
   final HighlightRepository _highlightRepository;
 
-  LoadHighlightFeedsUseCaseImpl(this._highlightRepository);
+  LoadHighlightFeedsUseCase(this._highlightRepository);
 
-  @override
   Future<List<HighlightFeed>> invoke(int pageKey, int pageSize,
       {HighlightFeedFilter? filter}) async {
     final entities = await _highlightRepository.searchHighlights(
@@ -29,9 +20,9 @@ class LoadHighlightFeedsUseCaseImpl extends LoadHighlightFeedsUseCase {
     );
 
     entities.sort(
-      (a, b) {
+          (a, b) {
         final asc =
-            DateTime.parse(a.updated).compareTo(DateTime.parse(b.updated));
+        DateTime.parse(a.updated).compareTo(DateTime.parse(b.updated));
         return -asc;
       },
     );
@@ -39,12 +30,12 @@ class LoadHighlightFeedsUseCaseImpl extends LoadHighlightFeedsUseCase {
     return entities
         .map(
           (e) => HighlightFeed(
-            id: e.id,
-            bookId: e.bookId,
-            author: e.author,
-            text: e.text,
-          ),
-        )
+        id: e.id,
+        bookId: e.bookId,
+        author: e.author,
+        text: e.text,
+      ),
+    )
         .toList();
   }
 }

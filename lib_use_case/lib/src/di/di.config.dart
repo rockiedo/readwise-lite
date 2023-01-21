@@ -26,14 +26,14 @@ extension GetItInjectableX on _i1.GetIt {
       environment,
       environmentFilter,
     );
-    gh.factory<_i3.FetchBooksUseCase>(() => _i3.FetchBooksUseCaseImpl(
+    gh.factory<_i3.FetchBooksUseCase>(() => _i3.FetchBooksUseCase(
           gh<_i4.BookRepository>(),
           gh<_i4.SyncLogRepository>(),
         ));
     gh.factory<_i5.GetLocalBooksUseCase>(
-        () => _i5.GetLocalBooksUseCaseImpl(gh<_i4.BookRepository>()));
+        () => _i5.GetLocalBooksUseCase(gh<_i4.BookRepository>()));
     gh.factory<_i6.LoadHighlightFeedsUseCase>(
-        () => _i6.LoadHighlightFeedsUseCaseImpl(gh<_i4.HighlightRepository>()));
+        () => _i6.LoadHighlightFeedsUseCase(gh<_i4.HighlightRepository>()));
     return this;
   }
 }
