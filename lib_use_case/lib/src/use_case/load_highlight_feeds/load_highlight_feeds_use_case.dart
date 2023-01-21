@@ -20,9 +20,9 @@ class LoadHighlightFeedsUseCase {
     );
 
     entities.sort(
-          (a, b) {
+      (a, b) {
         final asc =
-        DateTime.parse(a.updated).compareTo(DateTime.parse(b.updated));
+            DateTime.parse(a.updated).compareTo(DateTime.parse(b.updated));
         return -asc;
       },
     );
@@ -30,12 +30,12 @@ class LoadHighlightFeedsUseCase {
     return entities
         .map(
           (e) => HighlightFeed(
-        id: e.id,
-        bookId: e.bookId,
-        author: e.author,
-        text: e.text,
-      ),
-    )
+            id: e.id,
+            bookId: e.bookId,
+            author: e.author,
+            text: e.text,
+          ),
+        )
         .toList();
   }
 }

@@ -11,9 +11,9 @@ class GetLocalBooksUseCase {
   Future<List<Book>> invoke() async {
     final entities = await _bookRepository.loadBooks();
     entities.sort(
-          (a, b) {
+      (a, b) {
         final asc =
-        DateTime.parse(a.updated).compareTo(DateTime.parse(b.updated));
+            DateTime.parse(a.updated).compareTo(DateTime.parse(b.updated));
         return -asc;
       },
     );
